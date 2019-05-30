@@ -41,6 +41,7 @@ int main()
 
 
 
+  tick = Clock::now();
 
 
 
@@ -57,6 +58,10 @@ int main()
 
   vec ball_1_center = ( middle_front_point_1 + middle_back_point_1 + outer_point_1 );
   vec ball_2_center = ( middle_front_point_2 + middle_back_point_2 + outer_point_2 );
+
+
+
+
 
   ball_1_center = vec( ball_1_center[0]/3.0 + 24, ball_1_center[1]/3.0 - 4, ball_1_center[2]/3.0 + 3 );
   ball_2_center = vec( ball_2_center[0]/3.0 + 24, ball_2_center[1]/3.0 - 4, ball_2_center[2]/3.0 - 3 );
@@ -185,23 +190,48 @@ int main()
   main_block->draw->draw_sphere(betwixt_the_balls, 20, get_vox(57,0.1,1.0,false));
   main_block->draw->draw_sphere(betwixt_the_balls, 19, get_vox( 0,0.0,1.0,false));
 
+  vec ladder_point_1 = ball_1_center + vec(-15,0,0);
+  vec ladder_point_2 = ball_2_center + vec(-15,0,0);
+
+  for(int i = 0; i < 75; i+= 5)
+    main_block->draw->draw_tube(ladder_point_1 + vec(-i,0,0),ladder_point_2 + vec(-i,0,0),2,3,get_vox(52,1.0,1.0,false));
 
 
+  // main_block->draw->mask_all_nonzero();
 
 
+  // main_block->draw->draw_sphere(betwixt_the_balls, 1000, get_vox(35,0.001,1.0,false));
 
-  //
   // main_block->lighting->apply_ambient_occlusion();
   // main_block->lighting->apply_directional_lighting(5.0, 3.14, 0.25*3.14, 3.14/3, 0.15, true);
   // main_block->lighting->scale_lighting_intensity(4.0);
 
+  tock = Clock::now();
+
+  cout << endl << endl << "drawing all shapes took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
+
+
+
+
+
+
+  tick = Clock::now();
+
   main_block->io->save("save.png");
+
+  tock = Clock::now();
+
+  std::cout << "saving block to file took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
+
+
+
 
   tick = Clock::now();
 
   main_block->io->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
 
   tock = Clock::now();
+
   std::cout << "generate's renderer took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
 
 
