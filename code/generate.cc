@@ -50,11 +50,11 @@ int main()
   vec middle_front_point_1 = vec( 90, 126, 116 ); //side one is towards the negative z
   vec middle_front_point_2 = vec( 90, 126, 138 ); //side one is towards the positive z
 
-  vec middle_back_point_1 = vec( 440, 120, 112 );
-  vec middle_back_point_2 = vec( 440, 120, 142 );
+  vec middle_back_point_1 = vec( 440, 126, 116 );
+  vec middle_back_point_2 = vec( 440, 126, 138 );
 
-  vec outer_point_1 = vec( 420, 64, 2 * (38 - 28) );
-  vec outer_point_2 = vec( 420, 64, 2 * (89 + 28) );
+  vec outer_point_1 = vec( 420, 64, 20 );
+  vec outer_point_2 = vec( 420, 64, 234 );
 
   vec ball_1_center = ( middle_front_point_1 + middle_back_point_1 + outer_point_1 ) + vec( 40, -10, -25 );
   vec ball_2_center = ( middle_front_point_2 + middle_back_point_2 + outer_point_2 ) + vec( 40, -10,  25 );
@@ -71,17 +71,23 @@ int main()
 
 
   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(19,1.0,1.0,false));
-  main_block->draw->draw_triangle( middle_front_point_1+inc, middle_back_point_1+inc, outer_point_1+inc, get_vox(19,1.0,1.0,false));
+  // main_block->draw->draw_triangle( middle_front_point_1+inc, middle_back_point_1+inc, outer_point_1+inc, get_vox(19,1.0,1.0,false));
 
   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(19,1.0,1.0,false));
-  main_block->draw->draw_triangle( middle_front_point_2+inc, middle_back_point_2+inc, outer_point_2+inc, get_vox(19,1.0,1.0,false));
+  // main_block->draw->draw_triangle( middle_front_point_2+inc, middle_back_point_2+inc, outer_point_2+inc, get_vox(19,1.0,1.0,false));
 
 
+
+  main_block->draw->draw_line_segment(middle_back_point_1, outer_point_1, get_vox(19,1.0,1.0,false));
+  main_block->draw->draw_line_segment(middle_back_point_2, outer_point_2, get_vox(19,1.0,1.0,false));
+
+
+//fins
   main_block->draw->draw_triangle( middle_back_point_1 + vec(-5,0,0), middle_back_point_1 + vec(-35,0,0), middle_back_point_1 + vec(10,20,0), get_vox(19,1.0,1.0,false));
   main_block->draw->draw_triangle( middle_back_point_2 + vec(-5,0,0), middle_back_point_2 + vec(-35,0,0), middle_back_point_2 + vec(10,20,0), get_vox(19,1.0,1.0,false));
 
-  main_block->draw->draw_triangle( outer_point_1 + vec(-5,0,0), outer_point_1 + vec(-35,0,0), outer_point_1 + vec(10,20,-20), get_vox(19,1.0,1.0,false));
-  main_block->draw->draw_triangle( outer_point_2 + vec(-5,0,0), outer_point_2 + vec(-35,0,0), outer_point_2 + vec(10,20, 20), get_vox(19,1.0,1.0,false));
+  main_block->draw->draw_triangle( outer_point_1 + vec(-5,0,0), outer_point_1 + vec(-35,7,7), outer_point_1 + vec(10,20,-15), get_vox(19,1.0,1.0,false));
+  main_block->draw->draw_triangle( outer_point_2 + vec(-5,0,0), outer_point_2 + vec(-35,7,-7), outer_point_2 + vec(10,20, 15), get_vox(19,1.0,1.0,false));
 
 
 
@@ -230,8 +236,8 @@ int main()
   vec ladder_point_1 = ball_1_center + vec(-30,0,0);
   vec ladder_point_2 = ball_2_center + vec(-30,0,0);
 
-  for(int i = 0; i <= 90; i+= 5)
-    main_block->draw->draw_tube(ladder_point_1 + vec(-i*2,0,0),ladder_point_2 + vec(-i*2,0,0),2,3,get_vox(52,1.0,1.0,false));
+  //for(int i = 0; i <= 90; i+= 5)
+    //main_block->draw->draw_tube(ladder_point_1 + vec(-i*2,0,0),ladder_point_2 + vec(-i*2,0,0),2,3,get_vox(52,1.0,1.0,false));
 
 
 

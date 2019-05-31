@@ -868,16 +868,18 @@ void Voraldo_Draw::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, boo
   //c1 and c2 are the ends of the line segment that is going to be drawn
   // these endpoints are ranged along the two sides so as to achieve coverage
 
- 	double length;
+ 	float length;
 
  	if(glm::length(side1) > glm::length(side2))
  	{
- 		length = std::floor(glm::length(side1));
+    // length = std::floor(glm::length(side1));
+ 		length = glm::length(side1);
  	}
  	else
  	{
- 		length = std::floor(glm::length(side2));
- 	}
+ 		// length = std::floor(glm::length(side2));
+    length = glm::length(side2);
+  }
 
  	if(length <= 2)
   {
@@ -888,10 +890,10 @@ void Voraldo_Draw::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, boo
   else
   {
 
- 		side1 = side1/(float)length;
- 		side2 = side2/(float)length;
+ 		side1 = side1/length;
+ 		side2 = side2/length;
 
- 		for(double i = 0; i < length; i+=0.3)
+ 		for(double i = 0; i < length; i+=0.1)
  		{
  			c1[0] = v0[0] + i*side1[0];
  			c1[1] = v0[1] + i*side1[1];

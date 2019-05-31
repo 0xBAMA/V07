@@ -181,9 +181,9 @@ namespace jb_OpenGL_Radeon{
 }
 
 
-using namespace jb_OpenGL_Laptop;
+// using namespace jb_OpenGL_Laptop;
 
-//using namespace jb_OpenGL_Radeon;
+using namespace jb_OpenGL_Radeon;
 
 
 
@@ -204,11 +204,13 @@ void generate_points()
 
 	PerlinNoise p;
 
-	for( GLfloat x = -1.0; x <= 1.0 ; x += 0.01 )
+	GLfloat increment = 1.0/300.0;
+
+	for( GLfloat x = -1.0; x <= 1.0 ; x += increment )
 	{
-		for ( GLfloat y = -0.5; y <= 0.5; y += 0.01 )
+		for ( GLfloat y = -0.5; y <= 0.5; y += increment )
 		{
-			for( GLfloat z = -0.5; z <= 0.5; z += 0.01 )
+			for( GLfloat z = -0.5; z <= 0.5; z += increment )
 
 			//	if( p.noise( 10*x, 10*y, 10*z ) > 0.5 && p.noise( 10*x, 10*y, 10*z ) < 0.75)
 				{
