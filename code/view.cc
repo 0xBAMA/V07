@@ -217,7 +217,8 @@ void generate_points()
 					points[Index] = point4( x, y, z, 1.0);
 
 
-					colors[Index] = color4( p.noise( 10*x, 10*y, 10*z ), 0.7*p.noise( 10*x, 10*y, 10*z ), 0.3*p.noise( 10*x, 10*y, 10*z ), p.noise( 10*x, 10*y, 10*z ));
+					// colors[Index] = color4( p.noise( 10*x, 10*y, 10*z ), 0.7*p.noise( 10*x, 10*y, 10*z ), 0.3*p.noise( 10*x, 10*y, 10*z ), p.noise( 10*x, 10*y, 10*z ));
+					colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 
 
 
@@ -499,13 +500,13 @@ void idle( void )
 
 		if( rotate ){
 			if( rotation_direction ){
-				Theta[Axis] += 0.1;
+				Theta[Axis] += 0.5;
 
 				if ( Theta[Axis] > 360.0 ) {
 						Theta[Axis] -= 360.0;
 				}
 			}else{ //rotate the other way
-				Theta[Axis] -= 0.1;
+				Theta[Axis] -= 0.5;
 
 				if ( Theta[Axis] < 0.0 ) {
 						Theta[Axis] += 360.0;
