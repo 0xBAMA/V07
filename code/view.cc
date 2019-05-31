@@ -238,7 +238,7 @@ void generate_points()
 	// }
 
 
-	cout << Index << endl;
+	// cout << Index << endl;
 
 
 
@@ -293,7 +293,7 @@ void init( Shader s )
 
 		if (data)
 		{
-		    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 256, 128, 128, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		    glGenerateMipmap(GL_TEXTURE_3D);
 		}
 		else

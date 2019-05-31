@@ -15,9 +15,9 @@ using std::cin;
 using Clock=std::chrono::high_resolution_clock;
 using milliseconds=std::chrono::milliseconds;
 
-int init_x = 256;
-int init_y = 128;
-int init_z = 128;
+int init_x = 512;
+int init_y = 256;
+int init_z = 256;
 
 vec dimensions(init_x,init_y,init_z);
 
@@ -47,14 +47,14 @@ int main()
 
 
 
-  vec middle_front_point_1 = vec( 45, 63, 58 ); //side one is towards the negative z
-  vec middle_front_point_2 = vec( 45, 63, 69 ); //side one is towards the positive z
+  vec middle_front_point_1 = vec( 90, 126, 116 ); //side one is towards the negative z
+  vec middle_front_point_2 = vec( 90, 126, 138 ); //side one is towards the positive z
 
-  vec middle_back_point_1 = vec( 220, 60, 56 );
-  vec middle_back_point_2 = vec( 220, 60, 71 );
+  vec middle_back_point_1 = vec( 440, 120, 112 );
+  vec middle_back_point_2 = vec( 440, 120, 142 );
 
-  vec outer_point_1 = vec( 210, 32, 38 - 28 );
-  vec outer_point_2 = vec( 210, 32, 89 + 28 );
+  vec outer_point_1 = vec( 420, 64, 2 * (38 - 28) );
+  vec outer_point_2 = vec( 420, 64, 2 * (89 + 28) );
 
   vec ball_1_center = ( middle_front_point_1 + middle_back_point_1 + outer_point_1 );
   vec ball_2_center = ( middle_front_point_2 + middle_back_point_2 + outer_point_2 );
@@ -190,11 +190,11 @@ int main()
   main_block->draw->draw_sphere(betwixt_the_balls, 20, get_vox(57,0.1,1.0,false));
   main_block->draw->draw_sphere(betwixt_the_balls, 19, get_vox( 0,0.0,1.0,false));
 
-  vec ladder_point_1 = ball_1_center + vec(-15,0,0);
-  vec ladder_point_2 = ball_2_center + vec(-15,0,0);
+  vec ladder_point_1 = ball_1_center + vec(-30,0,0);
+  vec ladder_point_2 = ball_2_center + vec(-30,0,0);
 
-  for(int i = 0; i < 75; i+= 5)
-    main_block->draw->draw_tube(ladder_point_1 + vec(-i,0,0),ladder_point_2 + vec(-i,0,0),2,3,get_vox(52,1.0,1.0,false));
+  for(int i = 0; i <= 90; i+= 5)
+    main_block->draw->draw_tube(ladder_point_1 + vec(-i*2,0,0),ladder_point_2 + vec(-i*2,0,0),2,3,get_vox(52,1.0,1.0,false));
 
 
   // main_block->draw->mask_all_nonzero();
