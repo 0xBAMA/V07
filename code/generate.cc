@@ -196,6 +196,11 @@ int main()
   for(int i = 0; i <= 90; i+= 5)
     main_block->draw->draw_tube(ladder_point_1 + vec(-i*2,0,0),ladder_point_2 + vec(-i*2,0,0),2,3,get_vox(52,1.0,1.0,false));
 
+
+
+
+
+
   bool draw_axes = true;
 
   if( draw_axes )
@@ -229,7 +234,7 @@ int main()
   main_block->draw->draw_point(vec(0,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
   main_block->draw->draw_point(vec(init_x-1,0,init_z-1), get_vox(62,1.0,1.0,false));
   main_block->draw->draw_point(vec(init_x-1,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
-  
+
   }
 
 

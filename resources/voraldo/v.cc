@@ -287,14 +287,14 @@ void Voraldo_IO::save( std::string filename )
         // img(current_x,current_y,2) = (temporary_color.green * (temp.lighting_intensity))/255.0;
         // img(current_x,current_y,3) = (temporary_color.blue  * (temp.lighting_intensity))/255.0;
 
-        // 
+        //
         // img(current_x,current_y,0) = temporary_color.red * temp.lighting_intensity;
         // img(current_x,current_y,1) = temporary_color.blue * temp.lighting_intensity;
         // img(current_x,current_y,2) = temporary_color.green * temp.lighting_intensity;
 
         img(current_x,current_y,0) = temporary_color.red;
-        img(current_x,current_y,1) = temporary_color.blue;
-        img(current_x,current_y,2) = temporary_color.green;
+        img(current_x,current_y,1) = temporary_color.green;
+        img(current_x,current_y,2) = temporary_color.blue;
 
 
         img(current_x,current_y,3) = temp.alpha * 255;
