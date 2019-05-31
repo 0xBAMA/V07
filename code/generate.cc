@@ -155,11 +155,11 @@ int main()
   main_block->draw->mask_all_nonzero();
   main_block->draw->mask_invert_mask();
 
-  main_block->draw->draw_sphere(ball_1_center, 20, get_vox(7,1.0,1.0,false));
+  main_block->draw->draw_sphere(ball_1_center, 20, get_vox(8,1.0,1.0,false));
   main_block->draw->draw_sphere(ball_1_center, 19, get_vox(0,0.0,1.0,false));
 
 
-  main_block->draw->draw_sphere(ball_2_center, 20, get_vox(7,1.0,1.0,false));
+  main_block->draw->draw_sphere(ball_2_center, 20, get_vox(8,1.0,1.0,false));
   main_block->draw->draw_sphere(ball_2_center, 19, get_vox(0,0.0,1.0,false));
 
   main_block->draw->mask_unmask_all();
@@ -195,6 +195,43 @@ int main()
 
   for(int i = 0; i <= 90; i+= 5)
     main_block->draw->draw_tube(ladder_point_1 + vec(-i*2,0,0),ladder_point_2 + vec(-i*2,0,0),2,3,get_vox(52,1.0,1.0,false));
+
+  bool draw_axes = true;
+
+  if( draw_axes )
+  {
+
+// along the x axes
+  main_block->draw->draw_line_segment(vec(0,0,0), vec(init_x,0,0), get_vox(1,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(0,0,init_z-1), vec(init_x,0,init_z-1), get_vox(1,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(0,init_y-1,0), vec(init_x,init_y-1,0), get_vox(1,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1), get_vox(1,1.0,1.0,false));
+
+// along the y axes
+  main_block->draw->draw_line_segment(vec(0,0,0), vec(0,init_y,0), get_vox(33,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(init_x-1,0,0), vec(init_x-1,init_y,0), get_vox(33,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1), get_vox(33,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(0,0,init_z-1), vec(0,init_y,init_z-1), get_vox(33,1.0,1.0,false));
+
+// along the z axes
+  main_block->draw->draw_line_segment(vec(0,0,0), vec(0,0,init_z), get_vox(23,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(init_x-1,0,0), vec(init_x-1,0,init_z), get_vox(23,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(0,init_y-1,0), vec(0,init_y-1,init_z), get_vox(23,1.0,1.0,false));
+  main_block->draw->draw_line_segment(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z), get_vox(23,1.0,1.0,false));
+
+// points at the corners
+  main_block->draw->draw_point(vec(0,0,0), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(0,0,init_z-1), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(0,init_y-1,0), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(init_x-1,0,0), get_vox(62,1.0,1.0,false));
+
+  main_block->draw->draw_point(vec(init_x-1,init_y-1,0), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(0,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(init_x-1,0,init_z-1), get_vox(62,1.0,1.0,false));
+  main_block->draw->draw_point(vec(init_x-1,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
+  
+  }
+
 
 
   // main_block->draw->mask_all_nonzero();
