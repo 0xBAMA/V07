@@ -1,47 +1,29 @@
 #include <iostream>
+#include <vector>
 
-//#include "resources/CImg.h"
+#include "../resources/lodepng.h"
 
-//this file is just to produce lists of numbers, etc, or quickly testing other code
+//this file is just to produce lists of numbers, etc, or quickly testing other code/libraries
 
 int main(){
 
-	// cimg_library::CImg<unsigned char> img( 100, 100, 1, 3, 0 );
-	//
-	// const unsigned char dark_gold[3] = {127,107,0};
-	//
-	//
-	// img.draw_point(  0,  0, dark_gold);
-	// img.draw_point( 20, 20, dark_gold);
-	// img.draw_point( 99, 99, dark_gold);
-	// img.draw_point(100,100, dark_gold);
-	//
-	//
-	// img.save_png("test.png");
+	std::vector<unsigned char> image;
+	const char * filename1 = "save.png";
+	const char * filename2 = "save2.png";
 
+	unsigned width, height;
 
+  //decode
+  unsigned error = lodepng::decode(image, width, height, filename1);
 
-	// int num_points = 0;
-	//
-	// for(double x = -0.45; x <= 0.45; x += 0.1){
-	// 	for(double y = -0.45; y <= 0.45; y += 0.1){
-	// 		for(double z = -0.45; z <= 0.45; z += 0.1){
-	// 			std::cout << x << " " << y << " " << z << std::endl;
-	// 			num_points++;
-	// 		}
-	// 		std::cout << std::endl;
-	// 	}
-	// }
-	//
-	// std:: cout << num_points;
+  //if there's an error, display it
+  if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 
-	double inc = 1.0f/395.0f; std::cout << inc << std::endl << std::endl;
+	//Encode the image
+  error = lodepng::encode(filename2, image, width, height);
 
-
-	for(double i = -0.5; i < 0.5; i += inc)
-	{
-		std::cout << i << ",";
-	}
+  //if there's an error, display it
+  if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
 
 	return 0;
 }
