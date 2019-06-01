@@ -50,8 +50,8 @@ int main()
   vec middle_front_point_1 = vec( 90, 126, 116 ); //side one is towards the negative z
   vec middle_front_point_2 = vec( 90, 126, 138 ); //side one is towards the positive z
 
-  vec middle_back_point_1 = vec( 440, 126, 116 );
-  vec middle_back_point_2 = vec( 440, 126, 138 );
+  vec middle_back_point_1 = vec( 440, 120, 112 );
+  vec middle_back_point_2 = vec( 440, 120, 142 );
 
   vec outer_point_1 = vec( 420, 64, 20 );
   vec outer_point_2 = vec( 420, 64, 234 );
