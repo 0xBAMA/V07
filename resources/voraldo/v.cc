@@ -3,6 +3,8 @@
 using std::cout;
 using std::endl;
 
+using std::vector;
+
 float clamp(float value, float low, float high)
 {
   if(value > high)
@@ -219,9 +221,12 @@ void Voraldo_Lighting::apply_ambient_occlusion()
 
 void Voraldo_Lighting::scale_lighting_intensity(double scale)
 {
+  Vox temp;
   for(int i = 0; i < parent->num_cells; i++)
   {
-   parent->data[i].lighting_intensity =  clamp(parent->data[i].lighting_intensity*scale,0,1);
+   temp = parent->data->at(i);
+   temp.lighting_intensity =  clamp(temp.lighting_intensity*scale,0,1);
+   parent->data->at(i) = temp;
   }
 }
 
@@ -251,31 +256,39 @@ Voraldo_IO::~Voraldo_IO()
 
 void Voraldo_IO::save( std::string filename )
 {
-  using namespace cimg_library;
+  // using namespace cimg_library;
 
   int width = parent->x_dim;
   int height = parent->y_dim;
   int depth = parent->z_dim;
 
-  int current_x;
-  int current_y = 0;
+  // cout << "saving block of " << width << " " << height << " " << depth << endl;
+
 
   Vox temp;
-
-
-  unsigned char image_color[3];
-
-
-  CImg<double> img( width, height*depth, 1, 4, 0 );
   RGB temporary_color;
+
+  std::vector<unsigned char> image;
+
+  unsigned image_width = width;
+  unsigned image_height = height * depth;
+
+  int size = 4 * width * height * depth;
+
+  image.resize( size );
+
+  // cout << "vector declared with " << image.capacity() << " elements" << endl;
+  // cout << "vector max size of " << image.max_size() << " elements" << endl << endl;
+
+
+  int index = 0;
+
 
 
   for(int z = 0; z < depth; z++)
   {
-
     for(int y = 0; y < height; y++)
     {
-      current_x = 0;
       for(int x = 0; x < width; x++)
       {
 
@@ -283,35 +296,33 @@ void Voraldo_IO::save( std::string filename )
 
         temporary_color = parent->palette[temp.state];
 
-        // img(current_x,current_y,1) = (temporary_color.red   * (temp.lighting_intensity))/255.0;
-        // img(current_x,current_y,2) = (temporary_color.green * (temp.lighting_intensity))/255.0;
-        // img(current_x,current_y,3) = (temporary_color.blue  * (temp.lighting_intensity))/255.0;
+        // if(index > 0.99 * size ){
+        //   cout << "got data" << endl;
+        // }
 
-        //
-        // img(current_x,current_y,0) = temporary_color.red * temp.lighting_intensity;
-        // img(current_x,current_y,1) = temporary_color.blue * temp.lighting_intensity;
-        // img(current_x,current_y,2) = temporary_color.green * temp.lighting_intensity;
+        image[index] = temporary_color.red;   index++;
+        image[index] = temporary_color.green; index++;
+        image[index] = temporary_color.blue;  index++;
+        image[index] = temp.alpha * 255;      index++;
 
-        img(current_x,current_y,0) = temporary_color.red;
-        img(current_x,current_y,1) = temporary_color.green;
-        img(current_x,current_y,2) = temporary_color.blue;
-
-
-        img(current_x,current_y,3) = temp.alpha * 255;
-
+        // image.push_back( temporary_color.red );
+        // image.push_back( temporary_color.green );
+        // image.push_back( temporary_color.blue );
+        // image.push_back( temp.alpha * 255 );
 
        // cout << (double) temporary_color.red << " " << (double) temporary_color.green << " " << (double) temporary_color.blue << " " << (double) temp.alpha << endl;
 
-        current_x++;
 
       }
-      current_y++;
 
     }
 
   }
 
-  img.save_png(filename.c_str());
+  cout << "got done" << endl;
+
+  unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height);
+  if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
 }
 
 
@@ -683,13 +694,14 @@ void Voraldo_Draw::init_block(vec dimensions)
 
 	parent->num_cells = parent->x_dim * parent->y_dim * parent->z_dim;
 
- parent->data = new Vox[parent->num_cells];
+ parent->data = new vector<Vox>;
+ parent->data->resize( parent->num_cells + 1 );
 
  for(int i = 0; i < parent->num_cells; i++)
  {
-  parent->data[i].mask = false;
-  parent->data[i].state = 0;
-  parent->data[i].alpha = 0.0;
+  parent->data->at(i).mask = false;
+  parent->data->at(i).state = 0;
+  parent->data->at(i).alpha = 0.0;
  }
 }
 
@@ -697,10 +709,10 @@ void Voraldo_Draw::clear_all()
 {
    for(int i = 0; i < parent->num_cells; i++)
    {
-     if(!parent->data[i].mask)
+     if(!parent->data->at(i).mask)
      {
-      parent->data[i].state = 0;
-      parent->data[i].alpha = 0;
+      parent->data->at(i).state = 0;
+      parent->data->at(i).alpha = 0;
       //deliberately do not unmask - separate function for that operation
      }
    }
@@ -715,7 +727,7 @@ void Voraldo_Draw::mask_unmask_all()
 
  for(int i = 0; i < parent->num_cells; i++)
  {
-  parent->data[i].mask = false;
+  parent->data->at(i).mask = false;
  }
 }
 
@@ -727,7 +739,7 @@ void Voraldo_Draw::mask_invert_mask()
 
  for(int i = 0; i < parent->num_cells; i++)
  {
-  parent->data[i].mask = parent->data[i].mask ? false:true;
+  parent->data->at(i).mask = parent->data->at(i).mask ? false:true;
  }
 }
 
@@ -739,9 +751,9 @@ void Voraldo_Draw::mask_all_nonzero()
 
  for(int i = 0; i < parent->num_cells; i++)
  {
-  if(parent->data[i].state != 0)
+  if(parent->data->at(i).state != 0)
   {
-   parent->data[i].mask = true;
+   parent->data->at(i).mask = true;
   }
  }
 }
@@ -755,9 +767,9 @@ void Voraldo_Draw::mask_by_state(unsigned char s)
 
  for(int i = 0; i < parent->num_cells; i++)
  {
-  if(parent->data[i].state == s)
+  if(parent->data->at(i).state == s)
   {
-   parent->data[i].mask = true;
+   parent->data->at(i).mask = true;
   }
  }
 }
@@ -778,12 +790,12 @@ void Voraldo_Draw::draw_noise(float alpha, float lighting_intensity, int seed, b
   {
      if(std::rand()%696 == 69 && std::rand()%696 < 30)
      {
-       if(!parent->data[i].mask)
+       if(!parent->data->at(i).mask)
        {
-          parent->data[i].state = (std::rand()%30)+1;//this is a little different
-          parent->data[i].alpha = alpha;
-          parent->data[i].mask = mask;
-          parent->data[i].lighting_intensity = lighting_intensity;
+          parent->data->at(i).state = (std::rand()%30)+1;//this is a little different
+          parent->data->at(i).alpha = alpha;
+          parent->data->at(i).mask = mask;
+          parent->data->at(i).lighting_intensity = lighting_intensity;
        }
      }
   }
@@ -832,6 +844,13 @@ void Voraldo_Draw::draw_line_segment(vec v1, vec v2, Vox set, bool draw, bool ma
 		current_point[0] = std::floor(starting_point[0] + i*(line_vector[0]/length));
 		current_point[1] = std::floor(starting_point[1] + i*(line_vector[1]/length));
 		current_point[2] = std::floor(starting_point[2] + i*(line_vector[2]/length));
+
+    if(current_point[0] < 0 || current_point[0] >= parent->x_dim ||
+       current_point[1] < 0 || current_point[1] >= parent->y_dim ||
+       current_point[2] < 0 || current_point[2] >= parent->z_dim )
+    {
+      break;
+    }
 
     draw_point(current_point,set,draw,mask);
 	}
@@ -1929,7 +1948,7 @@ Vox Voraldo::get_data_by_vector_index(vec index)
 
 
   if(point_valid)
-   return data[data_index];
+   return data->at(data_index);
   else
   {
     Vox default_val;
@@ -1952,18 +1971,18 @@ void Voraldo::set_data_by_vector_index(vec index, Vox set, bool draw, bool mask,
 
  if(point_valid)
  {
-  if(!data[data_index].mask)
+  if(!data->at(data_index).mask)
   {
    if(draw)
    {
-    data[data_index] = set;
+    data->at(data_index) = set;
    }
-    data[data_index].mask = mask; //this takes precedence over the Vox value of mask
+    data->at(data_index).mask = mask; //this takes precedence over the Vox value of mask
   }
 
   if(force)
   {
-    data[data_index] = set;
+    data->at(data_index) = set;
   }
  }
 }

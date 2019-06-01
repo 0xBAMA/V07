@@ -7,11 +7,20 @@
 //http://cimg.eu/reference/group__cimg__overview.html
 
 
+
+#include "../lodepng.h"
+// trying out this library for a minute
+
+
+
 #include "../json.hpp"  	//single-header library for structured output file formatting
 //MIT License
 
 
 #include "../glm/glm.hpp" //general types
+
+
+
 
 
 
@@ -34,6 +43,9 @@ using mat = glm::mat3;
 
 using std::cout;
 using std::endl;
+
+using std::vector;
+
 
 //forward declaration of Voraldo, so that it can be used in the IO and Draw
 class Voraldo;
@@ -206,7 +218,7 @@ public:
 		Voraldo_Draw *draw;
 		Voraldo_Lighting *lighting;
 
-		Vox *data;
+		vector<Vox> *data;
 		RGB *palette;
 
 //---block dimensions----
