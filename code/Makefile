@@ -10,7 +10,7 @@ VORALDO_FLAGS = ../resources/voraldo/v.cc
 CIMG_FLAGS    = -L/usr/X11R6/lib -lm -lpthread -lX11 -std=c++11 -Dcimg_use_png -lpng  -lz
 LODEPNG_FLAGS = ../resources/lodepng.cpp -ansi -O3
 
-UNNECCESARY_DEBUG = -Wall -Wextra -pedantic 
+UNNECCESARY_DEBUG = -Wall -Wextra -pedantic
 
 all: vu gen
 
