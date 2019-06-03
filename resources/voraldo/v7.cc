@@ -1,4 +1,8 @@
-#include "../voraldo/v.h"
+#include "v7.h"
+
+#include "../perlin.h"
+//perlin noise generation
+
 
 using std::cout;
 using std::endl;
@@ -21,6 +25,163 @@ float clamp(float value, float low, float high)
   }
 }
 
+
+
+
+
+//---------------------------
+Voraldo::Voraldo()
+{
+
+  //colors
+
+	palette.resize(100);
+
+  palette[0] = {  0,  0,  0,  0}; //black - here used to represent 'emtpy'
+
+
+
+//REDS
+
+  palette[ 1] = {254,  0,  0,255};         //MS Light Red High
+  palette[ 2] = {235,138, 96,255};        //MS Light Red Low
+  palette[ 3] = {126,  0,  0,255};       //MS Dark Red High
+  palette[ 4] = {138, 54, 34,255};      //MS Dark Red Low
+  palette[ 5] = {120, 24, 38,255};     //T Dark Red
+  palette[ 6] = {165, 45, 39,255};    //T Red
+
+//ORANGES
+
+  palette[ 7] = {255, 77,  0,255};      //Orange 1
+  palette[ 8] = {255,120, 30,255};     //Orange 2
+  palette[ 9] = {243,120, 43,255};    //Orange 3
+  palette[10] = {201,109, 69,255};   //T Orange
+
+ //YELLOWS
+
+  palette[11] = {255,255,  4,255};              //MS Light Yellow High
+  palette[12] = {255,217, 63,255};             //MS Light Yellow Low
+  palette[13] = {127,107,  0,255};            //Dark Gold
+  palette[14] = {126,126,  0,255};           //MS Dark Yellow High
+  palette[15] = {170, 92, 61,255};          //MS Dark Yellow Low
+  palette[16] = {204,165, 98,255};         //T Yellow Dark
+  palette[17] = {207,194,129,255};        //T Yellow Tan
+  palette[18] = {209,202,128,255};       //T Yellow
+  palette[19] = {162,157,107,255};      //T Tan
+  palette[20] = {131,107, 63,255};     //T Light Brown
+  palette[21] = { 99, 73, 44,255};    //T Brown
+  palette[22] = { 65, 51, 37,255};   //T Dark Brown
+
+//GREENS
+
+  palette[23] = {  6,255,  4,255};          //MS Light Green High
+  palette[24] = {108,217, 71,255};         //MS Light Green Low
+  palette[25] = {  4,126,  0,255};        //MS Dark Green High
+  palette[26] = { 12,126, 69,255};       //MS Dark Green Low
+  palette[27] = {151,181,138,255};      //T Light Green
+  palette[28] = {101,132, 92,255};     //T Med Green
+  palette[29] = { 34, 58, 48,255};    //T Med-Dark Green
+  palette[30] = { 32, 44, 17,255};   //T Dark Green
+
+//BLUE/INDIGO
+
+  palette[31] = {  0,  0,126,255};             //MS Dark Blue High
+  palette[32] = { 34, 52,209,255};            //MS Dark Blue Low
+  palette[33] = {  0,  0,255,255};           //MS Light Blue High
+  palette[34] = { 76,129,251,255};          //MS Light Blue Low
+  palette[35] = { 62, 62,138,255};         //T Med Blue
+  palette[36] = { 76,110,173,255};        //T Dark blue
+  palette[37] = {124,168,213,255};       //T Blue
+  palette[38] = {172,220,241,255};      //T Light Blue
+  palette[39] = {  4,126,126,255};     //MS Dark Teal High
+  palette[40] = { 68,170,204,255};    //MS Dark Teal Low
+  palette[41] = {  6,255,255,255};   //MS Light Teal High
+  palette[42] = {123,226,249,255};  //MS Light Teal low
+
+//VIOLET
+
+  palette[43] = {254,  0,255,255};          //MS Light Purple High
+  palette[44] = {226, 61,105,255};         //MS Light Purple Low
+  palette[45] = { 82, 30, 46,255};        //T Maroon
+  palette[46] = {126,  0,126,255};       //MS Dark Purple High
+  palette[47] = { 92, 46,120,255};      //MS Dark Purple Low
+  palette[48] = { 88, 38, 79,255};     //T Darker Purple
+  palette[49] = { 80, 59,104,255};    //T Dark Purple
+  palette[50] = {133, 91,105,255};   //T Purple
+  palette[51] = {223,185,202,255};  //T Pink
+
+//GREYSCALE
+
+  palette[52] = {255,255,255,255};            //White
+  palette[53] = {190,190,190,255};           //MS Light Grey High
+  palette[54] = {181,181,181,255};          //MS Light Grey Low
+  palette[55] = {126,126,126,255};         //MS Dark Grey High
+  palette[56] = { 94, 96,110,255};        //MS Dark Grey Low
+  palette[57] = {212,237,237,255};       //T Lighter Grey
+  palette[58] = {134,149,152,255};      //T Med Light Grey
+  palette[59] = { 95, 99,103,255};     //T Med Grey
+  palette[60] = { 58, 59, 61,255};    //T Dark-Med Grey
+  palette[61] = { 40, 34, 31,255};   //T Dark Grey
+  palette[62] = {  0,  0,  0,255};  //Black
+
+
+// weird desaturated palette "steam lords"
+  palette[63] = { 33, 59, 37,255};	              //#213b25 dark green
+  palette[64] = { 58,	96,	74,255};	             //#3a604a medium green
+  palette[65] = { 79,119, 84,255};	            //#4f7754 light green
+  palette[66] = {161,159,124,255}; 	           //#a19f7c light tan
+  palette[67] = {119,116,	79,255};	          //#77744f medium tan
+  palette[68] = {119,	92,	79,255};	         //#775c4f light rose
+  palette[69] = { 96,	59,	58,255};	        //#603b3a dark rose
+  palette[70] = { 59,	33,	55,255};	       //#3b2137 purple
+  palette[71] = { 23,	14,	25,255};      	//#170e19 darkest blue (0)
+  palette[72] = { 47,	33,	59,255};	     //#2f213b dark blue (1)
+  palette[73] = { 67,	58,	96,255};	    //#433a60 dark blue (2)
+  palette[74] = { 79,	82,119,255};	   //#4f5277 dark blue (3)
+  palette[75] = {101,115,140,255};	  //#65738c light blue (4)
+  palette[76] = {124,148,161,255};	 //#7c94a1 light blue (5)
+  palette[77] = {160,185,186,255};	//#a0b9ba light blue (6)
+  palette[78] = {192,209,204,255}; //#c0d1cc light blue (7)
+
+
+
+  data.resize(0);
+  // call draw.init_block(x,y,z,noise_fill)
+  // to populate the data array
+}
+
+Voraldo::~Voraldo()
+{
+
+}
+
+
+
+
+
+bool Voraldo::compare_colors(RGBA first, RGBA second)
+{
+
+  unsigned char red1 = first.red;
+  unsigned char red2 = second.red;
+
+  unsigned char green1 = first.green;
+  unsigned char green2 = second.green;
+
+  unsigned char blue1 = first.blue;
+  unsigned char blue2 = second.blue;
+
+  unsigned char alpha1 = first.alpha;
+  unsigned char alpha2 = second.alpha;
+
+
+
+  return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) && ( alpha1 == alpha2 ) );
+}
+
+
+
+
 Vox Voraldo::get_vox(int palette_number, bool mask)
 {
   Vox temp;
@@ -31,8 +192,8 @@ Vox Voraldo::get_vox(int palette_number, bool mask)
 	temp.x = temp.y = temp.z = 0;
 
   return temp;
-}
 
+}
 
 
 
@@ -84,23 +245,12 @@ void Voraldo::save( std::string filename )
 
         temp = get_data_by_vector_index(vec((float)x,(float)y,(float)z));
 
-        temporary_color = palette[temp.state];
-
-        // if(index > 0.99 * size ){
-        //   cout << "got data" << endl;
-        // }
+        temporary_color = temp.color;
 
         image[index] = temporary_color.red;   index++;
         image[index] = temporary_color.green; index++;
         image[index] = temporary_color.blue;  index++;
         image[index] = temporary_color.alpha; index++;
-
-        // image.push_back( temporary_color.red );
-        // image.push_back( temporary_color.green );
-        // image.push_back( temporary_color.blue );
-        // image.push_back( temp.alpha * 255 );
-
-       // cout << (double) temporary_color.red << " " << (double) temporary_color.green << " " << (double) temporary_color.blue << " " << (double) temp.alpha << endl;
 
 
       }
@@ -109,11 +259,32 @@ void Voraldo::save( std::string filename )
 
   }
 
-  cout << "got done" << endl;
+  //z * height * width  +  y * width  +  x
 
   unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height);
   if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
 }
+
+// LODEPNG EXAMPLE code
+
+// std::vector<unsigned char> image;
+// const char * filename1 = "save.png";
+// const char * filename2 = "save2.png";
+//
+// unsigned width, height;
+//
+// //decode
+// unsigned error = lodepng::decode(image, width, height, filename1);
+//
+// //if there's an error, display it
+// if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+//
+// //Encode the image
+// error = lodepng::encode(filename2, image, width, height);
+//
+// //if there's an error, display it
+// if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
+
 
 
 
@@ -125,7 +296,7 @@ void Voraldo::save( std::string filename )
 void Voraldo::init_block(vec dimensions)
 {
 
-	if(data != NULL)
+	if(data.size() != 0)
 	{
 		data.resize(0);
 	}
@@ -136,7 +307,7 @@ void Voraldo::init_block(vec dimensions)
 
 	num_cells = x_dim * y_dim * z_dim;
 
-	data->resize( num_cells + 1 );
+	data.resize( num_cells + 1 );
 
 	Vox temp;
 
@@ -154,17 +325,18 @@ void Voraldo::init_block(vec dimensions)
 			}
 		}
 	}
-}
+}// init_block does need a nested for loop
 
 void Voraldo::clear_all()
-{
+{ // note that this function has a bit more to it than you might initially think -
+  //  first - deliberately do not unmask - there is a separate function for that operation - mask_unmask_all()
+  //  second - this relies upon the state of the mask variables for each cell, a masked cell is not cleared
+
    for(int i = 0; i < num_cells; i++)
    {
      if(!data.at(i).mask)
      {
       data.at(i).color = {  0,  0,  0,  0};
-      data.at(i).alpha = 0;
-      //deliberately do not unmask - separate function for that operation
      }
    }
 }
@@ -198,7 +370,7 @@ void Voraldo::mask_all_nonzero()
 {
  for(int i = 0; i < num_cells; i++)
  {
-  if(data.at(i).state != 0)
+  if( !compare_colors( data.at(i).color, {  0,  0,  0,  0} ) )
   {
    data.at(i).mask = true;
   }
@@ -209,7 +381,7 @@ void Voraldo::mask_by_state(unsigned char s)
 {
  for(int i = 0; i < num_cells; i++)
  {
-  if(data.at(i).state == s)
+  if( compare_colors( data.at(i).color, palette[s] ) )
   {
    data.at(i).mask = true;
   }
@@ -884,178 +1056,54 @@ void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot,
   }
 }
 
-void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw, bool mask)
-{
-  using namespace cimg_library;
-  unsigned char current_color;
-  unsigned char current_height;
-  unsigned char current_colormap;
-
-  CImg<unsigned char> heightmap("heights.png");
-  CImg<unsigned char> colormap("greycolors.png");
-
-  for(int x = 0; x < 512; x++){
-    for(int z = 0; z < 512; z++){
-
-      current_height = heightmap.atXY(x,z);
-      current_colormap = colormap.atXY(x,z);
-
-      if(current_colormap < 30){
-        current_color = 62; //black
-      }else if(current_colormap < 60){
-        current_color = 61; // t dark grey
-      }else if(current_colormap < 90){
-        current_color = 60; // t dark med
-      }else if(current_colormap < 120){
-        current_color = 59; // t med light
-      }else if(current_colormap < 150){
-        current_color = 58; // t light
-      }else{
-        current_color = 57; // t lighter
-      }
-
-      draw_point(vec(x,current_height/3,z),get_vox(current_color,1,0.3,false),draw,mask);
-
-
-      //for(int y = 0; y < current_height/3; y++){
-        //draw_point(vec(x,y,z),get_vox(current_color,1,0.3,false),draw,mask);
-      //}
-      //cout << heightmap.atXY(x,z) << " ";
-    }
-    //cout << endl;
-  }
-
-
-    //go up to y
-
-  return;
-}
-
-
-//---------------------------
-Voraldo::Voraldo()
-{
-  //colors
-
-	palette.resize(100);
-
-  palette[0] = {  0,  0,  0,  0}; //black - here used to represent 'emtpy'
+// void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw, bool mask)
+// {
+//   using namespace cimg_library;
+//   unsigned char current_color;
+//   unsigned char current_height;
+//   unsigned char current_colormap;
+//
+//   CImg<unsigned char> heightmap("heights.png");
+//   CImg<unsigned char> colormap("greycolors.png");
+//
+//   for(int x = 0; x < 512; x++){
+//     for(int z = 0; z < 512; z++){
+//
+//       current_height = heightmap.atXY(x,z);
+//       current_colormap = colormap.atXY(x,z);
+//
+//       if(current_colormap < 30){
+//         current_color = 62; //black
+//       }else if(current_colormap < 60){
+//         current_color = 61; // t dark grey
+//       }else if(current_colormap < 90){
+//         current_color = 60; // t dark med
+//       }else if(current_colormap < 120){
+//         current_color = 59; // t med light
+//       }else if(current_colormap < 150){
+//         current_color = 58; // t light
+//       }else{
+//         current_color = 57; // t lighter
+//       }
+//
+//       draw_point(vec(x,current_height/3,z),get_vox(current_color,1,0.3,false),draw,mask);
+//
+//
+//       //for(int y = 0; y < current_height/3; y++){
+//         //draw_point(vec(x,y,z),get_vox(current_color,1,0.3,false),draw,mask);
+//       //}
+//       //cout << heightmap.atXY(x,z) << " ";
+//     }
+//     //cout << endl;
+//   }
+//
+//
+//     //go up to y
+//
+//   return;
+// }
 
 
-
-//REDS
-
-  palette[ 1] = {254,  0,  0,255};         //MS Light Red High
-  palette[ 2] = {235,138, 96,255};        //MS Light Red Low
-  palette[ 3] = {126,  0,  0,255};       //MS Dark Red High
-  palette[ 4] = {138, 54, 34,255};      //MS Dark Red Low
-  palette[ 5] = {120, 24, 38,255};     //T Dark Red
-  palette[ 6] = {165, 45, 39,255};    //T Red
-
-//ORANGES
-
-  palette[ 7] = {255, 77,  0,255};      //Orange 1
-  palette[ 8] = {255,120, 30,255};     //Orange 2
-  palette[ 9] = {243,120, 43,255};    //Orange 3
-  palette[10] = {201,109, 69,255};   //T Orange
-
- //YELLOWS
-
-  palette[11] = {255,255,  4,255};              //MS Light Yellow High
-  palette[12] = {255,217, 63,255};             //MS Light Yellow Low
-  palette[13] = {127,107,  0,255};            //Dark Gold
-  palette[14] = {126,126,  0,255};           //MS Dark Yellow High
-  palette[15] = {170, 92, 61,255};          //MS Dark Yellow Low
-  palette[16] = {204,165, 98,255};         //T Yellow Dark
-  palette[17] = {207,194,129,255};        //T Yellow Tan
-  palette[18] = {209,202,128,255};       //T Yellow
-  palette[19] = {162,157,107,255};      //T Tan
-  palette[20] = {131,107, 63,255};     //T Light Brown
-  palette[21] = { 99, 73, 44,255};    //T Brown
-  palette[22] = { 65, 51, 37,255};   //T Dark Brown
-
-//GREENS
-
-  palette[23] = {  6,255,  4,255};          //MS Light Green High
-  palette[24] = {108,217, 71,255};         //MS Light Green Low
-  palette[25] = {  4,126,  0,255};        //MS Dark Green High
-  palette[26] = { 12,126, 69,255};       //MS Dark Green Low
-  palette[27] = {151,181,138,255};      //T Light Green
-  palette[28] = {101,132, 92,255};     //T Med Green
-  palette[29] = { 34, 58, 48,255};    //T Med-Dark Green
-  palette[30] = { 32, 44, 17,255};   //T Dark Green
-
-//BLUE/INDIGO
-
-  palette[31] = {  0,  0,126,255};             //MS Dark Blue High
-  palette[32] = { 34, 52,209,255};            //MS Dark Blue Low
-  palette[33] = {  0,  0,255,255};           //MS Light Blue High
-  palette[34] = { 76,129,251,255};          //MS Light Blue Low
-  palette[35] = { 62, 62,138,255};         //T Med Blue
-  palette[36] = { 76,110,173,255};        //T Dark blue
-  palette[37] = {124,168,213,255};       //T Blue
-  palette[38] = {172,220,241,255};      //T Light Blue
-  palette[39] = {  4,126,126,255};     //MS Dark Teal High
-  palette[40] = { 68,170,204,255};    //MS Dark Teal Low
-  palette[41] = {  6,255,255,255};   //MS Light Teal High
-  palette[42] = {123,226,249,255};  //MS Light Teal low
-
-//VIOLET
-
-  palette[43] = {254,  0,255,255};          //MS Light Purple High
-  palette[44] = {226, 61,105,255};         //MS Light Purple Low
-  palette[45] = { 82, 30, 46,255};        //T Maroon
-  palette[46] = {126,  0,126,255};       //MS Dark Purple High
-  palette[47] = { 92, 46,120,255};      //MS Dark Purple Low
-  palette[48] = { 88, 38, 79,255};     //T Darker Purple
-  palette[49] = { 80, 59,104,255};    //T Dark Purple
-  palette[50] = {133, 91,105,255};   //T Purple
-  palette[51] = {223,185,202,255};  //T Pink
-
-//GREYSCALE
-
-  palette[52] = {255,255,255,255};            //White
-  palette[53] = {190,190,190,255};           //MS Light Grey High
-  palette[54] = {181,181,181,255};          //MS Light Grey Low
-  palette[55] = {126,126,126,255};         //MS Dark Grey High
-  palette[56] = { 94, 96,110,255};        //MS Dark Grey Low
-  palette[57] = {212,237,237,255};       //T Lighter Grey
-  palette[58] = {134,149,152,255};      //T Med Light Grey
-  palette[59] = { 95, 99,103,255};     //T Med Grey
-  palette[60] = { 58, 59, 61,255};    //T Dark-Med Grey
-  palette[61] = { 40, 34, 31,255};   //T Dark Grey
-  palette[62] = {  0,  0,  0,255};  //Black
-
-
-// weird desaturated palette "steam lords"
-  palette[63] = { 33, 59, 37,255};	              //#213b25 dark green
-  palette[64] = { 58,	96,	74,255};	             //#3a604a medium green
-  palette[65] = { 79,119, 84,255};	            //#4f7754 light green
-  palette[66] = {161,159,124,255}; 	           //#a19f7c light tan
-  palette[67] = {119,116,	79,255};	          //#77744f medium tan
-  palette[68] = {119,	92,	79,255};	         //#775c4f light rose
-  palette[69] = { 96,	59,	58,255};	        //#603b3a dark rose
-  palette[70] = { 59,	33,	55,255};	       //#3b2137 purple
-  palette[71] = { 23,	14,	25,255};      	//#170e19 darkest blue (0)
-  palette[72] = { 47,	33,	59,255};	     //#2f213b dark blue (1)
-  palette[73] = { 67,	58,	96,255};	    //#433a60 dark blue (2)
-  palette[74] = { 79,	82,119,255};	   //#4f5277 dark blue (3)
-  palette[75] = {101,115,140,255};	  //#65738c light blue (4)
-  palette[76] = {124,148,161,255};	 //#7c94a1 light blue (5)
-  palette[77] = {160,185,186,255};	//#a0b9ba light blue (6)
-  palette[78] = {192,209,204,255}; //#c0d1cc light blue (7)
-
-
-
-
-  // call draw.init_block(x,y,z,noise_fill)
-  // to populate the data array
-}
-
-Voraldo::~Voraldo()
-{
-
-}
 
 Vox Voraldo::get_data_by_vector_index(vec index)
 {
@@ -1075,12 +1123,11 @@ Vox Voraldo::get_data_by_vector_index(vec index)
 
 
   if(point_valid)
-   return data->at(data_index);
+   return data.at(data_index);
   else
   {
     Vox default_val;
-    default_val.state = 0;
-    default_val.alpha = 0.0;
+    default_val.color = {  0,  0,  0,  0};
     default_val.mask = false;
     return default_val;
   }
@@ -1098,18 +1145,18 @@ void Voraldo::set_data_by_vector_index(vec index, Vox set, bool draw, bool mask,
 
  if(point_valid)
  {
-  if(!data->at(data_index).mask)
+  if(!data.at(data_index).mask)
   {
    if(draw)
    {
-    data->at(data_index) = set;
+    data.at(data_index) = set;
    }
-    data->at(data_index).mask = mask; //this takes precedence over the Vox value of mask
+    data.at(data_index).mask = mask; //this takes precedence over the Vox value of mask
   }
 
   if(force)
   {
-    data->at(data_index) = set;
+    data.at(data_index) = set;
   }
  }
 }

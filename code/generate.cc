@@ -15,6 +15,10 @@ using std::cin;
 using Clock=std::chrono::high_resolution_clock;
 using milliseconds=std::chrono::milliseconds;
 
+
+
+
+
 int init_x = 512;
 int init_y = 256;
 int init_z = 256;
@@ -32,7 +36,7 @@ int main()
   char numstring[5];//used when rendering multiple frames
 
   main_block = new Voraldo();
-  main_block->draw->init_block(dimensions);
+  main_block->init_block(dimensions);
 
   vec center = vec(floor(init_x/2),floor(init_y/2),floor(init_z/2));
 
@@ -70,24 +74,24 @@ int main()
 //   vec inc = vec(0,1,0);
 //
 //
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(19,1.0,1.0,false));
-//   // main_block->draw->draw_triangle( middle_front_point_1+inc, middle_back_point_1+inc, outer_point_1+inc, get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(19,1.0,1.0,false));
+//   // main_block->draw->draw_triangle( middle_front_point_1+inc, middle_back_point_1+inc, outer_point_1+inc, main_block->get_vox(19,1.0,1.0,false));
 //
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(19,1.0,1.0,false));
-//   // main_block->draw->draw_triangle( middle_front_point_2+inc, middle_back_point_2+inc, outer_point_2+inc, get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(19,1.0,1.0,false));
+//   // main_block->draw->draw_triangle( middle_front_point_2+inc, middle_back_point_2+inc, outer_point_2+inc, main_block->get_vox(19,1.0,1.0,false));
 //
 //
 //
-//   main_block->draw->draw_line_segment(middle_back_point_1, outer_point_1, get_vox(19,1.0,1.0,false));
-//   main_block->draw->draw_line_segment(middle_back_point_2, outer_point_2, get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_line_segment(middle_back_point_1, outer_point_1, main_block->get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_line_segment(middle_back_point_2, outer_point_2, main_block->get_vox(19,1.0,1.0,false));
 //
 //
 // //fins
-//   main_block->draw->draw_triangle( middle_back_point_1 + vec(-5,0,0), middle_back_point_1 + vec(-35,0,0), middle_back_point_1 + vec(10,20,0), get_vox(19,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_back_point_2 + vec(-5,0,0), middle_back_point_2 + vec(-35,0,0), middle_back_point_2 + vec(10,20,0), get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_back_point_1 + vec(-5,0,0), middle_back_point_1 + vec(-35,0,0), middle_back_point_1 + vec(10,20,0), main_block->get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_back_point_2 + vec(-5,0,0), middle_back_point_2 + vec(-35,0,0), middle_back_point_2 + vec(10,20,0), main_block->get_vox(19,1.0,1.0,false));
 //
-//   main_block->draw->draw_triangle( outer_point_1 + vec(-5,0,0), outer_point_1 + vec(-35,7,7), outer_point_1 + vec(10,20,-15), get_vox(19,1.0,1.0,false));
-//   main_block->draw->draw_triangle( outer_point_2 + vec(-5,0,0), outer_point_2 + vec(-35,7,-7), outer_point_2 + vec(10,20, 15), get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( outer_point_1 + vec(-5,0,0), outer_point_1 + vec(-35,7,7), outer_point_1 + vec(10,20,-15), main_block->get_vox(19,1.0,1.0,false));
+//   main_block->draw->draw_triangle( outer_point_2 + vec(-5,0,0), outer_point_2 + vec(-35,7,-7), outer_point_2 + vec(10,20, 15), main_block->get_vox(19,1.0,1.0,false));
 //
 //
 //
@@ -102,8 +106,8 @@ int main()
 //   outer_point_2 += vec( -4, -4, -4);
 //
 //
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(57,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(57,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,1.0,1.0,false));
 //
 //
 //   // middle_front_point_1 += vec( 1, -1, 0);
@@ -125,8 +129,8 @@ int main()
 //   outer_point_2 += vec( -4, -4, -4);
 //
 //
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(61,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(61,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,1.0,1.0,false));
 //
 //   middle_front_point_1 += vec( 2, -2, 0);
 //   middle_front_point_2 += vec( 2, -2, 0);
@@ -137,35 +141,8 @@ int main()
 //   outer_point_1 += vec( -4, -4, 4);
 //   outer_point_2 += vec( -4, -4, -4);
 //
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(57,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(57,1.0,1.0,false));
-//
-//
-//   middle_front_point_1 += vec( 2, -2, 0);
-//   middle_front_point_2 += vec( 2, -2, 0);
-//
-//   middle_back_point_1 += vec( -2, -2, 0);
-//   middle_back_point_2 += vec( -2, -2, 0);
-//
-//   outer_point_1 += vec( -4, -4, 4);
-//   outer_point_2 += vec( -4, -4, -4);
-//
-//
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(61,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(61,1.0,1.0,false));
-//
-//   middle_front_point_1 += vec( 2, -2, 0);
-//   middle_front_point_2 += vec( 2, -2, 0);
-//
-//   middle_back_point_1 += vec( -2, -2, 0);
-//   middle_back_point_2 += vec( -2, -2, 0);
-//
-//   outer_point_1 += vec( -4, -4, 4);
-//   outer_point_2 += vec( -4, -4, -4);
-//
-//
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(57,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(57,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,1.0,1.0,false));
 //
 //
 //   middle_front_point_1 += vec( 2, -2, 0);
@@ -178,24 +155,51 @@ int main()
 //   outer_point_2 += vec( -4, -4, -4);
 //
 //
-//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, get_vox(61,1.0,1.0,false));
-//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, get_vox(61,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,1.0,1.0,false));
+//
+//   middle_front_point_1 += vec( 2, -2, 0);
+//   middle_front_point_2 += vec( 2, -2, 0);
+//
+//   middle_back_point_1 += vec( -2, -2, 0);
+//   middle_back_point_2 += vec( -2, -2, 0);
+//
+//   outer_point_1 += vec( -4, -4, 4);
+//   outer_point_2 += vec( -4, -4, -4);
+//
+//
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,1.0,1.0,false));
+//
+//
+//   middle_front_point_1 += vec( 2, -2, 0);
+//   middle_front_point_2 += vec( 2, -2, 0);
+//
+//   middle_back_point_1 += vec( -2, -2, 0);
+//   middle_back_point_2 += vec( -2, -2, 0);
+//
+//   outer_point_1 += vec( -4, -4, 4);
+//   outer_point_2 += vec( -4, -4, -4);
+//
+//
+//   main_block->draw->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,1.0,1.0,false));
+//   main_block->draw->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,1.0,1.0,false));
 //
 //
 //   main_block->draw->mask_all_nonzero();
 //   main_block->draw->mask_invert_mask();
 //
-//   main_block->draw->draw_sphere(ball_1_center, 30, get_vox(7,1.0,1.0,false));
-//   main_block->draw->draw_sphere(ball_1_center, 29, get_vox(0,0.0,1.0,false));
+//   main_block->draw->draw_sphere(ball_1_center, 30, main_block->get_vox(7,1.0,1.0,false));
+//   main_block->draw->draw_sphere(ball_1_center, 29, main_block->get_vox(0,0.0,1.0,false));
 //
 //
-//   main_block->draw->draw_sphere(ball_2_center, 30, get_vox(7,1.0,1.0,false));
-//   main_block->draw->draw_sphere(ball_2_center, 29, get_vox(0,0.0,1.0,false));
+//   main_block->draw->draw_sphere(ball_2_center, 30, main_block->get_vox(7,1.0,1.0,false));
+//   main_block->draw->draw_sphere(ball_2_center, 29, main_block->get_vox(0,0.0,1.0,false));
 //
 //   main_block->draw->mask_unmask_all();
 //
 //
-//   // main_block->draw->draw_tube(ball_1_center,ball_2_center,2,4,get_vox(52,1.0,1.0,false));
+//   // main_block->draw->draw_tube(ball_1_center,ball_2_center,2,4,main_block->get_vox(52,1.0,1.0,false));
 //
 //
 //
@@ -206,22 +210,22 @@ int main()
 //   // vec middle_back_point_2 = vec( 440, 120, 142 );
 //
 //
-//   main_block->draw->draw_tube(ball_1_center, ball_1_center + vec(-100,0,0),5,7,get_vox(58,1.0,1.0,false));
-//   main_block->draw->draw_tube(ball_2_center, ball_2_center + vec(-100,0,0),5,7,get_vox(58,1.0,1.0,false));
+//   main_block->draw->draw_tube(ball_1_center, ball_1_center + vec(-100,0,0),5,7,main_block->get_vox(58,1.0,1.0,false));
+//   main_block->draw->draw_tube(ball_2_center, ball_2_center + vec(-100,0,0),5,7,main_block->get_vox(58,1.0,1.0,false));
 //
-//   // main_block->draw->draw_tube(ball_1_center, middle_front_point_1,5,7,get_vox(58,1.0,1.0,false));
-//   // main_block->draw->draw_tube(ball_2_center, middle_front_point_2,5,7,get_vox(58,1.0,1.0,false));
-//
-//
+//   // main_block->draw->draw_tube(ball_1_center, middle_front_point_1,5,7,main_block->get_vox(58,1.0,1.0,false));
+//   // main_block->draw->draw_tube(ball_2_center, middle_front_point_2,5,7,main_block->get_vox(58,1.0,1.0,false));
 //
 //
 //
 //
-//   // main_block->draw->draw_sphere(ball_1_center, 21, get_vox(58,0.1,1.0,false));
-//   // main_block->draw->draw_sphere(ball_1_center, 20, get_vox(0,0.0,1.0,false));
+//
+//
+//   // main_block->draw->draw_sphere(ball_1_center, 21, main_block->get_vox(58,0.1,1.0,false));
+//   // main_block->draw->draw_sphere(ball_1_center, 20, main_block->get_vox(0,0.0,1.0,false));
 //   //
-//   // main_block->draw->draw_sphere(ball_2_center, 21, get_vox(58,0.1,1.0,false));
-//   // main_block->draw->draw_sphere(ball_2_center, 20, get_vox(0,0.0,1.0,false));
+//   // main_block->draw->draw_sphere(ball_2_center, 21, main_block->get_vox(58,0.1,1.0,false));
+//   // main_block->draw->draw_sphere(ball_2_center, 20, main_block->get_vox(0,0.0,1.0,false));
 //
 //
 //   main_block->draw->mask_all_nonzero();
@@ -230,7 +234,7 @@ int main()
 //
 //   betwixt_the_balls = vec(betwixt_the_balls[0]/2,betwixt_the_balls[1]/2,betwixt_the_balls[2]/2);
 //
-//   main_block->draw->draw_regular_icosahedron(0,0,0,15,betwixt_the_balls + vec(0,-10,0), get_vox(62,1.0,1.0,false), 3, get_vox(62,1.0,1.0,false), 2, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_regular_icosahedron(0,0,0,15,betwixt_the_balls + vec(0,-10,0), main_block->get_vox(62,1.0,1.0,false), 3, main_block->get_vox(62,1.0,1.0,false), 2, main_block->get_vox(23,0.3,1.0,false));
 
 
 
@@ -253,48 +257,51 @@ int main()
 //   vec point1,point2;
 //
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255 + 100, 127, 127);
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255 - 100, 127, 127);
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255, 127 + 50, 127);
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255, 127 - 50, 127);
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255, 127, 127 + 50);
 //
 //   point1 = c+e_o;
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
 //   c = vec(255, 127, 127 - 50);
 //
 //   point2 = c+a_o;
 //
-//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, get_vox(23,0.3,1.0,false));
+//   main_block->draw->draw_quadrilateral_hexahedron( c+a_o, c+b_o, c+c_o, c+d_o, c+e_o, c+f_o, c+g_o, c+h_o, main_block->get_vox(23,0.3,1.0,false));
 //
-//   main_block->draw->draw_line_segment(point1, point2, get_vox(1,1.0,1.0,false));
+//   main_block->draw->draw_line_segment(point1, point2, main_block->get_vox(1,1.0,1.0,false));
 //
-//   // main_block->draw->draw_tube(point1, point2,5,10, get_vox(62,0.3,1.0,false));
+//   // main_block->draw->draw_tube(point1, point2,5,10, main_block->get_vox(62,0.3,1.0,false));
 //
 
 
 
+main_block->draw_sphere(vec(255,127,127), 75.8, main_block->get_vox( 1,false));
+
+main_block->draw_sphere(vec(255,127,127), 75.5, main_block->get_vox(57,false));
+
+main_block->draw_sphere(vec(255,127,127), 75.2, main_block->get_vox(62,false));
 
 
-main_block->draw->draw_sphere(vec(255,127,127), 75.5, get_vox(57,1.0,1.0,false));
-
-main_block->draw->draw_sphere(vec(255,127,127), 75.2, get_vox(62,1.0,1.0,false));
+main_block->draw_cylinder(vec(100,127,127),vec(400,127,127),30,main_block->get_vox(0,false));
 
 
 
@@ -309,33 +316,33 @@ main_block->draw->draw_sphere(vec(255,127,127), 75.2, get_vox(62,1.0,1.0,false))
   {
 
 // along the x axes
-  main_block->draw->draw_line_segment(vec(0,0,0), vec(init_x,0,0), get_vox(1,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(0,0,init_z-1), vec(init_x,0,init_z-1), get_vox(1,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(0,init_y-1,0), vec(init_x,init_y-1,0), get_vox(1,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1), get_vox(1,1.0,1.0,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),0.75, main_block->get_vox(1,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),0.75, main_block->get_vox(1,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),0.75, main_block->get_vox(1,false));
+  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),0.75, main_block->get_vox(1,false));
 
 // along the y axes
-  main_block->draw->draw_line_segment(vec(0,0,0), vec(0,init_y,0), get_vox(23,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(init_x-1,0,0), vec(init_x-1,init_y,0), get_vox(23,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1), get_vox(23,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(0,0,init_z-1), vec(0,init_y,init_z-1), get_vox(23,1.0,1.0,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),0.75, main_block->get_vox(23,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),0.75, main_block->get_vox(23,false));
+  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),0.75, main_block->get_vox(23,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),0.75, main_block->get_vox(23,false));
 
 // along the z axes
-  main_block->draw->draw_line_segment(vec(0,0,0), vec(0,0,init_z), get_vox(33,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(init_x-1,0,0), vec(init_x-1,0,init_z), get_vox(33,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(0,init_y-1,0), vec(0,init_y-1,init_z), get_vox(33,1.0,1.0,false));
-  main_block->draw->draw_line_segment(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z), get_vox(33,1.0,1.0,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),0.75, main_block->get_vox(33,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),0.75, main_block->get_vox(33,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),0.75, main_block->get_vox(33,false));
+  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),0.75, main_block->get_vox(33,false));
 
 // points at the corners
-  main_block->draw->draw_point(vec(0,0,0), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(0,0,init_z-1), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(0,init_y-1,0), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(init_x-1,0,0), get_vox(62,1.0,1.0,false));
+  main_block->draw_point(vec(0,0,0), main_block->get_vox(62,false));
+  main_block->draw_point(vec(0,0,init_z-1), main_block->get_vox(62,false));
+  main_block->draw_point(vec(0,init_y-1,0), main_block->get_vox(62,false));
+  main_block->draw_point(vec(init_x-1,0,0), main_block->get_vox(62,false));
 
-  main_block->draw->draw_point(vec(init_x-1,init_y-1,0), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(0,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(init_x-1,0,init_z-1), get_vox(62,1.0,1.0,false));
-  main_block->draw->draw_point(vec(init_x-1,init_y-1,init_z-1), get_vox(62,1.0,1.0,false));
+  main_block->draw_point(vec(init_x-1,init_y-1,0), main_block->get_vox(62,false));
+  main_block->draw_point(vec(0,init_y-1,init_z-1), main_block->get_vox(62,false));
+  main_block->draw_point(vec(init_x-1,0,init_z-1), main_block->get_vox(62,false));
+  main_block->draw_point(vec(init_x-1,init_y-1,init_z-1), main_block->get_vox(62,false));
 
   }
 
@@ -344,7 +351,7 @@ main_block->draw->draw_sphere(vec(255,127,127), 75.2, get_vox(62,1.0,1.0,false))
   // main_block->draw->mask_all_nonzero();
 
 
-  // main_block->draw->draw_sphere(betwixt_the_balls, 1000, get_vox(35,0.001,1.0,false));
+  // main_block->draw->draw_sphere(betwixt_the_balls, 1000, main_block->get_vox(35,0.001,1.0,false));
 
   // main_block->lighting->apply_ambient_occlusion();
   // main_block->lighting->apply_directional_lighting(5.0, 3.14, 0.25*3.14, 3.14/3, 0.15, true);
@@ -361,7 +368,7 @@ main_block->draw->draw_sphere(vec(255,127,127), 75.2, get_vox(62,1.0,1.0,false))
 
   tick = Clock::now();
 
-  main_block->io->save("save.png");
+  main_block->save("save.png");
 
   tock = Clock::now();
 
@@ -372,7 +379,7 @@ main_block->draw->draw_sphere(vec(255,127,127), 75.2, get_vox(62,1.0,1.0,false))
 
   tick = Clock::now();
 
-  main_block->io->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
+  // main_block->io->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
 
   tock = Clock::now();
 
