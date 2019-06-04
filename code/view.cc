@@ -358,7 +358,8 @@ void init( Shader s )
 
 
 		// what color background?
-    glClearColor( 0.618, 0.618, 0.618, 1.0 );
+    // glClearColor( 0.618, 0.618, 0.618, 1.0 );
+		glClearColor(  0.167, 0.5, 0.618,   1.0 );
 }
 
 
@@ -394,6 +395,7 @@ void display( void )
 
 		// the draw call
     glDrawArrays( GL_POINTS, 0, NumVertices );
+		// glDrawArrays( GL_LINE_LOOP, 0, NumVertices );
 
 
     glutSwapBuffers();
@@ -439,10 +441,13 @@ void keyboard( unsigned char key, int x, int y )
 			case 'a':
 					pointsize += 1;
 					glPointSize( pointsize );
+					// glLineWidth( pointsize );
 					break;
 		  case 'z':
 					pointsize -= 1;
 					glPointSize( pointsize );
+					// glLineWidth( pointsize );
+
 					break;
 
 

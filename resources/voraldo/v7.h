@@ -168,7 +168,7 @@ class Voraldo{
 		//draw and mask are exclusive, you might say independent of one another - i.e.
 		//	these functions can be used to mask without drawing if desired
 
-			void draw_noise(float alpha=1.0, float lighting_intensity=1.0, int seed=5, bool draw=true, bool mask=false);
+			void draw_noise(/*int seed=5, */bool draw=true, bool mask=false);
 
 			//replaces the noisefill argument for the init_block
 

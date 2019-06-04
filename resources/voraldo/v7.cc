@@ -390,7 +390,7 @@ void Voraldo::mask_by_state(unsigned char s)
  }
 }
 
-void Voraldo::draw_noise(float alpha, float lighting_intensity, int seed, bool draw, bool mask)
+void Voraldo::draw_noise(/*int seed,*/ bool draw, bool mask)
 {
   // std::srand(seed);
   // for(int i = 0; i < num_cells; i++)
@@ -408,8 +408,15 @@ void Voraldo::draw_noise(float alpha, float lighting_intensity, int seed, bool d
   // }
 
 
-	//replace this with perlin noise
+	PerlinNoise p;
 
+  for(Vox i : data)
+  {
+    if(p.noise(0.1*i.x,0.1*i.y,0.1*i.z)<0.85)
+    {
+      draw_point(vec(i.x,i.y,i.z),get_vox(12,false),draw,mask);
+    }
+  }
 }
 
 void Voraldo::draw_point(vec point, Vox set, bool draw, bool mask)
@@ -491,6 +498,13 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, bool mas
  			c2[2] = v0[2] + i*side2[2];
 
  			draw_cylinder(c1,c2,1.0,set,draw,mask); //refit for cylinders rather than line segments
+
+      // next step is to refit to use this method: https://stackoverflow.com/questions/25512037/how-to-determine-if-a-point-lies-over-a-triangle-in-3d
+
+      // two elements of this process are projection onto a plane and the use of barycentric coordinates to determine whether it is in the triangle
+      // we will also need to add some notion of triangle thickness, so that when we find point-to-plane distance
+
+
  		}
  	}
 }
