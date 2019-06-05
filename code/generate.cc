@@ -68,23 +68,37 @@ int main()
     // main_block->draw_sphere(loc2 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
     // main_block->draw_sphere(loc3 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
 
-    main_block->draw_sphere(loc1 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc2 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc3 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc1 + vec(5.75*num,0,0), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc2 + vec(5.75*num,0,0), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc3 + vec(5.75*num,0,0), 5, main_block->get_vox(num,255,false));
 
-    main_block->draw_sphere(loc4 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc5 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc6 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc4 + vec(5.75*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc5 + vec(5.75*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc6 + vec(5.75*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
 
-    main_block->draw_sphere(loc7 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc8 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
-    main_block->draw_sphere(loc9 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc7 + vec(5.75*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc8 + vec(5.75*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc9 + vec(5.75*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
 
   }
 
   main_block->mask_all_nonzero();
 
   main_block->draw_sphere(vec(256,127,127), 74.9, main_block->get_vox(62,10,false));
+
+  main_block->draw_cylinder(loc1-vec(30,0,0), loc1+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc2-vec(30,0,0), loc2+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc3-vec(30,0,0), loc3+vec(500,0,0),1, main_block->get_vox(62,255,false));
+
+  main_block->draw_cylinder(loc4-vec(30,0,0), loc4+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc5-vec(30,0,0), loc5+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc6-vec(30,0,0), loc6+vec(500,0,0),1, main_block->get_vox(62,255,false));
+
+  main_block->draw_cylinder(loc7-vec(30,0,0), loc7+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc8-vec(30,0,0), loc8+vec(500,0,0),1, main_block->get_vox(62,255,false));
+  main_block->draw_cylinder(loc9-vec(30,0,0), loc9+vec(500,0,0),1, main_block->get_vox(62,255,false));
+
+
 
   // main_block->draw_noise();
 
