@@ -64,23 +64,29 @@ int main()
 
   for(int num = 0; num <= 78; num++)
   {
-    main_block->draw_sphere(loc1 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc2 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc3 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
+    // main_block->draw_sphere(loc1 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    // main_block->draw_sphere(loc2 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    // main_block->draw_sphere(loc3 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
 
-    main_block->draw_sphere(loc4 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc5 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc6 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
+    main_block->draw_sphere(loc1 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc2 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc3 + vec(5*num,0,0), 5, main_block->get_vox(num,255,false));
 
-    main_block->draw_sphere(loc7 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc8 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
-    main_block->draw_sphere(loc9 + vec(5*num,std::rand()%10-5,std::rand()%20-10), 5, main_block->get_vox(num,false));
+    main_block->draw_sphere(loc4 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc5 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc6 + vec(5*num,std::rand()%15-7.5,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+
+    main_block->draw_sphere(loc7 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc8 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
+    main_block->draw_sphere(loc9 + vec(5*num,std::rand()%20-10,std::rand()%20-10), 5, main_block->get_vox(num,255,false));
 
   }
 
-  // main_block->mask_all_nonzero();
+  main_block->mask_all_nonzero();
 
-  main_block->draw_noise();
+  main_block->draw_sphere(vec(256,127,127), 74.9, main_block->get_vox(62,10,false));
+
+  // main_block->draw_noise();
 
 
 // FRAMING
@@ -91,33 +97,33 @@ int main()
   {
 
 // along the x axes
-  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),0.75, main_block->get_vox(1,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),0.75, main_block->get_vox(1,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),0.75, main_block->get_vox(1,false));
-  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),0.75, main_block->get_vox(1,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),0.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),0.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),0.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),0.5, main_block->get_vox(1,255,false));
 
 // along the y axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),0.75, main_block->get_vox(23,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),0.75, main_block->get_vox(23,false));
-  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),0.75, main_block->get_vox(23,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),0.75, main_block->get_vox(23,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),0.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),0.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),0.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),0.5, main_block->get_vox(23,255,false));
 
 // along the z axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),0.75, main_block->get_vox(33,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),0.75, main_block->get_vox(33,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),0.75, main_block->get_vox(33,false));
-  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),0.75, main_block->get_vox(33,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),0.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),0.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),0.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),0.5, main_block->get_vox(33,255,false));
 
 // points at the corners
-  main_block->draw_point(vec(0,0,0), main_block->get_vox(62,false));
-  main_block->draw_point(vec(0,0,init_z-1), main_block->get_vox(62,false));
-  main_block->draw_point(vec(0,init_y-1,0), main_block->get_vox(62,false));
-  main_block->draw_point(vec(init_x-1,0,0), main_block->get_vox(62,false));
+  main_block->draw_point(vec(0,0,0), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(0,0,init_z-1), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(0,init_y-1,0), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(init_x-1,0,0), main_block->get_vox(62,255,false));
 
-  main_block->draw_point(vec(init_x-1,init_y-1,0), main_block->get_vox(62,false));
-  main_block->draw_point(vec(0,init_y-1,init_z-1), main_block->get_vox(62,false));
-  main_block->draw_point(vec(init_x-1,0,init_z-1), main_block->get_vox(62,false));
-  main_block->draw_point(vec(init_x-1,init_y-1,init_z-1), main_block->get_vox(62,false));
+  main_block->draw_point(vec(init_x-1,init_y-1,0), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(0,init_y-1,init_z-1), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(init_x-1,0,init_z-1), main_block->get_vox(62,255,false));
+  main_block->draw_point(vec(init_x-1,init_y-1,init_z-1), main_block->get_vox(62,255,false));
 
   }
 
@@ -159,67 +165,6 @@ int main()
   tock = Clock::now();
 
   std::cout << "generate's renderer took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl << endl << endl;
-
-
-/*
- if(fork()){
-    if(fork()){
-      for(int i = startval; i < endval; i += 4)
-      {
-        std::cout << "frame number " << i;
-        tick = Clock::now();
-
-        sprintf(numstring, "%04d", i);//this is a better solution on string formatting
-        main_block->io->display("animation/new_output"+ std::string(numstring) +".png",  3.14, 0.002*i*3.14/3.0, 3.14/3.0, 0.4, false);
-
-        tock = Clock::now();
-        std::cout << " took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
-
-       }//end for
-   }else{
-     for(int i = startval+1; i < endval; i += 4)
-     {
-       std::cout << "frame number " << i;
-       tick = Clock::now();
-
-       sprintf(numstring, "%04d", i);//this is a better solution on string formatting
-       main_block->io->display("animation/new_output"+ std::string(numstring) +".png",  3.14, 0.002*i*3.14/3.0, 3.14/3.0, 0.4, false);
-
-       tock = Clock::now();
-       std::cout << " took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
-
-      }//end for
-   }
- }else{
-   if(fork()){
-     for(int i = startval+2; i < endval; i += 4)
-     {
-       std::cout << "frame number " << i;
-       tick = Clock::now();
-
-       sprintf(numstring, "%04d", i);//this is a better solution on string formatting
-       main_block->io->display("animation/new_output"+ std::string(numstring) +".png",  3.14, 0.002*i*3.14/3.0, 3.14/3.0, 0.4, false);
-
-       tock = Clock::now();
-       std::cout << " took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
-
-      }//end for
-  }else{
-    for(int i = startval+3; i < endval; i += 4)
-    {
-      std::cout << "frame number " << i;
-      tick = Clock::now();
-
-      sprintf(numstring, "%04d", i);//this is a better solution on string formatting
-      main_block->io->display("animation/new_output"+ std::string(numstring) +".png",  3.14, 0.002*i*3.14/3.0, 3.14/3.0, 0.4, false);
-
-      tock = Clock::now();
-      std::cout << " took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl;
-
-     }//end for
-  }
-}
-*/
 
   return 0;
 }

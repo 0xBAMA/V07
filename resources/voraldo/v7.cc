@@ -184,11 +184,12 @@ bool Voraldo::compare_colors(RGBA first, RGBA second)
 
 
 
-Vox Voraldo::get_vox(int palette_number, bool mask)
+Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
 {
   Vox temp;
 
   temp.color = palette[palette_number];
+  temp.color.alpha = alpha;
   temp.mask = mask;
 
 	temp.x = temp.y = temp.z = 0;
@@ -390,7 +391,7 @@ void Voraldo::mask_by_state(unsigned char s)
  }
 }
 
-void Voraldo::draw_noise(/*int seed,*/ bool draw, bool mask)
+void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask)
 {
   // std::srand(seed);
   // for(int i = 0; i < num_cells; i++)
@@ -414,7 +415,7 @@ void Voraldo::draw_noise(/*int seed,*/ bool draw, bool mask)
   {
     if(p.noise(0.1*i.x,0.1*i.y,0.1*i.z)<0.85)
     {
-      draw_point(vec(i.x,i.y,i.z),get_vox(12,false),draw,mask);
+      draw_point(vec(i.x,i.y,i.z),get_vox(12,alpha,false),draw,mask);
     }
   }
 }

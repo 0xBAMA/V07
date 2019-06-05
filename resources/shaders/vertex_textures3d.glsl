@@ -7,8 +7,9 @@ out vec4 color;
 out vec3 TexCoord;
 
 uniform vec3 theta;
-
 uniform mat4 view;
+
+uniform float offset;
 
 void main()
 {
@@ -42,6 +43,10 @@ void main()
     rz[2][2] = 1.0;
 
     color = vColor;
+
+    if(vPosition.x == offset){
+      color = vec4(0,0,0,1);
+    }
 
 
     TexCoord = vec3( 1* 0.5 * (vPosition.x + 1.0), 1* 1 * (vPosition.y + 0.5), 1* 1 *(vPosition.z + 0.5));

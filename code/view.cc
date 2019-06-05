@@ -84,109 +84,59 @@ auto tock = Clock::now(); //variable to hold end of timekeeping
 //
 //
 
-namespace jb_OpenGL_Laptop{
 
-	GLfloat left = -1.366f;
-	GLfloat right = 1.366f;
-	GLfloat top = -0.768f;
-	GLfloat bottom = 0.768f;
-	GLfloat zNear = -1.0f;
-	GLfloat zFar = 1.0f;
+GLfloat left = -1.366f;
+GLfloat right = 1.366f;
+GLfloat top = -0.768f;
+GLfloat bottom = 0.768f;
+GLfloat zNear = -1.0f;
+GLfloat zFar = 1.0f;
 
-	// don't really need this, it's really just for convenience
-	typedef glm::vec4  color4;
-	typedef glm::vec4  point4;
-
-
-
-	// image dimensions, based on laptop screen resolution
-	const int image_height = 768;
-	const int image_width = 1366;
-
-
-	// verticies - THINKPAD
-	const int NumVertices = 3000000;
-
-	point4 points[NumVertices];
-	color4 colors[NumVertices];
+// don't really need this, it's really just for convenience
+typedef glm::vec4  color4;
+typedef glm::vec4  point4;
 
 
 
-
-	// Array of rotation angles (in degrees) for each coordinate axis
-	enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
-	int      Axis = Xaxis;
-	GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
-
-	GLuint  theta;  // The location of the "theta" shader uniform variable
-	GLuint  ortho_matrix;
-
-	glm::mat4 Projection;
-
-	bool rotate = true;
-	bool rotation_direction = true;
+// image dimensions, based on laptop screen resolution
+const int image_height = 768;
+const int image_width = 1366;
 
 
-	//initial value of point size
-	GLfloat pointsize = 1.0;
-
-}
-
-namespace jb_OpenGL_Radeon{
-
-	GLfloat left = -1.366f;
-	GLfloat right = 1.366f;
-	GLfloat top = -0.768f;
-	GLfloat bottom = 0.768f;
-	GLfloat zNear = -1.0f;
-	GLfloat zFar = 1.0f;
-
-	// don't really need this, it's really just for convenience
-	typedef glm::vec4  color4;
-	typedef glm::vec4  point4;
+// verticies - RADEON
+const int NumVertices = 3000000;
 
 
+// Array of rotation angles (in degrees) for each coordinate axis
+enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
+int      Axis = Xaxis;
+GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
 
-	// image dimensions, based on laptop screen resolution
-	const int image_height = 768;
-	const int image_width = 1366;
+GLuint  theta_loc;  // The location of the "theta" shader uniform variable
+GLuint  ortho_matrix_loc; //location of the orthographic view matrix
+GLuint  offset_loc;
+
+glm::mat4 Projection;
+
+bool rotate = true;
+bool rotation_direction = true;
 
 
-	// verticies - RADEON
-	const int NumVertices = 64000000;
+//initial value of point size
+GLfloat pointsize = 1.0;
 
-	point4 points[NumVertices];
-	color4 colors[NumVertices];
+
+point4 points[NumVertices];
+color4 colors[NumVertices];
 
 
 
 
-	// Array of rotation angles (in degrees) for each coordinate axis
-	enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
-	int      Axis = Xaxis;
-	GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
 
-	GLuint  theta;  // The location of the "theta" shader uniform variable
-	GLuint  ortho_matrix;
-
-	glm::mat4 Projection;
-
-	bool rotate = true;
-	bool rotation_direction = true;
-
-
-	//initial value of point size
-	GLfloat pointsize = 1.0;
-
-}
-
-
-using namespace jb_OpenGL_Laptop;
-
-// using namespace jb_OpenGL_Radeon;
-
-
-
+//silly thing
+const int num_offsets = 600;
+int current_offset;
+float offsets[num_offsets];
 
 // .___ _______  .______________
 // |   |\      \ |   \__    ___/
@@ -204,48 +154,98 @@ void generate_points()
 
 	PerlinNoise p;
 
-	GLfloat increment = 1.0/100.0;
+	GLfloat increment = 1.0/256.0;
 
-	for( GLfloat x = -1.0; x <= 1.0 ; x += increment )
-	{
-		for ( GLfloat y = -0.5; y <= 0.5; y += increment )
-		{
-			for( GLfloat z = -0.5; z <= 0.5; z += increment )
-
-			//	if( p.noise( 10*x, 10*y, 10*z ) > 0.5 && p.noise( 10*x, 10*y, 10*z ) < 0.75)
-				{
-
-					// the x and y values here will be used as texture coordinates, taking advantage of wrapping
-					points[Index] = point4( x, y, z, 1.0);
-
-
-					// colors[Index] = color4( p.noise( 10*x, 10*y, 10*z ), 0.7*p.noise( 10*x, 10*y, 10*z ), 0.3*p.noise( 10*x, 10*y, 10*z ), p.noise( 10*x, 10*y, 10*z ));
-					colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
-
-
-
-					Index++;
-
-				}
-		}
-	}
-
-	// for( GLfloat step = -0.3; step <= 0.3; step += 0.01)
+	// for( GLfloat x = -1.0; x <= 1.0 ; x += increment )
 	// {
-	// 	points[Index] = point4( 0.0, 0.0,   step, 1.0);
-	// 	colors[Index] = color4( 0.0, 0.0, 0.0, 1.0);
+	// 	for ( GLfloat y = -0.5; y <= 0.5; y += increment )
+	// 	{
+	// 		for( GLfloat z = -0.5; z <= 0.5; z += increment )
+	//
+	// 		//	if( p.noise( 10*x, 10*y, 10*z ) > 0.5 && p.noise( 10*x, 10*y, 10*z ) < 0.75)
+	// 			{
+	//
+	// 				// the x and y values here will be used as texture coordinates, taking advantage of wrapping
+	// 				points[Index] = point4( x, y, z, 1.0);
 	//
 	//
-	// 	Index++;
+	// 				// colors[Index] = color4( p.noise( 10*x, 10*y, 10*z ), 0.7*p.noise( 10*x, 10*y, 10*z ), 0.3*p.noise( 10*x, 10*y, 10*z ), p.noise( 10*x, 10*y, 10*z ));
+	// 				colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 	//
+	//
+	//
+	// 				Index++;
+	//
+	// 			}
+	// 	}
 	// }
 
-
-	// cout << Index << endl;
-
+	current_offset = 0;
 
 
+//THE TRIANGLE THING - Slices
 
+		for(float x = 1.0; x >= -1.0; x -= increment )
+		{
+			// draw quad slices along the x axis, using triangles like so
+			// A.____.B
+			//  |\   |		^y
+			//  | \  |    |
+			//  |  \ |    |
+			//  |   \|    |____>z
+			// D.____.C
+
+
+			// 'points' are obviously the vertex location for the triangle, slices holds
+			// a number which is used to animate a 'pulse' traveling down the block's x axis
+
+	// A quad is two triangles -
+
+			//TRIANGLE ABC
+			// POINT A
+			points[Index] = point4( x, 0.5, -0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+			// POINT B
+			points[Index] = point4( x, 0.5, 0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+			// POINT C
+			points[Index] = point4( x, -0.5, 0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+
+			//TRIANGLE ACD
+			// POINT A
+			points[Index] = point4( x, 0.5, -0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+			// POINT C
+			points[Index] = point4( x, -0.5, 0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+			// POINT D
+			points[Index] = point4( x, -0.5, -0.5, 1.0 );
+			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
+			Index++;
+
+			offsets[current_offset] = x;
+			current_offset++;
+
+		}
+
+
+		for( int i = current_offset; i < num_offsets; i++ )
+		{
+			offsets[i] = 2.0;
+		}
+
+		current_offset = 0;
 	//done
 }
 
@@ -281,11 +281,11 @@ void init( Shader s )
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
 
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
 
@@ -346,13 +346,15 @@ void init( Shader s )
 
 
 		// uniform value for rotation
-    theta = glGetUniformLocation( s.Program, "theta" );
-		ortho_matrix = glGetUniformLocation( s.Program, "view" ); //allows the scaling to the screen dimensions`
+    theta_loc = glGetUniformLocation( s.Program, "theta" );
+		ortho_matrix_loc = glGetUniformLocation( s.Program, "view" ); //allows the scaling to the screen dimensions
+		offset_loc = glGetUniformLocation( s.Program, "offset" );
+
 
 
 		Projection = glm::ortho(left, right, top, bottom, zNear, zFar);
 
-		glUniformMatrix4fv( ortho_matrix, 1, GL_FALSE,  glm::value_ptr( Projection ) );
+		glUniformMatrix4fv( ortho_matrix_loc, 1, GL_FALSE,  glm::value_ptr( Projection ) );
 
 
 
@@ -391,10 +393,18 @@ void display( void )
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		// update the value of theta in the shader
-    glUniform3fv( theta, 1, Theta );
+    glUniform3fv( theta_loc, 1, Theta );
+
+
+		// update the value of the offset in the shader
+		glUniform1f( offset_loc, offsets[current_offset] );
+
+
+
+
 
 		// the draw call
-    glDrawArrays( GL_POINTS, 0, NumVertices );
+    glDrawArrays( GL_TRIANGLES, 0, NumVertices );
 		// glDrawArrays( GL_LINE_LOOP, 0, NumVertices );
 
 
@@ -467,7 +477,7 @@ void keyboard( unsigned char key, int x, int y )
 
 				 Projection = glm::ortho(left, right, top, bottom, zNear, zFar);
 
-		 			glUniformMatrix4fv( ortho_matrix, 1, GL_FALSE,  glm::value_ptr( Projection ) );
+		 			glUniformMatrix4fv( ortho_matrix_loc, 1, GL_FALSE,  glm::value_ptr( Projection ) );
 				 break;
 
 		  case 'x':
@@ -480,7 +490,7 @@ void keyboard( unsigned char key, int x, int y )
 
 					Projection = glm::ortho(left, right, top, bottom, zNear, zFar);
 
-				 glUniformMatrix4fv( ortho_matrix, 1, GL_FALSE,  glm::value_ptr( Projection ) );
+				 glUniformMatrix4fv( ortho_matrix_loc, 1, GL_FALSE,  glm::value_ptr( Projection ) );
 				break;
     }
 }
@@ -519,6 +529,14 @@ void idle( void )
 						Theta[Axis] += 360.0;
 				}
 			}
+		}
+
+
+		current_offset+=1;
+
+		if(current_offset >= num_offsets)
+		{
+			current_offset = 0;
 		}
 
     glutPostRedisplay();

@@ -12,7 +12,8 @@ void main()
 
     if(color == vec4(0,0,0,1))
     {
-      fColor = color;
+      //fColor = color;
+      fColor = vec4(1.0,1.0,1.0,0.3) + texture(ourTexture, TexCoord);
     }
     else
     {

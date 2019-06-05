@@ -110,7 +110,7 @@ class Voraldo{
 			// returns true if the vector starting at ray_org doing in direction ray_dir hits the bounding box
 			// tmin and tmax let the user know the far and near points of intersection
 
-			Vox get_vox( int desired_color, bool mask );
+			Vox get_vox( int desired_color, unsigned char alpha, bool mask );
 
 			bool compare_colors(RGBA first, RGBA second);
 
@@ -168,7 +168,7 @@ class Voraldo{
 		//draw and mask are exclusive, you might say independent of one another - i.e.
 		//	these functions can be used to mask without drawing if desired
 
-			void draw_noise(/*int seed=5, */bool draw=true, bool mask=false);
+			void draw_noise(/*int seed=5, */ unsigned char alpha, bool draw=true, bool mask=false);
 
 			//replaces the noisefill argument for the init_block
 
