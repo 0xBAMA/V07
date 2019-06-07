@@ -69,7 +69,7 @@ struct RGBA{
 struct Vox{
 	RGBA color;
 
-	short x; short y; short z;
+	vec location;
 
 	bool mask;
 };

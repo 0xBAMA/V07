@@ -99,6 +99,9 @@ int main()
   // main_block->draw_cylinder(loc9-vec(30,0,0), loc9+vec(500,0,0),1, main_block->get_vox(62,255,false));
 
 
+
+
+// STAR TREK EQUIPMENT FIXTURE
   vec a,b,c,d,e,f,g,h,v;
 
   a = vec( 245,225,225 );
@@ -115,7 +118,6 @@ int main()
   main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, main_block->get_vox( 62, 255, false ) );
   main_block->draw_quadrilateral_hexahedron( a+v, b+v, c+v, d+v, e+v, f+v, g+v, h+v, main_block->get_vox( 62, 255, false ) );
   main_block->draw_quadrilateral_hexahedron( a-v, b-v, c-v, d-v, e-v, f-v, g-v, h-v, main_block->get_vox( 62, 255, false ) );
-
 
 
   a = vec( 254,225,225 );

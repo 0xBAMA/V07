@@ -177,7 +177,6 @@ bool Voraldo::compare_colors(RGBA first, RGBA second)
   unsigned char alpha2 = second.alpha;
 
 
-
   return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) && ( alpha1 == alpha2 ) );
 }
 
@@ -192,7 +191,7 @@ Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
   temp.color.alpha = alpha;
   temp.mask = mask;
 
-	temp.x = temp.y = temp.z = 0;
+	temp.location = vec(0,0,0);
 
   return temp;
 
@@ -318,13 +317,11 @@ void Voraldo::init_block(vec dimensions)
 	{
 		for( int y = 0; y < y_dim; y++ )
 		{
-			for( int z = 0; z < z_dim; z++)
+			for( int z = 0; z < z_dim; z++ )
 			{
 				temp.mask = false;
 				temp.color = palette[0];
-				temp.x = x;
-				temp.y = y;
-				temp.z = z;
+				temp.location = vec(x,y,z);
 			}
 		}
 	}
@@ -413,9 +410,9 @@ void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask
 
   for(Vox i : data)
   {
-    if(p.noise(0.1*i.x,0.1*i.y,0.1*i.z)<0.85)
+    if(p.noise(0.1*i.location.x,0.1*i.location.y,0.1*i.location.z)<0.85)
     {
-      draw_point(vec(i.x,i.y,i.z),get_vox(12,alpha,false),draw,mask);
+      draw_point(i.location,get_vox(12,alpha,false),draw,mask);
     }
   }
 }
