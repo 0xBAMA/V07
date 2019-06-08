@@ -488,7 +488,7 @@ void Voraldo::draw_line_segment(vec v1, vec v2, Vox set, bool draw, bool mask)
 	}
 }
 
-void Voraldo::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, bool mask)
+void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bool draw, bool mask)
 {
 
  //point zero is the origin point
@@ -514,7 +514,7 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, bool mas
     length = glm::length(side2);
   }
 
- 	if(length <= 2)
+ 	if( length <= 2 && thickness <= 2 )
   {
  		draw_point(v0,set);
  		draw_point(v1,set);
@@ -522,29 +522,66 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw, bool mas
  	}
   else
   {
-
- 		side1 = side1/length;
- 		side2 = side2/length;
-
- 		for(double i = 0; i < length; i+=0.1)
- 		{
- 			c1[0] = v0[0] + i*side1[0];
- 			c1[1] = v0[1] + i*side1[1];
- 			c1[2] = v0[2] + i*side1[2];
-
- 			c2[0] = v0[0] + i*side2[0];
- 			c2[1] = v0[1] + i*side2[1];
- 			c2[2] = v0[2] + i*side2[2];
-
- 			draw_cylinder(c1,c2,1.0,set,draw,mask); //refit for cylinders rather than line segments
-
-      // next step is to refit to use this method: https://stackoverflow.com/questions/25512037/how-to-determine-if-a-point-lies-over-a-triangle-in-3d
-
-      // two elements of this process are projection onto a plane and the use of barycentric coordinates to determine whether it is in the triangle
-      // we will also need to add some notion of triangle thickness, so that when we find point-to-plane distance
+    // // legacy triangle algorithm
+ 		// side1 = side1/length;
+ 		// side2 = side2/length;
+    //
+ 		// for(double i = 0; i < length; i+=0.1)
+ 		// {
+    //
+ 		// 	c1[0] = v0[0] + i*side1[0];
+ 		// 	c1[1] = v0[1] + i*side1[1];
+ 		// 	c1[2] = v0[2] + i*side1[2];
+    //
+ 		// 	c2[0] = v0[0] + i*side2[0];
+ 		// 	c2[1] = v0[1] + i*side2[1];
+ 		// 	c2[2] = v0[2] + i*side2[2];
+    //
+ 		// 	draw_line_segment(c1,c2,set,draw,mask);
+    //
+ 		// }
 
 
- 		}
+
+    // NEW TRIANGLE ALGORITHM - based on the quadrilateral hexahedron function, it's more of a triangular prism
+
+    vec triangle_center = ( v0 + v1 + v2 ) / 3.0f;
+
+    vec triangle_normal_pos = normalize( cross( side1, side2 ) );
+    vec triangle_normal_neg = -1.0f * triangle_normal_pos;
+
+    vec v0_up   = v0 + thickness * triangle_normal_pos;
+    vec v0_down = v0 + thickness * triangle_normal_neg;
+
+    vec v1_up   = v1 + thickness * triangle_normal_pos;
+    vec v1_down = v1 + thickness * triangle_normal_neg;
+
+    vec v2_up   = v2 + thickness * triangle_normal_pos;
+    vec v2_down = v2 + thickness * triangle_normal_neg;
+
+    // ...
+
+    // there are 5 planes to test against
+
+      // the two triangular faces, face1 and face2
+
+      // three sides, face3, face4 and face5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  	}
 }
 
@@ -1111,52 +1148,52 @@ void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot,
   }
 }
 
-// void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw, bool mask)
-// {
-//   using namespace cimg_library;
-//   unsigned char current_color;
-//   unsigned char current_height;
-//   unsigned char current_colormap;
-//
-//   CImg<unsigned char> heightmap("heights.png");
-//   CImg<unsigned char> colormap("greycolors.png");
-//
-//   for(int x = 0; x < 512; x++){
-//     for(int z = 0; z < 512; z++){
-//
-//       current_height = heightmap.atXY(x,z);
-//       current_colormap = colormap.atXY(x,z);
-//
-//       if(current_colormap < 30){
-//         current_color = 62; //black
-//       }else if(current_colormap < 60){
-//         current_color = 61; // t dark grey
-//       }else if(current_colormap < 90){
-//         current_color = 60; // t dark med
-//       }else if(current_colormap < 120){
-//         current_color = 59; // t med light
-//       }else if(current_colormap < 150){
-//         current_color = 58; // t light
-//       }else{
-//         current_color = 57; // t lighter
-//       }
-//
-//       draw_point(vec(x,current_height/3,z),get_vox(current_color,1,0.3,false),draw,mask);
-//
-//
-//       //for(int y = 0; y < current_height/3; y++){
-//         //draw_point(vec(x,y,z),get_vox(current_color,1,0.3,false),draw,mask);
-//       //}
-//       //cout << heightmap.atXY(x,z) << " ";
-//     }
-//     //cout << endl;
-//   }
-//
-//
-//     //go up to y
-//
-//   return;
-// }
+void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw, bool mask)
+{
+  using namespace cimg_library;
+  unsigned char current_color;
+  unsigned char current_height;
+  unsigned char current_colormap;
+
+  CImg<unsigned char> heightmap("heights.png");
+  CImg<unsigned char> colormap("greycolors.png");
+
+  for(int x = 0; x < 512; x++){
+    for(int z = 0; z < 512; z++){
+
+      current_height = heightmap.atXY(x,z);
+      current_colormap = colormap.atXY(x,z);
+
+      if(current_colormap < 30){
+        current_color = 62; //black
+      }else if(current_colormap < 60){
+        current_color = 61; // t dark grey
+      }else if(current_colormap < 90){
+        current_color = 60; // t dark med
+      }else if(current_colormap < 120){
+        current_color = 59; // t med light
+      }else if(current_colormap < 150){
+        current_color = 58; // t light
+      }else{
+        current_color = 57; // t lighter
+      }
+
+      draw_point(vec(x,current_height/3,z),get_vox(current_color,255,false),draw,mask);
+
+
+      //for(int y = 0; y < current_height/3; y++){
+        //draw_point(vec(x,y,z),get_vox(current_color,1,0.3,false),draw,mask);
+      //}
+      //cout << heightmap.atXY(x,z) << " ";
+    }
+    //cout << endl;
+  }
+
+
+    //go up to y
+
+  return;
+}
 
 
 
