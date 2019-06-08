@@ -1,4 +1,4 @@
-// #include "../CImg.h"		//single-header library for image display and saving
+#include "../CImg.h"		//single-header library for image display and saving
 //Cimg license - from Cimg.eu - CImg is a free, open-source library distributed
 //under the CeCILL-C (close to the GNU LGPL) or CeCILL (compatible with the GNU GPL)
 //licenses. It can be used in commercial applications.
@@ -109,13 +109,16 @@ class Voraldo{
 			bool planetest(vec plane_point, vec plane_normal, vec test_point);
 			// returns false if the point is above the plane, true if it is above
 
-			bool intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ray_dir, double &tmin, double &tmax, double t0=0, double t1=9999);
+			bool intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ray_dir, float &tmin, float &tmax, float t0=0, float t1=9999);
 			// returns true if the vector starting at ray_org doing in direction ray_dir hits the bounding box
 			// tmin and tmax let the user know the far and near points of intersection
 
 			Vox get_vox( int desired_color, unsigned char alpha, bool mask );
 
 			bool compare_colors(RGBA first, RGBA second);
+
+			//CPU Renderer
+			void display(std::string filename, float x_rot, float y_rot, float z_rot, float scale, bool perspective);
 
 			void load(){return;} //this function still needs to be figured out
 			void save(std::string filename);

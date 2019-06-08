@@ -169,17 +169,17 @@ int main()
 
   main_block->mask_unmask_all();
 
-  main_block->draw_cylinder( vec( 390,225,225 ), vec( 130,225,225 ), 5, main_block->get_vox( 18, 200, false ) );
-  main_block->draw_cylinder( vec( 390, 30,225 ), vec( 130, 30,225 ), 5, main_block->get_vox( 18, 200, false ) );
-  main_block->draw_cylinder( vec( 390,225, 30 ), vec( 130,225, 30 ), 5, main_block->get_vox( 18, 200, false ) );
-  main_block->draw_cylinder( vec( 390, 30, 30 ), vec( 130, 30, 30 ), 5, main_block->get_vox( 18, 200, false ) );
+  main_block->draw_cylinder( vec( 390,225,225 ), vec( 130,225,225 ), 5, main_block->get_vox( 18, 255, false ) );
+  main_block->draw_cylinder( vec( 390, 30,225 ), vec( 130, 30,225 ), 5, main_block->get_vox( 18, 255, false ) );
+  main_block->draw_cylinder( vec( 390,225, 30 ), vec( 130,225, 30 ), 5, main_block->get_vox( 18, 255, false ) );
+  main_block->draw_cylinder( vec( 390, 30, 30 ), vec( 130, 30, 30 ), 5, main_block->get_vox( 18, 255, false ) );
 
-  main_block->draw_tube( vec( 405, 127.5, 127.5), vec( 102, 127.5, 127.5), 10, 15, main_block->get_vox( 19, 200, false ) );
+  main_block->draw_tube( vec( 405, 127.5, 127.5), vec( 102, 127.5, 127.5), 10, 15, main_block->get_vox( 19, 255, false ) );
 
   main_block->mask_all_nonzero();
 
   main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 200, main_block->get_vox( 15, 30, false ) );
-  main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 195, main_block->get_vox( 15,  0, false ) );
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 195, main_block->get_vox(  0,  0, false ) );
 
 
 
@@ -256,7 +256,7 @@ int main()
 
   tick = Clock::now();
 
-  // main_block->io->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
+  main_block->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
 
   tock = Clock::now();
 

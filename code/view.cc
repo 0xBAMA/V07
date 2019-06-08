@@ -344,10 +344,6 @@ void init( Shader s )
     glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*) (sizeof(points)) );
 
 
-		cout << "attrib stuff done" << endl;
-
-
-
 		// uniform value for rotation
     theta_loc = glGetUniformLocation( s.Program, "theta" );
 		ortho_matrix_loc = glGetUniformLocation( s.Program, "view" ); //allows the scaling to the screen dimensions
@@ -409,6 +405,8 @@ void display( void )
 		// the draw call
     glDrawArrays( GL_TRIANGLES, 0, NumVertices );
 		// glDrawArrays( GL_LINE_LOOP, 0, NumVertices );
+
+
 
 
     glutSwapBuffers();
@@ -585,7 +583,8 @@ int main( int argc, char **argv )
 	glutInit( &argc, argv );
 	glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
 	glutInitWindowSize( image_width, image_height );
-	glutInitContextVersion( 3, 2 );
+	// glutInitWindowSize( 500, 500 );
+	glutInitContextVersion( 4, 5 );
 	glutInitContextProfile( GLUT_CORE_PROFILE );
 	glutCreateWindow( "GLUT Window" );
 	glutFullScreen();
@@ -604,8 +603,6 @@ int main( int argc, char **argv )
 	Shader theShader( "../resources/shaders/vertex_textures3d.glsl", "../resources/shaders/fragment_textures3d.glsl" );
 
 	std::cout << "\rShader Compilation Complete.  " << std::endl;
-
-
 
 
 	std::cout << "Generating Geometry";

@@ -11,21 +11,6 @@ using std::endl;
 
 using std::vector;
 
-float clamp(float value, float low, float high)
-{
-  if(value > high)
-  {
-    return high;
-  }
-  else if(value < low)
-  {
-    return low;
-  }
-  else
-  {
-    return value;
-  }
-}
 
 
 
@@ -159,43 +144,6 @@ Voraldo::~Voraldo()
 
 
 
-
-
-bool Voraldo::compare_colors(RGBA first, RGBA second)
-{
-
-  unsigned char red1 = first.red;
-  unsigned char red2 = second.red;
-
-  unsigned char green1 = first.green;
-  unsigned char green2 = second.green;
-
-  unsigned char blue1 = first.blue;
-  unsigned char blue2 = second.blue;
-
-  unsigned char alpha1 = first.alpha;
-  unsigned char alpha2 = second.alpha;
-
-
-  return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) && ( alpha1 == alpha2 ) );
-}
-
-
-
-
-Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
-{
-  Vox temp;
-
-  temp.color = palette[palette_number];
-  temp.color.alpha = alpha;
-  temp.mask = mask;
-
-	temp.location = vec(0,0,0);
-
-  return temp;
-
-}
 
 
 
@@ -397,6 +345,13 @@ void Voraldo::clear_all()
   }
 }
 
+//     _____      _____    _____________  __.
+//    /     \    /  _  \  /   _____/    |/ _|
+//   /  \ /  \  /  /_\  \ \_____  \|      <
+//  /    Y    \/    |    \/        \    |  \
+//  \____|__  /\____|__  /_______  /____|__ \
+//          \/         \/        \/        \/
+
 void Voraldo::mask_unmask_all()
 {
   // nlohmann::json j;
@@ -466,6 +421,13 @@ void Voraldo::mask_by_state(unsigned char s)
    }
  }
 }
+
+//  ____________________.___   _____  .______________._______   _______________ _________
+//  \______   \______   \   | /     \ |   \__    ___/|   \   \ /   /\_   _____//   _____/
+//   |     ___/|       _/   |/  \ /  \|   | |    |   |   |\   Y   /  |    __)_ \_____  \
+//   |    |    |    |   \   /    Y    \   | |    |   |   | \     /   |        \/        \
+//   |____|    |____|_  /___\____|__  /___| |____|   |___|  \___/   /_______  /_______  /
+//                    \/            \/                                      \/        \/
 
 void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask)
 {
@@ -1198,6 +1160,232 @@ void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot,
 
 
 
+//  ___________________ ____ ___
+//  \_   ___ \______   \    |   \
+//  /    \  \/|     ___/    |   /
+//  \     \___|    |   |    |  /
+//   \______  /____|   |______/
+//          \/
+//  _____________________ _______  ________  __________________________________________
+//  \______   \_   _____/ \      \ \______ \ \_   _____/\______   \_   _____/\______   \
+//   |       _/|    __)_  /   |   \ |    |  \ |    __)_  |       _/|    __)_  |       _/
+//   |    |   \|        \/    |    \|    `   \|        \ |    |   \|        \ |    |   \
+//   |____|_  /_______  /\____|__  /_______  /_______  / |____|_  /_______  / |____|_  /
+//          \/        \/         \/        \/        \/         \/        \/         \/
+
+
+void Voraldo::display(std::string filename, float x_rot, float y_rot, float z_rot, float scale, bool perspective)
+{
+  using namespace cimg_library;
+
+ 	int image_x_dimension = 1919;
+ 	int image_y_dimension = 1079;
+
+ 	CImg<float> img(image_x_dimension,image_y_dimension,1,3,0);
+
+ 	const unsigned char	gold[3] = {255,215,0};
+ 	const unsigned char dark_gold[3] = {127,107,0};
+ 	const unsigned char white[3] = {255,255,255};
+ 	const unsigned char black[3] = {0,0,0};
+ 	const unsigned char pink[3] = {255,0,255};
+
+//draw the border for the image
+ 	//frame top
+ 	img.draw_line(0,1,image_x_dimension,1,gold);
+ 	img.draw_line(0,2,image_x_dimension,2,dark_gold);
+
+ 	//frame bottom
+ 	img.draw_line(0,image_y_dimension-2,image_x_dimension,image_y_dimension-2,dark_gold);
+ 	img.draw_line(0,image_y_dimension-1,image_x_dimension,image_y_dimension-1,gold);
+
+ 	//frame left from low x low y to low x high y
+ 	img.draw_line(1,0,1,image_y_dimension,gold);
+ 	img.draw_line(2,0,2,image_y_dimension,dark_gold);
+
+ 	//frame right from high x low y to high x high y
+ 	img.draw_line(image_x_dimension-2,0,image_x_dimension-2,image_y_dimension,dark_gold);
+ 	img.draw_line(image_x_dimension-2,0,image_x_dimension-2,image_y_dimension,gold);
+
+
+ 	int block_xdim = x_dim;                 int block_ydim = y_dim;                 int block_zdim = z_dim;
+ 	int block_xdim_squared = block_xdim*block_xdim; int block_ydim_squared = block_ydim*block_ydim;	int block_zdim_squared = block_zdim*block_zdim;
+
+ 	vec d_center = vec(block_xdim/2.0,block_ydim/2.0,block_zdim/2.0);
+
+//rotation matricies allowing rotation of the viewer's position
+ 	mat rotation_x_axis;
+ //refernces [column][row] - sin and cos take arguments in radians
+ 		rotation_x_axis[0][0] = 1;                       rotation_x_axis[1][0] = 0;                      rotation_x_axis[2][0] = 0;
+ 		rotation_x_axis[0][1] = 0;                       rotation_x_axis[1][1] = std::cos(x_rot);        rotation_x_axis[2][1] = -1.0*std::sin(x_rot);
+ 		rotation_x_axis[0][2] = 0;                       rotation_x_axis[1][2] = std::sin(x_rot);        rotation_x_axis[2][2] = std::cos(x_rot);
+
+ 	mat rotation_y_axis;
+ 		rotation_y_axis[0][0] = std::cos(y_rot);         rotation_y_axis[1][0] = 0;                      rotation_y_axis[2][0] = std::sin(y_rot);
+ 		rotation_y_axis[0][1] = 0;                       rotation_y_axis[1][1] = 1;                      rotation_y_axis[2][1] = 0;
+ 		rotation_y_axis[0][2] = -1.0*std::sin(y_rot);    rotation_y_axis[1][2] = 0;                      rotation_y_axis[2][2] = std::cos(y_rot);
+
+ 	mat rotation_z_axis;
+ 		rotation_z_axis[0][0] = std::cos(z_rot);         rotation_z_axis[1][0] = -1.0*std::sin(z_rot);   rotation_z_axis[2][0] = 0;
+ 		rotation_z_axis[0][1] = std::sin(z_rot);         rotation_z_axis[1][1] = std::cos(z_rot);        rotation_z_axis[2][1] = 0;
+ 		rotation_z_axis[0][2] = 0;                       rotation_z_axis[1][2] = 0;                      rotation_z_axis[2][2] = 1;
+
+//the three vectors defining the x,y,z of "display space" i.e. screen space, used for positioning camera in world space
+ 	vec d_xvec = rotation_x_axis * rotation_y_axis * rotation_z_axis * vec(1,0,0);
+ 	vec d_yvec = rotation_x_axis * rotation_y_axis * rotation_z_axis * vec(0,1,0);
+ 	vec d_zvec = rotation_x_axis * rotation_y_axis * rotation_z_axis * vec(0,0,1);
+
+//this is somewhat abstract - starting from the center of the block, define a sphere
+//this sphere has a radius such that the corners of the box are on the surface of the sphere
+//multiplying this radius by some amount >1 will move us out from there, a sphere with the same center
+//the camera is then located somewhere on this sphere, in a position determined by the use of the rotation matricies
+
+ 	//tip radius is the radius of the sphere that touches the tips of the block's corners
+ 	float tip_radius = std::sqrt(block_xdim_squared+block_ydim_squared+block_zdim_squared)/2.0;
+ 	float max_dist = 2*2.2*tip_radius;
+ 	float min_dist = 0.2*tip_radius;
+ 	//factor of two is for the incremental step of length 0.5
+ 	//factor of 2.2 is for the tip radius plus the camera sphere radius, 1+1.2
+
+ 	vec cam_position = d_center - 1.2f*tip_radius * d_yvec; vec cam_up = scale*d_zvec; vec cam_right = scale*d_xvec;
+
+ 	int image_center_x = (image_x_dimension-1)/2; int image_current_x;
+ 	int image_center_y = (image_y_dimension-1)/2; int image_current_y;
+
+ 	vec vector_starting_point,vector_test_point;
+ 	vec vector_increment = 0.5f*normalize(-1.0f*(cam_position-d_center));
+
+ 	vec block_min = vec(0,0,0);
+ 	vec block_max = vec(block_xdim,block_ydim,block_zdim);
+
+ 	Vox temp;
+ 	RGBA	curr_color;
+  float temp_alpha, curr_alpha;
+
+  std::stack<Vox> empty_voxtack;
+  std::stack<Vox> voxtack;
+
+  unsigned char image_color[3];
+
+ 	bool line_box_intersection, color_set;
+
+ 	float t0 = 0;
+ 	float t1 = 9999;
+
+  float tmin, tmax;
+  float alpha_sum;
+
+
+ 	for(float x = -(image_x_dimension/2-5); x <= (image_x_dimension/2-5); x++)
+ 		for(float y = -(image_y_dimension/2-5); y <= (image_y_dimension/2-5); y++)
+ 		{//init (reset)
+ 			line_box_intersection = false; color_set = false;    //reset flag values for the new pixel
+      curr_alpha = 1.0; curr_color.red = 0; curr_color.green = 0; curr_color.blue = 0;
+
+      voxtack = empty_voxtack;                             //reset the stack by setting it equal to an empty stack
+
+ 			image_current_x = image_center_x + x; image_current_y = image_center_y + y; //x and y values for the new pixel
+
+ 			if(perspective == true) //this gets added inside the loop - note that the linetest will have to consider the perspective corrected ray
+      {//this isn't working very well
+        vector_increment = 0.5f*normalize(-1.0f*(cam_position-d_center));
+ 				vector_increment = vector_increment + x*0.001f*cam_right - y*0.001f*cam_up;
+      }
+      //orthogonal display will have vector_increment equal for all pixels i.e. no divergence
+
+ 			vector_starting_point = cam_position + x*cam_up + y*cam_right;
+
+ 			//figure out if the parametric line established by parameter z and
+ 			//	L = vector_starting_point + z*vector_increment
+ 			//intersects with the box established by (0,0,0) (x,y,z)
+ 			//i.e. block_min and block_max
+
+ 			//The goal here is to know whether or not there is data to sample behind any given pixel - this offers a significant speedup
+ 			line_box_intersection = intersect_ray_bbox(block_min,block_max,vector_starting_point,vector_increment,tmin,tmax,t0,t1);
+
+ 			if(line_box_intersection)
+ 			{//the ray hits the box, we will need to step through the box
+        alpha_sum = 0;
+ 				for(float z = tmin; z <= tmax; z+=0.5) //go from close intersection point (tmin) to far intersection point (tmax)
+ 				{
+ 					vector_test_point = floor(vector_starting_point + z*vector_increment);  //get the test point
+ 					temp = get_data_by_vector_index(vector_test_point);                     //get the data at the test point
+          alpha_sum += temp.color.alpha;
+          if(!compare_colors(temp.color, palette[0]))
+          {
+            voxtack.push(temp);
+          }
+          if(alpha_sum > 4.0) break;
+ 				}//end for (z)
+        //the for loop is completed, now process the stack
+
+        img.draw_point(image_current_x,image_current_y,black);
+        while(!voxtack.empty())
+        {
+          temp = voxtack.top(); voxtack.pop();
+
+          // image_color[0] = temp.color.red   * (temp.lighting_intensity);
+          // image_color[1] = temp.color.green * (temp.lighting_intensity);
+          // image_color[2] = temp.color.blue  * (temp.lighting_intensity);
+
+          image_color[0] = temp.color.red;
+          image_color[1] = temp.color.green;
+          image_color[2] = temp.color.blue;
+
+          if( temp.color.alpha != 0 )
+          {
+            if(temp.color.alpha == 255){
+              img.draw_point(image_current_x,image_current_y,image_color);
+            }else{
+              img.draw_point(image_current_x,image_current_y,image_color,0.01*(temp.color.alpha));
+            }
+          }
+        }
+ 			}
+ 			else //I saw a ray that did not hit the box, I want to paint it black
+ 			{
+        img.draw_point(image_current_x,image_current_y,black);
+ 			}
+ 		}//end for (x and y)
+
+ 	img.save_png(filename.c_str());
+}
+
+
+
+
+
+
+
+
+
+
+
+//  .____    .___  ________  ___ ______________.___ _______    ________
+//  |    |   |   |/  _____/ /   |   \__    ___/|   |\      \  /  _____/
+//  |    |   |   /   \  ___/    ~    \|    |   |   |/   |   \/   \  ___
+//  |    |___|   \    \_\  \    Y    /|    |   |   /    |    \    \_\  \
+//  |_______ \___|\______  /\___|_  / |____|   |___\____|__  /\______  /
+//          \/           \/       \/                       \/        \/
+
+
+
+
+
+
+
+
+
+
+
+//   ____ ______________.___.____    .______________.______________ _________
+//  |    |   \__    ___/|   |    |   |   \__    ___/|   \_   _____//   _____/
+//  |    |   / |    |   |   |    |   |   | |    |   |   ||    __)_ \_____  \
+//  |    |  /  |    |   |   |    |___|   | |    |   |   ||        \/        \
+//  |______/   |____|   |___|_______ \___| |____|   |___/_______  /_______  /
+//                                  \/                          \/        \/
+
+
+
 Vox Voraldo::get_data_by_vector_index(vec index)
 {
   int x,y,z;
@@ -1265,6 +1453,7 @@ void Voraldo::set_data_by_vector_index(vec index, Vox set, bool draw, bool mask,
  }
 }
 
+
 bool Voraldo::planetest(vec plane_point, vec plane_normal, vec test_point)
 {
  //return false if the point is above the plane
@@ -1293,7 +1482,7 @@ bool Voraldo::planetest(vec plane_point, vec plane_normal, vec test_point)
 	return (result < 0)?true:false;
 }
 
-bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ray_dir, double &tmin, double &tmax, double t0, double t1)
+bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ray_dir, float &tmin, float &tmax, float t0, float t1)
 {/*
  * Ray-box intersection using IEEE numerical properties to ensure that the
  * test is both robust and efficient, as described in:
@@ -1321,8 +1510,8 @@ bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ra
   tmin = (bbox[sign[0]][0] - ray_org[0]) * inv_direction[0];
   tmax = (bbox[1-sign[0]][0] - ray_org[0]) * inv_direction[0];
 
-  double tymin = (bbox[sign[1]][1] - ray_org[1]) * inv_direction[1];
-  double tymax = (bbox[1-sign[1]][1] - ray_org[1]) * inv_direction[1];
+  float tymin = (bbox[sign[1]][1] - ray_org[1]) * inv_direction[1];
+  float tymax = (bbox[1-sign[1]][1] - ray_org[1]) * inv_direction[1];
 
   if ( (tmin > tymax) || (tymin > tmax) )
     return false;
@@ -1331,8 +1520,8 @@ bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ra
   if (tymax < tmax)
     tmax = tymax;
 
-  double tzmin = (bbox[sign[2]][2] - ray_org[2]) * inv_direction[2];
-  double tzmax = (bbox[1-sign[2]][2] - ray_org[2]) * inv_direction[2];
+  float tzmin = (bbox[sign[2]][2] - ray_org[2]) * inv_direction[2];
+  float tzmax = (bbox[1-sign[2]][2] - ray_org[2]) * inv_direction[2];
 
   if ( (tmin > tzmax) || (tzmin > tmax) )
     return false;
@@ -1342,4 +1531,60 @@ bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ra
     tmax = tzmax;
   return ( (tmin < t1) && (tmax > t0) );
 
+}
+
+
+
+
+bool Voraldo::compare_colors(RGBA first, RGBA second)
+{
+
+  unsigned char red1 = first.red;
+  unsigned char red2 = second.red;
+
+  unsigned char green1 = first.green;
+  unsigned char green2 = second.green;
+
+  unsigned char blue1 = first.blue;
+  unsigned char blue2 = second.blue;
+
+  unsigned char alpha1 = first.alpha;
+  unsigned char alpha2 = second.alpha;
+
+
+  return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) && ( alpha1 == alpha2 ) );
+}
+
+
+
+
+Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
+{
+  Vox temp;
+
+  temp.color = palette[palette_number];
+  temp.color.alpha = alpha;
+  temp.mask = mask;
+
+	temp.location = vec(0,0,0);
+
+  return temp;
+
+}
+
+
+float clamp(float value, float low, float high)
+{
+  if(value > high)
+  {
+    return high;
+  }
+  else if(value < low)
+  {
+    return low;
+  }
+  else
+  {
+    return value;
+  }
 }
