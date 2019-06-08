@@ -545,6 +545,10 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
 
     // NEW TRIANGLE ALGORITHM - based on the quadrilateral hexahedron function, it's more of a triangular prism
 
+    bool face1, face2, face3, face4, face5;   face1 = face2 = face3 = face4 = face5 = false;
+    vec testvec;
+
+
     vec triangle_center = ( v0 + v1 + v2 ) / 3.0f;
 
     vec triangle_normal_pos = normalize( cross( side1, side2 ) );
@@ -559,14 +563,11 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
     vec v2_up   = v2 + thickness * triangle_normal_pos;
     vec v2_down = v2 + thickness * triangle_normal_neg;
 
-    // ...
-
     // there are 5 planes to test against
 
       // the two triangular faces, face1 and face2
 
       // three sides, face3, face4 and face5
-
 
     vec face1_point = v0_up;
     vec face1_normal = triangle_normal_pos;
@@ -574,23 +575,64 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
     vec face2_point = v0_down;
     vec face2_normal = triangle_normal_neg;
 
-    // there's going to be a couple cross products to get the rest of them
+
+    // face3 is between v0 and v1
+    vec face3_point = v0;
+    vec face3_normal = cross( v0_up - v0_down, v0 - v1 );
+
+    // face4 is between v1 and v2
+    vec face4_point = v1;
+    vec face4_normal = cross( v1_up - v1_down, v1 - v2 );
+
+    // face5 is between v2 and v0
+    vec face5_point = v2;
+    vec face5_normal = cross( v2_up - v2_down, v2 - v0 );
 
 
+    //note on planetest:
+    // return false if the point is above the plane
+   	// return true if the point is below the plane
 
 
+    // these only have to run once, to confirm the normals are correct - they check a point
+    // that is known to be in the triangular prism - if the plane test fails, invert the normal
 
+    if( !planetest( face3_point, face3_normal, triangle_center ) )
+    {
+      face3_normal = -1.0f * face3_normal;
+    }
 
+    if( !planetest( face4_point, face4_normal, triangle_center ) )
+    {
+      face4_normal = -1.0f * face4_normal;
+    }
 
+    if( !planetest( face5_point, face5_normal, triangle_center ) )
+    {
+      face5_normal = -1.0f * face5_normal;
+    }
 
+    for( int x = 0; x < x_dim; x++ )
+    {
+      for( int y = 0; y < y_dim; y++ )
+      {
+        for( int z = 0; z < z_dim; z++ )
+        {
+          testvec = vec(x,y,z);
 
+          face1 = planetest( face1_point, face1_normal, testvec );
+          face2 = planetest( face2_point, face2_normal, testvec );
+          face3 = planetest( face3_point, face3_normal, testvec );
+          face4 = planetest( face4_point, face4_normal, testvec );
+          face5 = planetest( face5_point, face5_normal, testvec );
 
-
-
-
-
-
-
+          if( face1 && face2 && face3 && face4 && face5 )
+          {
+            draw_point(testvec,set,draw,mask);
+          }
+        }
+      }
+    }
  	}
 }
 
@@ -1033,6 +1075,8 @@ void Voraldo::draw_quadrilateral_hexahedron(vec a, vec b, vec c, vec d, vec e, v
 void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot, double scale, vec center_point, Vox vertex_material, double verticies_radius, Vox edge_material, double edge_thickness, Vox face_material,bool draw_faces, bool draw, bool mask)
 {
   double phi = (1 + std::sqrt(5.0))/2.0;
+  
+  float face_thickness = 1.5f;
 
 //rotation matricies allowing rotation of the polyhedron
  	mat rotation_x_axis;
@@ -1066,26 +1110,26 @@ void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot,
 
   if(draw_faces)
   {//draw the faces -
-    draw_triangle( a, g, e, face_material, draw, mask); //AGE
-    draw_triangle( a, i, e, face_material, draw, mask); //AIE
-    draw_triangle( a, c, i, face_material, draw, mask); //ACI
-    draw_triangle( a, c, k, face_material, draw, mask); //ACK
-    draw_triangle( a, g, k, face_material, draw, mask); //AGK
-    draw_triangle( l, b, g, face_material, draw, mask); //LBG
-    draw_triangle( l, g, k, face_material, draw, mask); //LGK
-    draw_triangle( l, f, k, face_material, draw, mask); //LFK
-    draw_triangle( l, d, f, face_material, draw, mask); //LDF
-    draw_triangle( l, d, b, face_material, draw, mask); //LDB
-    draw_triangle( k, f, c, face_material, draw, mask); //KFC
-    draw_triangle( f, h, c, face_material, draw, mask); //FHC
-    draw_triangle( h, i, c, face_material, draw, mask); //HIC
-    draw_triangle( e, j, i, face_material, draw, mask); //EJI
-    draw_triangle( b, g, e, face_material, draw, mask); //BGE
-    draw_triangle( f, h, d, face_material, draw, mask); //FHD
-    draw_triangle( d, h, j, face_material, draw, mask); //DHJ
-    draw_triangle( d, b, j, face_material, draw, mask); //DBJ
-    draw_triangle( b, j, e, face_material, draw, mask); //BJE
-    draw_triangle( h, i, j, face_material, draw, mask); //HIJ
+    draw_triangle( a, g, e, face_thickness, face_material, draw, mask); //AGE
+    draw_triangle( a, i, e, face_thickness, face_material, draw, mask); //AIE
+    draw_triangle( a, c, i, face_thickness, face_material, draw, mask); //ACI
+    draw_triangle( a, c, k, face_thickness, face_material, draw, mask); //ACK
+    draw_triangle( a, g, k, face_thickness, face_material, draw, mask); //AGK
+    draw_triangle( l, b, g, face_thickness, face_material, draw, mask); //LBG
+    draw_triangle( l, g, k, face_thickness, face_material, draw, mask); //LGK
+    draw_triangle( l, f, k, face_thickness, face_material, draw, mask); //LFK
+    draw_triangle( l, d, f, face_thickness, face_material, draw, mask); //LDF
+    draw_triangle( l, d, b, face_thickness, face_material, draw, mask); //LDB
+    draw_triangle( k, f, c, face_thickness, face_material, draw, mask); //KFC
+    draw_triangle( f, h, c, face_thickness, face_material, draw, mask); //FHC
+    draw_triangle( h, i, c, face_thickness, face_material, draw, mask); //HIC
+    draw_triangle( e, j, i, face_thickness, face_material, draw, mask); //EJI
+    draw_triangle( b, g, e, face_thickness, face_material, draw, mask); //BGE
+    draw_triangle( f, h, d, face_thickness, face_material, draw, mask); //FHD
+    draw_triangle( d, h, j, face_thickness, face_material, draw, mask); //DHJ
+    draw_triangle( d, b, j, face_thickness, face_material, draw, mask); //DBJ
+    draw_triangle( b, j, e, face_thickness, face_material, draw, mask); //BJE
+    draw_triangle( h, i, j, face_thickness, face_material, draw, mask); //HIJ
   }
 
 
@@ -1502,7 +1546,7 @@ void Voraldo::set_data_by_vector_index(vec index, Vox set, bool draw, bool mask,
 
 bool Voraldo::planetest(vec plane_point, vec plane_normal, vec test_point)
 {
- //return false if the point is above the plane
+  //return false if the point is above the plane
 	//return true if the point is below the plane
 
 	double result = 0.0;

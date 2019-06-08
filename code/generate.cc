@@ -184,15 +184,9 @@ int main()
   //
   // main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 200, main_block->get_vox( 15, 30, false ) );
   // main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 195, main_block->get_vox(  0,  0, false ) );
-  //
-
-
-
 
 
 //-----------------------------------------
-
-
 
 
 
@@ -218,23 +212,11 @@ int main()
   // ball_1_center = vec( ball_1_center[0]/3.0 + 24, ball_1_center[1]/3.0 - 4, ball_1_center[2]/3.0 + 3 );
   // ball_2_center = vec( ball_2_center[0]/3.0 + 24, ball_2_center[1]/3.0 - 4, ball_2_center[2]/3.0 - 3 );
 
-
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(19,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(19,255,false));
-
-  middle_front_point_1 += vec( 1, -1, 0);
-  middle_front_point_2 += vec( 1, -1, 0);
-
-  middle_back_point_1 += vec( -1, -1, 0);
-  middle_back_point_2 += vec( -1, -1, 0);
-
-  outer_point_1 += vec( -2, -2, 2);
-  outer_point_2 += vec( -2, -2, -2);
+  float face_thickness = 2.0f;
 
 
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,255,false));
-
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(19,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(19,255,false));
 
   middle_front_point_1 += vec( 1, -1, 0);
   middle_front_point_2 += vec( 1, -1, 0);
@@ -246,21 +228,8 @@ int main()
   outer_point_2 += vec( -2, -2, -2);
 
 
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,255,false));
-
-  middle_front_point_1 += vec( 1, -1, 0);
-  middle_front_point_2 += vec( 1, -1, 0);
-
-  middle_back_point_1 += vec( -1, -1, 0);
-  middle_back_point_2 += vec( -1, -1, 0);
-
-  outer_point_1 += vec( -2, -2, 2);
-  outer_point_2 += vec( -2, -2, -2);
-
-
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,255,false));
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(57,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(57,255,false));
 
 
   middle_front_point_1 += vec( 1, -1, 0);
@@ -273,8 +242,8 @@ int main()
   outer_point_2 += vec( -2, -2, -2);
 
 
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,255,false));
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(61,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(61,255,false));
 
   middle_front_point_1 += vec( 1, -1, 0);
   middle_front_point_2 += vec( 1, -1, 0);
@@ -286,8 +255,8 @@ int main()
   outer_point_2 += vec( -2, -2, -2);
 
 
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(57,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(57,255,false));
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(57,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(57,255,false));
 
 
   middle_front_point_1 += vec( 1, -1, 0);
@@ -300,8 +269,35 @@ int main()
   outer_point_2 += vec( -2, -2, -2);
 
 
-  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, main_block->get_vox(61,255,false));
-  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, main_block->get_vox(61,255,false));
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(61,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(61,255,false));
+
+  middle_front_point_1 += vec( 1, -1, 0);
+  middle_front_point_2 += vec( 1, -1, 0);
+
+  middle_back_point_1 += vec( -1, -1, 0);
+  middle_back_point_2 += vec( -1, -1, 0);
+
+  outer_point_1 += vec( -2, -2, 2);
+  outer_point_2 += vec( -2, -2, -2);
+
+
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(57,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(57,255,false));
+
+
+  middle_front_point_1 += vec( 1, -1, 0);
+  middle_front_point_2 += vec( 1, -1, 0);
+
+  middle_back_point_1 += vec( -1, -1, 0);
+  middle_back_point_2 += vec( -1, -1, 0);
+
+  outer_point_1 += vec( -2, -2, 2);
+  outer_point_2 += vec( -2, -2, -2);
+
+
+  main_block->draw_triangle( middle_front_point_1, middle_back_point_1, outer_point_1, face_thickness, main_block->get_vox(61,255,false));
+  main_block->draw_triangle( middle_front_point_2, middle_back_point_2, outer_point_2, face_thickness, main_block->get_vox(61,255,false));
 
 
   main_block->mask_all_nonzero();

@@ -184,7 +184,7 @@ class Voraldo{
 			void draw_line_segment(vec v1, vec v2, Vox set, bool draw=true, bool mask=false); //dump this in favor of the more flexible draw_cylinder
 			//draws a line segment from point1 to point2
 
-			void draw_triangle(vec v0, vec v1, vec v2, Vox set, bool draw=true, bool mask=false);
+			void draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bool draw=true, bool mask=false);
 			//draws a triangle between point 1, point 2 and point 3
 
 			void draw_sphere(vec center, double radius, Vox set, bool draw=true, bool mask=false);

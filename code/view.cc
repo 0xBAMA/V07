@@ -103,7 +103,7 @@ const int image_height = 768;
 const int image_width = 1366;
 
 
-// verticies - RADEON
+// verticies
 const int NumVertices = 3000000;
 
 
@@ -155,30 +155,6 @@ void generate_points()
 	PerlinNoise p;
 
 	GLfloat increment = 1.0/256.0;
-
-	// for( GLfloat x = -1.0; x <= 1.0 ; x += increment )
-	// {
-	// 	for ( GLfloat y = -0.5; y <= 0.5; y += increment )
-	// 	{
-	// 		for( GLfloat z = -0.5; z <= 0.5; z += increment )
-	//
-	// 		//	if( p.noise( 10*x, 10*y, 10*z ) > 0.5 && p.noise( 10*x, 10*y, 10*z ) < 0.75)
-	// 			{
-	//
-	// 				// the x and y values here will be used as texture coordinates, taking advantage of wrapping
-	// 				points[Index] = point4( x, y, z, 1.0);
-	//
-	//
-	// 				// colors[Index] = color4( p.noise( 10*x, 10*y, 10*z ), 0.7*p.noise( 10*x, 10*y, 10*z ), 0.3*p.noise( 10*x, 10*y, 10*z ), p.noise( 10*x, 10*y, 10*z ));
-	// 				colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
-	//
-	//
-	//
-	// 				Index++;
-	//
-	// 			}
-	// 	}
-	// }
 
 	current_offset = 0;
 
@@ -234,10 +210,15 @@ void generate_points()
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
+
+			cout << "\rgenerate_points() produced " << Index << " points";
+
 			offsets[current_offset] = x;
 			current_offset++;
 
 		}
+
+		cout << endl;
 
 
 		current_offset = 0;
@@ -520,15 +501,15 @@ void keyboard( unsigned char key, int x, int y )
 
 void mouse( int button, int state, int x, int y )
 {
-    if ( state == GLUT_DOWN )
+  if ( state == GLUT_DOWN )
+	{
+		switch( button )
 		{
-			switch( button )
-			{
-			    case GLUT_LEFT_BUTTON:    Axis = Xaxis;  break;
-			    case GLUT_MIDDLE_BUTTON:  Axis = Yaxis;  break;
-			    case GLUT_RIGHT_BUTTON:   Axis = Zaxis;  break;
-			}
-    }
+		    case GLUT_LEFT_BUTTON:    Axis = Xaxis;  break;
+		    case GLUT_MIDDLE_BUTTON:  Axis = Yaxis;  break;
+		    case GLUT_RIGHT_BUTTON:   Axis = Zaxis;  break;
+		}
+  }
 }
 
 //----------------------------------------------------------------------------
@@ -589,7 +570,7 @@ int main( int argc, char **argv )
 	glutCreateWindow( "GLUT Window" );
 	glutFullScreen();
 
-	std::cout << "\rGLUT Initialization Complete." << std::endl;
+	cout << "\rGLUT Initialization Complete." << endl;
 
 
 	glewExperimental = GL_TRUE;
@@ -598,20 +579,18 @@ int main( int argc, char **argv )
 	cout << "OpenGL Context established, version is: " << glGetString(GL_VERSION) << endl;
 
 
-	std::cout << "Shader Compilation Starting...";
+	cout << "Shader Compilation Starting...";
 
 	Shader theShader( "../resources/shaders/vertex_textures3d.glsl", "../resources/shaders/fragment_textures3d.glsl" );
 
-	std::cout << "\rShader Compilation Complete.  " << std::endl;
+	cout << "\rShader Compilation Complete.  " << endl;
 
 
-	std::cout << "Generating Geometry";
+	cout << "Generating Geometry";
 
   init( theShader );
 
-	std::cout << "\rInitialization done." << std::endl;
-	std::cout << "generate_points() produced " << Index << " points" << std::endl;
-
+	cout << "\rInitialization done." << endl;
 
 
   glutDisplayFunc( display );
