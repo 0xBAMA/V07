@@ -568,6 +568,15 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
       // three sides, face3, face4 and face5
 
 
+    vec face1_point = v0_up;
+    vec face1_normal = triangle_normal_pos;
+
+    vec face2_point = v0_down;
+    vec face2_normal = triangle_normal_neg;
+
+    // there's going to be a couple cross products to get the rest of them
+
+
 
 
 
