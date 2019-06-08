@@ -80,7 +80,10 @@ class Voraldo{
 			Voraldo();
 			~Voraldo();
 
-			vector<Vox> data;
+			// vector<Vox> data;
+
+			vector<vector<vector<Vox>>> data;
+
 			vector<RGBA> palette;
 	//-----------------------------------------
 	    //block dimensions - get & set functions

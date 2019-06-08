@@ -134,7 +134,7 @@ color4 colors[NumVertices];
 
 
 //silly thing
-const int num_offsets = 600;
+const int num_offsets = 512;
 int current_offset;
 float offsets[num_offsets];
 
@@ -240,18 +240,13 @@ void generate_points()
 		}
 
 
-		for( int i = current_offset; i < num_offsets; i++ )
-		{
-			offsets[i] = 2.0;
-		}
-
 		current_offset = 0;
 	//done
 }
 
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../resources/stb_image.h"
+#include "../resources/stb_image.h" //used to load texture into GPU memory
 
 
 GLuint texture; //handle for the texture
@@ -281,8 +276,8 @@ void init( Shader s )
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
 
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -291,15 +286,15 @@ void init( Shader s )
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
 		// This one looks the best
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 
 		// load and generate the texture
 		int width, height, nrChannels;
 		// unsigned char *data = stbi_load("big grid.png", &width, &height, &nrChannels, 0);
 		unsigned char *data = stbi_load("save.png", &width, &height, &nrChannels, 0);
+
 
 		if (data)
 		{
@@ -311,7 +306,6 @@ void init( Shader s )
 		    std::cout << "Failed to load texture" << std::endl;
 		}
 		stbi_image_free(data);
-
 
 
 
@@ -335,6 +329,7 @@ void init( Shader s )
 		s.Use();
 
 
+
     // set up vertex arrays
 
 		// vertex locations
@@ -349,7 +344,8 @@ void init( Shader s )
     glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*) (sizeof(points)) );
 
 
-		cout << sizeof( points );
+		cout << "attrib stuff done" << endl;
+
 
 
 		// uniform value for rotation
@@ -474,6 +470,7 @@ void keyboard( unsigned char key, int x, int y )
 			show_frame_time = show_frame_time ? false : true;
 			break;
 
+			//ZOOM
 		  case 's':
 				 left *= 1.1;
 				 right *= 1.1;
@@ -499,6 +496,25 @@ void keyboard( unsigned char key, int x, int y )
 
 				 glUniformMatrix4fv( ortho_matrix_loc, 1, GL_FALSE,  glm::value_ptr( Projection ) );
 				break;
+
+
+			//MOVE THE SLICE
+			case '[':
+				current_offset+=1;
+
+				if(current_offset >= num_offsets)
+					current_offset = 0;
+
+				break;
+
+			case ']':
+				current_offset-=1;
+
+				if(current_offset < 0)
+					current_offset = num_offsets-1;
+
+				break;
+
     }
 }
 
@@ -519,34 +535,34 @@ void mouse( int button, int state, int x, int y )
 
 //----------------------------------------------------------------------------
 
-void idle( void )
+void timer(int)
 {
 
-		if( rotate ){
-			if( rotation_direction ){
-				Theta[Axis] += 0.5;
+	if( rotate ){
+		if( rotation_direction ){
+			Theta[Axis] += 0.5;
 
-				if ( Theta[Axis] > 360.0 ) {
-						Theta[Axis] -= 360.0;
-				}
-			}else{ //rotate the other way
-				Theta[Axis] -= 0.5;
+			if ( Theta[Axis] > 360.0 ) {
+					Theta[Axis] -= 360.0;
+			}
+		}else{ //rotate the other way
+			Theta[Axis] -= 0.5;
 
-				if ( Theta[Axis] < 0.0 ) {
-						Theta[Axis] += 360.0;
-				}
+			if ( Theta[Axis] < 0.0 ) {
+					Theta[Axis] += 360.0;
 			}
 		}
+	}
 
+	glutPostRedisplay();
+	glutTimerFunc(1000.0/60.0, timer, 0);
+}
 
-		current_offset+=1;
+//----------------------------------------------------------------------------
 
-		if(current_offset >= num_offsets)
-		{
-			current_offset = 0;
-		}
-
-    glutPostRedisplay();
+void idle( void )
+{
+	// glutPostRedisplay();
 }
 
 //----------------------------------------------------------------------------
@@ -605,6 +621,7 @@ int main( int argc, char **argv )
   glutKeyboardFunc( keyboard );
   glutMouseFunc( mouse );
   glutIdleFunc( idle );
+	glutTimerFunc(1000.0/60.0, timer, 0);
 
   glutMainLoop();
 

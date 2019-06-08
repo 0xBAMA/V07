@@ -309,22 +309,72 @@ void Voraldo::init_block(vec dimensions)
 
 	num_cells = x_dim * y_dim * z_dim;
 
-	data.resize( num_cells + 1 );
+  data.resize(x_dim);
 
-	Vox temp;
+  for( int i = 0; i < x_dim; i++ )
+  {
 
-	for( int x = 0; x < x_dim; x++ )
-	{
-		for( int y = 0; y < y_dim; y++ )
-		{
-			for( int z = 0; z < z_dim; z++ )
-			{
-				temp.mask = false;
-				temp.color = palette[0];
-				temp.location = vec(x,y,z);
-			}
-		}
-	}
+    data[i].resize(y_dim);
+
+    for( int j = 0; j < y_dim; j++ )
+      data[i][j].resize(z_dim);
+
+  }
+
+  for( int x = 0; x < x_dim; x++ )
+  {
+    for( int y = 0; y < y_dim; y++ )
+    {
+      for( int z = 0; z < z_dim; z++ )
+      {
+        data[x][y][z].location = vec(x,y,z);
+
+        // data[x][y][z].color.red = x/2;
+        // data[x][y][z].color.green = y;
+        // data[x][y][z].color.blue = z;
+        // data[x][y][z].color.alpha = 100;
+
+        data[x][y][z].color.red   = 0;
+        data[x][y][z].color.green = 0;
+        data[x][y][z].color.blue  = 0;
+        data[x][y][z].color.alpha = 0;
+
+
+        data[x][y][z].mask = false;
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// data.resize( num_cells + 1 );
+  //
+	// Vox temp;
+  //
+	// for( int x = 0; x < x_dim; x++ )
+	// {
+	// 	for( int y = 0; y < y_dim; y++ )
+	// 	{
+	// 		for( int z = 0; z < z_dim; z++ )
+	// 		{
+	// 			temp.mask = false;
+	// 			temp.color = palette[0];
+	// 			temp.location = vec(x,y,z);
+	// 		}
+	// 	}
+	// }
 }// init_block does need a nested for loop
 
 void Voraldo::clear_all()
@@ -332,13 +382,19 @@ void Voraldo::clear_all()
   //  first - deliberately do not unmask - there is a separate function for that operation - mask_unmask_all()
   //  second - this relies upon the state of the mask variables for each cell, a masked cell is not cleared
 
-   for(int i = 0; i < num_cells; i++)
-   {
-     if(!data.at(i).mask)
-     {
-      data.at(i).color = {  0,  0,  0,  0};
-     }
-   }
+  for( int x = 0; x < x_dim; x++ )
+  {
+    for( int y = 0; y < y_dim; y++ )
+    {
+      for( int z = 0; z < z_dim; z++ )
+      {
+        if(!data[x][y][z].mask)
+        {
+          data[x][y][z].color = {  0,  0,  0,  0};
+        }
+      }
+    }
+  }
 }
 
 void Voraldo::mask_unmask_all()
@@ -347,11 +403,16 @@ void Voraldo::mask_unmask_all()
   // j["type"] = "unmask_all";
   // std::cout << j.dump() << endl;
 
-
- for(int i = 0; i < num_cells; i++)
- {
-  data.at(i).mask = false;
- }
+  for( int x = 0; x < x_dim; x++ )
+  {
+    for( int y = 0; y < y_dim; y++ )
+    {
+      for( int z = 0; z < z_dim; z++ )
+      {
+        data[x][y][z].mask = false;
+      }
+    }
+  }
 }
 
 void Voraldo::mask_invert_mask()
@@ -360,31 +421,49 @@ void Voraldo::mask_invert_mask()
   // j["type"] = "invert_mask";
   // std::cout << j.dump() << endl;
 
- for(int i = 0; i < num_cells; i++)
- {
-  data.at(i).mask = data.at(i).mask ? false:true;
- }
+  for( int x = 0; x < x_dim; x++ )
+  {
+    for( int y = 0; y < y_dim; y++ )
+    {
+      for( int z = 0; z < z_dim; z++ )
+      {
+        data[x][y][z].mask = data[x][y][z].mask ? false:true;
+      }
+    }
+  }
 }
 
 void Voraldo::mask_all_nonzero()
 {
- for(int i = 0; i < num_cells; i++)
+ for( int x = 0; x < x_dim; x++ )
  {
-  if( !compare_colors( data.at(i).color, {  0,  0,  0,  0} ) )
-  {
-   data.at(i).mask = true;
-  }
+   for( int y = 0; y < y_dim; y++ )
+   {
+     for( int z = 0; z < z_dim; z++ )
+     {
+       if( !compare_colors( data[x][y][z].color, {  0,  0,  0,  0} ) )
+       {
+         data[x][y][z].mask = true;
+       }
+     }
+   }
  }
 }
 
 void Voraldo::mask_by_state(unsigned char s)
 {
- for(int i = 0; i < num_cells; i++)
+ for( int x = 0; x < x_dim; x++ )
  {
-  if( compare_colors( data.at(i).color, palette[s] ) )
-  {
-   data.at(i).mask = true;
-  }
+   for( int y = 0; y < y_dim; y++ )
+   {
+     for( int z = 0; z < z_dim; z++ )
+     {
+       if( compare_colors( data[x][y][z].color, palette[s] ) )
+       {
+         data[x][y][z].mask = true;
+       }
+     }
+   }
  }
 }
 
@@ -408,13 +487,13 @@ void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask
 
 	PerlinNoise p;
 
-  for(Vox i : data)
-  {
-    if(p.noise(0.1*i.location.x,0.1*i.location.y,0.1*i.location.z)<0.85)
-    {
-      draw_point(i.location,get_vox(12,alpha,false),draw,mask);
-    }
-  }
+  // for(Vox i : data)
+  // {
+  //   if(p.noise(0.1*i.location.x,0.1*i.location.y,0.1*i.location.z)<0.85)
+  //   {
+  //     draw_point(i.location,get_vox(12,alpha,false),draw,mask);
+  //   }
+  // }
 }
 
 void Voraldo::draw_point(vec point, Vox set, bool draw, bool mask)
@@ -607,7 +686,7 @@ void Voraldo::draw_cylinder(vec bvec, vec tvec, double radius, Vox set, bool dra
 					point_to_line_distance = glm::length(cross(tvec-bvec,bvec-vec(i,j,k)))/glm::length(tvec-bvec);
 					if(point_to_line_distance <= radius)
           {
-            //cout << "point to line distance test passed" << endl;
+            // cout << "point to line distance test passed" << endl;
             index = vec(i,j,k);
 						draw_point(index,set,draw,mask);
 					}
@@ -1121,15 +1200,19 @@ void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot,
 
 Vox Voraldo::get_data_by_vector_index(vec index)
 {
-  //std::cout << "beginning" << endl;
-  int data_index = index[2]*y_dim*x_dim + index[1]*x_dim + index[0];
-  //std::cout << "index calculated" << endl;
+  int x,y,z;
 
-  bool x_valid = index[0] < x_dim && index[0] >= 0;
-  bool y_valid = index[1] < y_dim && index[1] >= 0;
-  bool z_valid = index[2] < z_dim && index[2] >= 0;
+  x = (int) index[0];
+  y = (int) index[1];
+  z = (int) index[2];
+
+
+  bool x_valid = ( x < x_dim && x >= 0 );
+  bool y_valid = ( y < y_dim && y >= 0 );
+  bool z_valid = ( z < z_dim && z >= 0 );
 
   bool point_valid = x_valid && y_valid && z_valid;
+
 
   //std::cout << "the index is " << index[0] << " " << index[1] << " " << index[2] << endl;
 
@@ -1137,7 +1220,7 @@ Vox Voraldo::get_data_by_vector_index(vec index)
 
 
   if(point_valid)
-   return data.at(data_index);
+   return data[x][y][z];
   else
   {
     Vox default_val;
@@ -1149,28 +1232,35 @@ Vox Voraldo::get_data_by_vector_index(vec index)
 
 void Voraldo::set_data_by_vector_index(vec index, Vox set, bool draw, bool mask, bool force)
 {
- int data_index = index[2]*y_dim*x_dim + index[1]*x_dim + index[0];
+ // int data_index = index[2]*y_dim*x_dim + index[1]*x_dim + index[0];
 
- bool x_valid = index[0] < x_dim && index[0] >= 0;
- bool y_valid = index[1] < y_dim && index[1] >= 0;
- bool z_valid = index[2] < z_dim && index[2] >= 0;
+ int x,y,z;
+
+ x = (int) index[0];
+ y = (int) index[1];
+ z = (int) index[2];
+
+
+ bool x_valid = ( x < x_dim && x >= 0 );
+ bool y_valid = ( y < y_dim && y >= 0 );
+ bool z_valid = ( z < z_dim && z >= 0 );
 
  bool point_valid = x_valid && y_valid && z_valid;
 
  if(point_valid)
  {
-  if(!data.at(data_index).mask)
+  if(!data[x][y][z].mask)
   {
    if(draw)
    {
-    data.at(data_index) = set;
+    data[x][y][z] = set;
    }
-    data.at(data_index).mask = mask; //this takes precedence over the Vox value of mask
+    data[x][y][z].mask = mask; //this takes precedence over the Vox value of mask
   }
 
   if(force)
   {
-    data.at(data_index) = set;
+    data[x][y][z] = set;
   }
  }
 }

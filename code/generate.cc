@@ -102,128 +102,113 @@ int main()
 
 
 // STAR TREK EQUIPMENT FIXTURE
-  // vec a,b,c,d,e,f,g,h,v;
-  //
-  // a = vec( 245,225,225 );
-  // b = vec( 245, 30,225 );
-  // c = vec( 270,225,225 );
-  // d = vec( 270, 30,225 );
-  // e = vec( 245,225, 30 );
-  // f = vec( 245, 30, 30 );
-  // g = vec( 270,225, 30 );
-  // h = vec( 270, 30, 30 );
-  //
-  // v = vec( 100,  0,  0 );
-  //
-  // main_block->draw_quadrilateral_hexahedron(   a,   b,   c,   d,   e,   f,   g,   h, main_block->get_vox( 62, 255, false ) );
-  // main_block->draw_quadrilateral_hexahedron( a+v, b+v, c+v, d+v, e+v, f+v, g+v, h+v, main_block->get_vox( 62, 255, false ) );
-  // main_block->draw_quadrilateral_hexahedron( a-v, b-v, c-v, d-v, e-v, f-v, g-v, h-v, main_block->get_vox( 62, 255, false ) );
-  //
-  //
-  // a = vec( 254,225,225 );
-  // b = vec( 254, 30,225 );
-  // c = vec( 259,225,225 );
-  // d = vec( 259, 30,225 );
-  // e = vec( 254,225, 30 );
-  // f = vec( 254, 30, 30 );
-  // g = vec( 259,225, 30 );
-  // h = vec( 259, 30, 30 );
-  //
-  // main_block->draw_quadrilateral_hexahedron(   a,   b,   c,   d,   e,   f,   g,   h, main_block->get_vox(  8, 255, false ) );
-  // main_block->draw_quadrilateral_hexahedron( a+v, b+v, c+v, d+v, e+v, f+v, g+v, h+v, main_block->get_vox(  8, 255, false ) );
-  // main_block->draw_quadrilateral_hexahedron( a-v, b-v, c-v, d-v, e-v, f-v, g-v, h-v, main_block->get_vox(  8, 255, false ) );
-  //
-  //
-  //
-  // main_block->mask_all_nonzero();
-  //
-  // main_block->mask_invert_mask();
-  //
-  // main_block->draw_cylinder( vec( 130,  60,   60), vec( 390,  60,   60), 15, main_block->get_vox( 12, 5, false ) );
-  // main_block->draw_cylinder( vec( 130,  95,   60), vec( 390,  95,   60), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 127.5, 60), vec( 390, 127.5, 60), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 160,   60), vec( 390, 160,   60), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 195,   60), vec( 390, 195,   60), 15, main_block->get_vox( 12, 5, false ) );
-  //
-  // main_block->draw_cylinder( vec( 130,  60,   195), vec( 390,  60,   195), 15, main_block->get_vox( 12, 5, false ) );
-  // main_block->draw_cylinder( vec( 130,  95,   195), vec( 390,  95,   195), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 127.5, 195), vec( 390, 127.5, 195), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 160,   195), vec( 390, 160,   195), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 195,   195), vec( 390, 195,   195), 15, main_block->get_vox( 12, 5, false ) );
-  //
-  //
-  //
-  // main_block->draw_cylinder( vec( 130, 195, 160  ), vec( 390, 195, 160  ), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 195, 127.5), vec( 390, 195, 127.5), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 195,  95  ), vec( 390,195,   95  ), 10, main_block->get_vox( 11, 5, false ) );
-  //
-  // main_block->draw_cylinder( vec( 130, 60, 160  ), vec( 390, 60, 160  ), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 60, 127.5), vec( 390, 60, 127.5), 10, main_block->get_vox( 11, 5, false ) );
-  // main_block->draw_cylinder( vec( 130, 60,  95  ), vec( 390, 60,  95  ), 10, main_block->get_vox( 11, 5, false ) );
-  //
-  //
-  //
-  // main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ), 25, main_block->get_vox( 34, 5, false ) );
-  // main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ) + v, 25, main_block->get_vox( 34, 5, false ) );
-  // main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ) - v, 25, main_block->get_vox( 34, 5, false ) );
-  //
-  // main_block->mask_unmask_all();
-  //
-  // main_block->draw_cylinder( vec( 390,225,225 ), vec( 130,225,225 ), 5, main_block->get_vox( 18, 200, false ) );
-  // main_block->draw_cylinder( vec( 390, 30,225 ), vec( 130, 30,225 ), 5, main_block->get_vox( 18, 200, false ) );
-  // main_block->draw_cylinder( vec( 390,225, 30 ), vec( 130,225, 30 ), 5, main_block->get_vox( 18, 200, false ) );
-  // main_block->draw_cylinder( vec( 390, 30, 30 ), vec( 130, 30, 30 ), 5, main_block->get_vox( 18, 200, false ) );
-  //
-  // main_block->draw_tube( vec( 405, 127.5, 127.5), vec( 102, 127.5, 127.5), 10, 15, main_block->get_vox( 19, 200, false ) );
-  //
-  // main_block->mask_all_nonzero();
-  //
-  // main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 200, main_block->get_vox( 15, 1, false ) );
-  //
+  vec a,b,c,d,e,f,g,h,v;
+
+  a = vec( 250,225,225 );
+  b = vec( 250, 30,225 );
+  c = vec( 270,225,225 );
+  d = vec( 270, 30,225 );
+  e = vec( 250,225, 30 );
+  f = vec( 250, 30, 30 );
+  g = vec( 270,225, 30 );
+  h = vec( 270, 30, 30 );
+
+  v = vec( 100,  0,  0 );
+
+  main_block->draw_quadrilateral_hexahedron(   a,   b,   c,   d,   e,   f,   g,   h, main_block->get_vox( 62, 255, false ) );
+  main_block->draw_quadrilateral_hexahedron( a+v, b+v, c+v, d+v, e+v, f+v, g+v, h+v, main_block->get_vox( 62, 255, false ) );
+  main_block->draw_quadrilateral_hexahedron( a-v, b-v, c-v, d-v, e-v, f-v, g-v, h-v, main_block->get_vox( 62, 255, false ) );
+
+
+  a = vec( 258,225,225 );
+  b = vec( 258, 30,225 );
+  c = vec( 262,225,225 );
+  d = vec( 262, 30,225 );
+  e = vec( 258,225, 30 );
+  f = vec( 258, 30, 30 );
+  g = vec( 262,225, 30 );
+  h = vec( 262, 30, 30 );
+
+  main_block->draw_quadrilateral_hexahedron(   a,   b,   c,   d,   e,   f,   g,   h, main_block->get_vox(  8, 255, false ) );
+  main_block->draw_quadrilateral_hexahedron( a+v, b+v, c+v, d+v, e+v, f+v, g+v, h+v, main_block->get_vox(  8, 255, false ) );
+  main_block->draw_quadrilateral_hexahedron( a-v, b-v, c-v, d-v, e-v, f-v, g-v, h-v, main_block->get_vox(  8, 255, false ) );
 
 
 
+  main_block->mask_all_nonzero();
 
-//testing aliasing issue
+  main_block->mask_invert_mask();
 
-for( int x = 0; x < init_x; x+=2 )
-{
-  for( int y = 0; y < init_y; y+=2 )
-  {
-    for( int z = 0; z < init_z; z+=2 )
-    {
-      main_block->draw_point( vec( x, y, z ), main_block->get_vox( 19, 255, false ) );
-    }
-  }
-}
+  main_block->draw_cylinder( vec( 130,  60,   60), vec( 390,  60,   60), 15, main_block->get_vox( 12, 5, false ) );
+  main_block->draw_cylinder( vec( 130,  95,   60), vec( 390,  95,   60), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 127.5, 60), vec( 390, 127.5, 60), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 160,   60), vec( 390, 160,   60), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 195,   60), vec( 390, 195,   60), 15, main_block->get_vox( 12, 5, false ) );
+
+  main_block->draw_cylinder( vec( 130,  60,   195), vec( 390,  60,   195), 15, main_block->get_vox( 12, 5, false ) );
+  main_block->draw_cylinder( vec( 130,  95,   195), vec( 390,  95,   195), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 127.5, 195), vec( 390, 127.5, 195), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 160,   195), vec( 390, 160,   195), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 195,   195), vec( 390, 195,   195), 15, main_block->get_vox( 12, 5, false ) );
+
+
+
+  main_block->draw_cylinder( vec( 130, 195, 160  ), vec( 390, 195, 160  ), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 195, 127.5), vec( 390, 195, 127.5), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 195,  95  ), vec( 390,195,   95  ), 10, main_block->get_vox( 11, 5, false ) );
+
+  main_block->draw_cylinder( vec( 130, 60, 160  ), vec( 390, 60, 160  ), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 60, 127.5), vec( 390, 60, 127.5), 10, main_block->get_vox( 11, 5, false ) );
+  main_block->draw_cylinder( vec( 130, 60,  95  ), vec( 390, 60,  95  ), 10, main_block->get_vox( 11, 5, false ) );
+
+
+
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ), 25, main_block->get_vox( 34, 5, false ) );
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ) + v, 25, main_block->get_vox( 34, 5, false ) );
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5 ) - v, 25, main_block->get_vox( 34, 5, false ) );
+
+  main_block->mask_unmask_all();
+
+  main_block->draw_cylinder( vec( 390,225,225 ), vec( 130,225,225 ), 5, main_block->get_vox( 18, 200, false ) );
+  main_block->draw_cylinder( vec( 390, 30,225 ), vec( 130, 30,225 ), 5, main_block->get_vox( 18, 200, false ) );
+  main_block->draw_cylinder( vec( 390,225, 30 ), vec( 130,225, 30 ), 5, main_block->get_vox( 18, 200, false ) );
+  main_block->draw_cylinder( vec( 390, 30, 30 ), vec( 130, 30, 30 ), 5, main_block->get_vox( 18, 200, false ) );
+
+  main_block->draw_tube( vec( 405, 127.5, 127.5), vec( 102, 127.5, 127.5), 10, 15, main_block->get_vox( 19, 200, false ) );
+
+  main_block->mask_all_nonzero();
+
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 200, main_block->get_vox( 15, 30, false ) );
+  main_block->draw_sphere( vec( 255.5, 127.5, 127.5), 195, main_block->get_vox( 15,  0, false ) );
+
 
 
 
 
 // FRAMING
 
-  bool draw_axes = false;
+  bool draw_axes = true;
 
   if( draw_axes )
   {
 
 // along the x axes
-  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),0.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),0.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),0.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),0.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),1.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),1.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),1.5, main_block->get_vox(1,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),1.5, main_block->get_vox(1,255,false));
 
 // along the y axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),0.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),0.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),0.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),0.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),1.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),1.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
+  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
 
 // along the z axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),0.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),0.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),0.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),0.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),1.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),1.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
+  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
 
 // points at the corners
   main_block->draw_point(vec(0,0,0), main_block->get_vox(62,255,false));
