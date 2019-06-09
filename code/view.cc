@@ -279,6 +279,7 @@ void init( Shader s )
 
 		if (data)
 		{
+			//this will seg fault if every pixel has alpha = 0 or alpha = 255
 		    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		    glGenerateMipmap(GL_TEXTURE_3D);
 		}
@@ -286,7 +287,7 @@ void init( Shader s )
 		{
 		    std::cout << "Failed to load texture" << std::endl;
 		}
-		
+
 		stbi_image_free(data);
 
 

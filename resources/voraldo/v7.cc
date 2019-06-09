@@ -276,9 +276,7 @@ void Voraldo::init_block(vec dimensions)
       for( int z = 0; z < z_dim; z++ )
       {//per voxel
 
-        data[x][y][z].location = vec(x,y,z);
-
-        // data[x][y][z].color.red = x/2;
+       	// data[x][y][z].color.red = x/2;
         // data[x][y][z].color.green = y;
         // data[x][y][z].color.blue = z;
         // data[x][y][z].color.alpha = 100;
@@ -1686,8 +1684,6 @@ Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
   temp.color = palette[palette_number];
   temp.color.alpha = alpha;
   temp.mask = mask;
-
-	temp.location = vec(0,0,0);
 
   return temp;
 
