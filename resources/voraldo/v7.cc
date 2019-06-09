@@ -274,7 +274,8 @@ void Voraldo::init_block(vec dimensions)
     for( int y = 0; y < y_dim; y++ )
     {
       for( int z = 0; z < z_dim; z++ )
-      {
+      {//per voxel
+
         data[x][y][z].location = vec(x,y,z);
 
         // data[x][y][z].color.red = x/2;
@@ -335,7 +336,8 @@ void Voraldo::clear_all()
     for( int y = 0; y < y_dim; y++ )
     {
       for( int z = 0; z < z_dim; z++ )
-      {
+      {// per voxel
+
         if(!data[x][y][z].mask)
         {
           data[x][y][z].color = {  0,  0,  0,  0};
@@ -363,7 +365,8 @@ void Voraldo::mask_unmask_all()
     for( int y = 0; y < y_dim; y++ )
     {
       for( int z = 0; z < z_dim; z++ )
-      {
+      {//per voxel
+
         data[x][y][z].mask = false;
       }
     }
@@ -381,7 +384,8 @@ void Voraldo::mask_invert_mask()
     for( int y = 0; y < y_dim; y++ )
     {
       for( int z = 0; z < z_dim; z++ )
-      {
+      {//per voxel
+
         data[x][y][z].mask = data[x][y][z].mask ? false:true;
       }
     }
@@ -397,7 +401,8 @@ void Voraldo::mask_all_nonzero()
      for( int z = 0; z < z_dim; z++ )
      {
        if( !compare_colors( data[x][y][z].color, {  0,  0,  0,  0} ) )
-       {
+       {//per voxel
+
          data[x][y][z].mask = true;
        }
      }
@@ -412,7 +417,8 @@ void Voraldo::mask_by_state(unsigned char s)
    for( int y = 0; y < y_dim; y++ )
    {
      for( int z = 0; z < z_dim; z++ )
-     {
+     {//per voxel
+
        if( compare_colors( data[x][y][z].color, palette[s] ) )
        {
          data[x][y][z].mask = true;
@@ -429,8 +435,11 @@ void Voraldo::mask_by_state(unsigned char s)
 //   |____|    |____|_  /___\____|__  /___| |____|   |___|  \___/   /_______  /_______  /
 //                    \/            \/                                      \/        \/
 
-void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask)
+void Voraldo::draw_perlin_noise(float scale, float threshold, Vox set, bool draw, bool mask)
 {
+  // old version
+  //
+  // void Voraldo::draw_perlin_noise(/*int seed, unsigned char alpha*/ Vox set, bool draw, bool mask)
   // std::srand(seed);
   // for(int i = 0; i < num_cells; i++)
   // {
@@ -449,18 +458,25 @@ void Voraldo::draw_noise(/*int seed,*/ unsigned char alpha, bool draw, bool mask
 
 	PerlinNoise p;
 
-  // for(Vox i : data)
-  // {
-  //   if(p.noise(0.1*i.location.x,0.1*i.location.y,0.1*i.location.z)<0.85)
-  //   {
-  //     draw_point(i.location,get_vox(12,alpha,false),draw,mask);
-  //   }
-  // }
+  for( int x = 0; x < x_dim; x++ )
+  {
+    for( int y = 0; y < y_dim; y++ )
+    {
+      for( int z = 0; z < z_dim; z++ )
+      {//per voxel
+
+        if( p.noise( scale*x, scale*y, scale*z ) < threshold )
+        {
+          draw_point( vec( x, y, z ), set, draw, mask );
+        }
+      }
+    }
+  }
 }
 
 void Voraldo::draw_point(vec point, Vox set, bool draw, bool mask)
 {
- set_data_by_vector_index(point,set,draw,mask);
+  set_data_by_vector_index(point,set,draw,mask);
 }
 
 void Voraldo::draw_line_segment(vec v1, vec v2, Vox set, bool draw, bool mask)
@@ -522,7 +538,7 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
  	}
   else
   {
-    // // legacy triangle algorithm
+    // // legacy triangle algorithm - has a lot of artifacts
  		// side1 = side1/length;
  		// side2 = side2/length;
     //
@@ -617,7 +633,8 @@ void Voraldo::draw_triangle(vec v0, vec v1, vec v2, float thickness, Vox set, bo
       for( int y = 0; y < y_dim; y++ )
       {
         for( int z = 0; z < z_dim; z++ )
-        {
+        {//per voxel
+
           testvec = vec(x,y,z);
 
           face1 = planetest( face1_point, face1_normal, testvec );
@@ -645,7 +662,8 @@ void Voraldo::draw_sphere(vec center_point, double radius, Vox set, bool draw, b
  		for(int j = 0; j < y_dim; j++)
  		{
  			for(int k = 0; k < z_dim; k++)
- 			{
+ 			{//per voxel
+
  				double testx = (i-center_point[0])*(i-center_point[0]);	//apply offsets and square
  				double testy = (j-center_point[1])*(j-center_point[1]);
  				double testz = (k-center_point[2])*(k-center_point[2]);
@@ -662,13 +680,15 @@ void Voraldo::draw_sphere(vec center_point, double radius, Vox set, bool draw, b
 
 void Voraldo::draw_ellipsoid(vec center_point, vec radii, Vox set, bool draw, bool mask)
 {
- vec index;
- for(int i = 0; i < x_dim; i++)
+  vec index;
+
+  for(int i = 0; i < x_dim; i++)
  	{
  		for(int j = 0; j < y_dim; j++)
  		{
  			for(int k = 0; k < z_dim; k++)
- 			{
+ 			{//per voxel
+
  				double testx = (i-center_point[0])*(i-center_point[0]);	//apply offsets and square
  				double testy = (j-center_point[1])*(j-center_point[1]);
  				double testz = (k-center_point[2])*(k-center_point[2]);
@@ -706,9 +726,13 @@ void Voraldo::draw_cylinder(vec bvec, vec tvec, double radius, Vox set, bool dra
 
  vec index;
 
-	for(int i = 0; i < x_dim; i++){
-		for(int j = 0; j < y_dim; j++){
-			for(int k = 0; k < z_dim; k++){
+	for(int i = 0; i < x_dim; i++)
+  {
+		for(int j = 0; j < y_dim; j++)
+    {
+			for(int k = 0; k < z_dim; k++)
+      {//per voxel
+
 				//planetests
 				bplanetest = ba * (i - bx0) + bb * (j - by0) + bc * (k - bz0);
 				tplanetest = ta * (i - tx0) + tb * (j - ty0) + tc * (k - tz0);
@@ -762,9 +786,13 @@ void Voraldo::draw_tube(vec bvec, vec tvec, double inner_radius, double outer_ra
  	double point_to_line_distance = 0.0;
   vec index;
 
- 	for(int i = 0; i < x_dim; i++){
- 		for(int j = 0; j < y_dim; j++){
- 			for(int k = 0; k < z_dim; k++){
+ 	for(int i = 0; i < x_dim; i++)
+  {
+ 		for(int j = 0; j < y_dim; j++)
+    {
+ 			for(int k = 0; k < z_dim; k++)
+      {//per voxel
+
  				//planetests
  				bplanetest = ba * (i - bx0) + bb * (j - by0) + bc * (k - bz0);
  				tplanetest = ta * (i - tx0) + tb * (j - ty0) + tc * (k - tz0);
@@ -1075,7 +1103,7 @@ void Voraldo::draw_quadrilateral_hexahedron(vec a, vec b, vec c, vec d, vec e, v
 void Voraldo::draw_regular_icosahedron(double x_rot, double y_rot, double z_rot, double scale, vec center_point, Vox vertex_material, double verticies_radius, Vox edge_material, double edge_thickness, Vox face_material,bool draw_faces, bool draw, bool mask)
 {
   double phi = (1 + std::sqrt(5.0))/2.0;
-  
+
   float face_thickness = 1.5f;
 
 //rotation matricies allowing rotation of the polyhedron
@@ -1211,8 +1239,10 @@ void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,
   CImg<unsigned char> heightmap("heights.png");
   CImg<unsigned char> colormap("greycolors.png");
 
-  for(int x = 0; x < 512; x++){
-    for(int z = 0; z < 512; z++){
+  for(int x = 0; x < 512; x++)
+  {
+    for(int z = 0; z < 512; z++)
+    {// per pixel in heightmap image
 
       current_height = heightmap.atXY(x,z);
       current_colormap = colormap.atXY(x,z);
@@ -1582,6 +1612,7 @@ bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ra
  *      Journal of graphics tools, 10(1):49-54, 2005
  *
  */
+
 //I pulled this code after three attempts at my own implementation didn't work
   vec bbox[2];
 	int sign[3];

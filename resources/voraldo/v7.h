@@ -174,9 +174,9 @@ class Voraldo{
 		//draw and mask are exclusive, you might say independent of one another - i.e.
 		//	these functions can be used to mask without drawing if desired
 
-			void draw_noise(/*int seed=5, */ unsigned char alpha, bool draw=true, bool mask=false);
-
-			//replaces the noisefill argument for the init_block
+			void draw_perlin_noise(float scale, float threshold, Vox set, bool draw=true, bool mask=false);
+			//scale increases the scale factor on acquisition of noise samples (lower number, larger contiguous shapes)
+				// threshold is used to determine the number below which a point will be drawn
 
 			void draw_point(vec point, Vox set, bool draw=true, bool mask=false);
 			//draws a point at the location given by the input argument
