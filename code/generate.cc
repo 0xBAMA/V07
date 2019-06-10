@@ -48,46 +48,70 @@ int main()
 
   tick = Clock::now();
 
+
+
+
   // main_block->draw_perlin_noise( 0.04, 0.5, main_block->get_vox( 25, 20,false ) );
   // main_block->draw_perlin_noise( 0.04, 0.4, main_block->get_vox( 40, 50,false ) );
   // main_block->draw_perlin_noise( 0.04, 0.3, main_block->get_vox(  7,255,false ) );
+  // main_block->draw_perlin_noise( 0.04,-0.45, main_block->get_vox( 22, 30, false ) );
+  //
+  // main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5), 70, main_block->get_vox(  13, 255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ), 70, main_block->get_vox(  13, 255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ), 70, main_block->get_vox(  13, 255, false ) );
+  //
+  //
+  //
+  // main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5),  60, main_block->get_vox(  12, 255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  60, main_block->get_vox(  12, 255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  60, main_block->get_vox(  12, 255, false ) );
+  //
+  //
+  //
+  // main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5),  50, main_block->get_vox(   0,   0, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  50, main_block->get_vox(   0,   0, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  50, main_block->get_vox(   0,   0, false ) );
+  //
+  //
+  // main_block->draw_perlin_noise( 0.05, 0.4, main_block->get_vox(  0, 0, false ) );
+  //
+  // main_block->mask_all_nonzero();
+  //
+  // main_block->draw_cylinder(vec(     0, 127.5, 127.5), vec( 512, 127.5, 127.5),  10, main_block->get_vox(   48,   255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  10, main_block->get_vox(   48,   255, false ) );
+  // main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  10, main_block->get_vox(   48,   255, false ) );
+  //
+  //
+  // main_block->mask_unmask_all();
+  // main_block->mask_by_state(48);
+  // main_block->mask_invert_mask();
+  //
+  // main_block->draw_perlin_noise( 0.1, 0.5, main_block->get_vox(  0, 0, false ) );
+  // main_block->draw_perlin_noise( 0.10, 0.4, main_block->get_vox(  10, 255, false ) );
+  // main_block->draw_perlin_noise( 0.12, 0.5, main_block->get_vox(  47, 255, false ) );
+  // main_block->draw_perlin_noise( 0.15, 0.4, main_block->get_vox(   0,   0, false ) );
+  // main_block->draw_perlin_noise( 0.15, 0.2, main_block->get_vox(   3, 255, false ) );
+  // main_block->draw_perlin_noise( 0.15, 0.1, main_block->get_vox(   7, 255, false ) );
 
-  main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5), 70, main_block->get_vox(  13, 255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ), 70, main_block->get_vox(  13, 255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ), 70, main_block->get_vox(  13, 255, false ) );
 
 
 
-  main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5),  60, main_block->get_vox(  12, 255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  60, main_block->get_vox(  12, 255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  60, main_block->get_vox(  12, 255, false ) );
 
 
 
-  main_block->draw_cylinder(vec( 0, 127.5, 127.5), vec( 512, 127.5, 127.5),  50, main_block->get_vox(   0,   0, false ) );
-  main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  50, main_block->get_vox(   0,   0, false ) );
-  main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  50, main_block->get_vox(   0,   0, false ) );
 
 
-  main_block->draw_perlin_noise( 0.05, 0.4, main_block->get_vox(  0, 0, false ) );
+  main_block->draw_sphere( vec(255.5,127.5,127.5), 200, main_block->get_vox(   7,  10, false ) );
 
-  main_block->mask_all_nonzero();
-
-  main_block->draw_cylinder(vec(     0, 127.5, 127.5), vec( 512, 127.5, 127.5),  10, main_block->get_vox(   48,   255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 127.5, 0 ), vec( 255.5, 127.5, 255 ),  10, main_block->get_vox(   48,   255, false ) );
-  main_block->draw_cylinder(vec( 255.5, 0, 127.5 ), vec( 255.5, 255, 127.5 ),  10, main_block->get_vox(   48,   255, false ) );
+  main_block->draw_perlin_noise( 0.01,   0.51, main_block->get_vox(  12, 255, false ) );
+  main_block->draw_perlin_noise( 0.01,   0.50, main_block->get_vox(  30, 255, false ) );
+  main_block->draw_perlin_noise( 0.01,   0.49, main_block->get_vox(   0,  0, false ) );
 
 
-  main_block->mask_unmask_all();
-  main_block->mask_by_state(48);
-  main_block->mask_invert_mask();
+  main_block->draw_perlin_noise( 0.01,  0.4, main_block->get_vox(  57, 30, false ) );
+  main_block->draw_perlin_noise( 0.01, -0.6, main_block->get_vox(  61, 30, false ) );
 
-  main_block->draw_perlin_noise( 0.1, 0.5, main_block->get_vox(  0, 0, false ) );
-  main_block->draw_perlin_noise( 0.10, 0.4, main_block->get_vox(  10, 255, false ) );
-  main_block->draw_perlin_noise( 0.12, 0.5, main_block->get_vox(  47, 255, false ) );
-  main_block->draw_perlin_noise( 0.15, 0.4, main_block->get_vox(   0,   0, false ) );
-  main_block->draw_perlin_noise( 0.15, 0.2, main_block->get_vox(   3, 255, false ) );
-  main_block->draw_perlin_noise( 0.15, 0.1, main_block->get_vox(   7, 255, false ) );
+
 
 
 

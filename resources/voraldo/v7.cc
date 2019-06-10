@@ -456,20 +456,43 @@ void Voraldo::draw_perlin_noise(float scale, float threshold, Vox set, bool draw
 
 	PerlinNoise p;
 
-  for( int x = 0; x < x_dim; x++ )
-  {
-    for( int y = 0; y < y_dim; y++ )
-    {
-      for( int z = 0; z < z_dim; z++ )
-      {//per voxel
 
-        if( p.noise( scale*x, scale*y, scale*z ) < threshold )
-        {
-          draw_point( vec( x, y, z ), set, draw, mask );
-        }
-      }
-    }
-  }
+	if(threshold >= 0)
+	{
+	  for( int x = 0; x < x_dim; x++ )
+	  {
+	    for( int y = 0; y < y_dim; y++ )
+	    {
+	      for( int z = 0; z < z_dim; z++ )
+	      {//per voxel
+
+	        if( p.noise( scale*x, scale*y, scale*z ) < threshold )
+	        {
+	          draw_point( vec( x, y, z ), set, draw, mask );
+	        }
+	      }
+	    }
+	  }
+	}
+	else
+	{
+		threshold = std::abs(threshold);
+
+		for( int x = 0; x < x_dim; x++ )
+		{
+			for( int y = 0; y < y_dim; y++ )
+			{
+				for( int z = 0; z < z_dim; z++ )
+				{//per voxel
+
+					if( p.noise( scale*x, scale*y, scale*z ) > threshold )
+					{
+						draw_point( vec( x, y, z ), set, draw, mask );
+					}
+				}
+			}
+		}
+	}
 }
 
 void Voraldo::draw_point(vec point, Vox set, bool draw, bool mask)

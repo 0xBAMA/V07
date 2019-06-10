@@ -169,7 +169,9 @@ class Voraldo
 
 		void draw_perlin_noise(float scale, float threshold, Vox set, bool draw=true, bool mask=false);
 		//scale increases the scale factor on acquisition of noise samples (lower number, larger contiguous shapes)
-			// threshold is used to determine the number below which a point will be drawn
+		// the noise function generates values between 0 and 1 -
+			// a positive threshold value tells it to draw if the sampled noise value is less than the threshold
+			// a negative threshold value tells it to draw if the sampled noise value is greater than the absolute value of the threshold
 
 		void draw_point(vec point, Vox set, bool draw=true, bool mask=false);
 		//draws a point at the location given by the input argument
