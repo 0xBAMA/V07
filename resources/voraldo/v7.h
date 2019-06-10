@@ -217,6 +217,9 @@ class Voraldo
 		void draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw=true, bool mask=false);
 			//how to handle materials? vector<Vox> as an argument, then equate the ratios of height/max height to index/length
 
+		void draw_minecraft_style_terrain( /*vec offset, vec scale,*/ bool draw=true, bool mask=false);
+			// scaled perlin noise - there's potentially a lot to this
+
 
 //      __    _       __    __  _
 //     / /   (_)___ _/ /_  / /_(_)___  ____ _

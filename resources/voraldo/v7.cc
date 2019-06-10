@@ -1340,6 +1340,13 @@ void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,
 
 
 
+void Voraldo::draw_minecraft_style_terrain( /*vec offset, vec scale, */ bool draw, bool mask)
+{
+
+}
+
+
+
 //  ___________________ ____ ___
 //  \_   ___ \______   \    |   \
 //  /    \  \/|     ___/    |   /
