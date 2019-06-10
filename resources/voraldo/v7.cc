@@ -152,8 +152,14 @@ Voraldo::~Voraldo()
 //   |     ___/   |   \/   \  ___
 //   |    |  /    |    \    \_\  \
 //   |____|  \____|__  /\______  /
-//                   \/        \/ //saving the block to send to OpenGL
+//                   \/        \/ //saving the block to send to OpenGL, loading the same format
 
+
+//     _________ __   _____
+//    / ___/ __ `/ | / / _ \
+//   (__  ) /_/ /| |/ /  __/
+//  /____/\__,_/ |___/\___/
+// -----------------------
 
 void Voraldo::save( std::string filename )
 {
@@ -184,7 +190,7 @@ void Voraldo::save( std::string filename )
 
   int index = 0;
 
-
+	// put the data in the image
 
   for(int z = 0; z < depth; z++)
   {
@@ -193,7 +199,7 @@ void Voraldo::save( std::string filename )
       for(int x = 0; x < width; x++)
       {
 
-        temp = get_data_by_vector_index(vec((float)x,(float)y,(float)z));
+        temp = get_data_by_vector_index(vec( ( float ) x, ( float ) y, ( float ) z ) );
 
         temporary_color = temp.color;
 
@@ -215,27 +221,60 @@ void Voraldo::save( std::string filename )
   if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
 }
 
-// LODEPNG EXAMPLE code
 
-// std::vector<unsigned char> image;
-// const char * filename1 = "save.png";
-// const char * filename2 = "save2.png";
-//
-// unsigned width, height;
-//
-// //decode
-// unsigned error = lodepng::decode(image, width, height, filename1);
-//
-// //if there's an error, display it
-// if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-//
-// //Encode the image
-// error = lodepng::encode(filename2, image, width, height);
-//
-// //if there's an error, display it
-// if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
+//      __                __
+//     / /___  ____ _____/ /
+//    / / __ \/ __ `/ __  /
+//   / / /_/ / /_/ / /_/ /
+//  /_/\____/\__,_/\__,_/
+// ---------------------
+
+void Voraldo::load( std::string filename )
+{
+	std::vector<unsigned char> image;
+
+	unsigned width, height;
+
+	int index = 0;
+
+	//decode
+	unsigned error = lodepng::decode( image, width, height, filename.c_str( ) );
+
+	//if there's an error, display it
+	if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text( error ) << std::endl;
+
+	// initialize block with dimensions 512 x 256 x 256
+
+	init_block( vec( 512, 256, 256 ) );
+
+	// now get the data out of the image
+
+	RGBA temp;
+
+	for(int z = 0; z < 256; z++)
+  {
+    for(int y = 0; y < 256; y++)
+    {
+      for(int x = 0; x < 512; x++)
+      {
+
+				temp.red   = image[index]; index++;
+				temp.green = image[index]; index++;
+				temp.blue  = image[index]; index++;
+				temp.alpha = image[index]; index++;
+
+				set_data_by_vector_index( vec( ( float ) x, ( float ) y, ( float ) z ), get_vox( temp, false ), true, false );
+
+      }
+
+    }
+
+  }
 
 
+
+
+}
 
 
 
@@ -1700,12 +1739,24 @@ bool Voraldo::compare_colors(RGBA first, RGBA second)
 
 
 
-Vox Voraldo::get_vox(int palette_number, unsigned char alpha, bool mask)
+Vox Voraldo::get_vox( int palette_number, unsigned char alpha, bool mask )
 {
   Vox temp;
 
   temp.color = palette[palette_number];
   temp.color.alpha = alpha;
+  temp.mask = mask;
+
+  return temp;
+
+}
+
+// this one's pretty much only for the load function
+Vox Voraldo::get_vox( RGBA color, bool mask )
+{
+  Vox temp;
+
+  temp.color = color;
   temp.mask = mask;
 
   return temp;

@@ -96,20 +96,23 @@ int main()
 
 
 
+  main_block->load("save.png");
 
 
 
 
+  // main_block->draw_sphere( vec(255.5,127.5,127.5), 200, main_block->get_vox(   7,  10, false ) );
+  //
+  // main_block->draw_perlin_noise( 0.01,   0.51, main_block->get_vox(  12, 255, false ) );
+  // main_block->draw_perlin_noise( 0.01,   0.50, main_block->get_vox(  30, 255, false ) );
+  // main_block->draw_perlin_noise( 0.01,   0.49, main_block->get_vox(   0,  0, false ) );
+  //
+  //
+  // main_block->draw_perlin_noise( 0.01,  0.4, main_block->get_vox(  57, 30, false ) );
+  // main_block->draw_perlin_noise( 0.01, -0.6, main_block->get_vox(  61, 30, false ) );
+  //
+  // main_block->draw_perlin_noise( 0.05, 0.6, main_block->get_vox(  0, 0, false ) );
 
-  main_block->draw_sphere( vec(255.5,127.5,127.5), 200, main_block->get_vox(   7,  10, false ) );
-
-  main_block->draw_perlin_noise( 0.01,   0.51, main_block->get_vox(  12, 255, false ) );
-  main_block->draw_perlin_noise( 0.01,   0.50, main_block->get_vox(  30, 255, false ) );
-  main_block->draw_perlin_noise( 0.01,   0.49, main_block->get_vox(   0,  0, false ) );
-
-
-  main_block->draw_perlin_noise( 0.01,  0.4, main_block->get_vox(  57, 30, false ) );
-  main_block->draw_perlin_noise( 0.01, -0.6, main_block->get_vox(  61, 30, false ) );
 
 
 
@@ -149,7 +152,7 @@ int main()
 
 
   tick = Clock::now();
-  // main_block->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
+  main_block->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
   tock = Clock::now();
 
   // std::cout << "generate's renderer took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl << endl << endl;

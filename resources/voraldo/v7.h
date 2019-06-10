@@ -110,14 +110,16 @@ class Voraldo
 			// tmin and tmax let the user know the far and near points of intersection
 
 			Vox get_vox( int desired_color, unsigned char alpha, bool mask );
+			Vox get_vox( RGBA color, bool mask );
+
 
 			bool compare_colors(RGBA first, RGBA second);
 
 			//CPU Renderer
 			void display(std::string filename, float x_rot, float y_rot, float z_rot, float scale, bool perspective);
 
-			void load(){return;} //this function still needs to be figured out
-			void save(std::string filename);
+			void save(std::string filename); // saves a block to an image - assumes you have a block held in data
+			void load(std::string filename); // loads a block from an image - assumes 512 x 256 x 256
 
 	//-----------------------------------------
 			//drawing, masking and initialization
