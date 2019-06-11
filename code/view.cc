@@ -99,8 +99,8 @@ typedef glm::vec4  point4;
 
 
 // image dimensions, based on laptop screen resolution
-const int image_height = 768;
-const int image_width = 1366;
+const int image_height = 768/2;
+const int image_width = 1366/2;
 
 
 // verticies
@@ -115,6 +115,7 @@ GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
 GLuint  theta_loc;  // The location of the "theta" shader uniform variable
 GLuint  ortho_matrix_loc; //location of the orthographic view matrix
 GLuint  offset_loc;
+GLuint  slice_width_loc; //controls the slice
 
 glm::mat4 Projection;
 
@@ -134,7 +135,8 @@ color4 colors[NumVertices];
 
 
 //silly thing
-const int num_offsets = 512;
+// const int num_offsets = 512;
+const int num_offsets = 1024;
 int current_offset;
 float offsets[num_offsets];
 
@@ -154,7 +156,9 @@ void generate_points()
 
 	PerlinNoise p;
 
-	GLfloat increment = 1.0/256.0;
+	// GLfloat increment = 1.0/256.0;
+	GLfloat increment = 1.0/512.0;
+
 
 	current_offset = 0;
 
@@ -331,6 +335,7 @@ void init( Shader s )
     theta_loc = glGetUniformLocation( s.Program, "theta" );
 		ortho_matrix_loc = glGetUniformLocation( s.Program, "view" ); //allows the scaling to the screen dimensions
 		offset_loc = glGetUniformLocation( s.Program, "offset" );
+		slice_width_loc = glGetUniformLocation( s.Program, "slice_width" );
 
 
 

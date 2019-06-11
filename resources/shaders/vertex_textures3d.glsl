@@ -10,6 +10,7 @@ uniform vec3 theta;
 uniform mat4 view;
 
 uniform float offset;
+uniform float slice_width;
 
 void main()
 {

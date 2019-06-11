@@ -82,7 +82,7 @@ int main()
   g = castle_center + vec( 40,  77, -40);
   h = castle_center + vec( 40,   5, -40);
 
-  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 0, 0, false) );
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox(57, 1, false) );
 
 
   a = castle_center + vec(-45,  80,  45);
@@ -95,10 +95,10 @@ int main()
   h = castle_center + vec( 45,   0, -45);
 
 // cut out space for towers
-  main_block->draw_cylinder(a, b, 12, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(c, d, 12, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(e, f, 12, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(g, h, 12, main_block->get_vox( 0, 0, false) );
+  main_block->draw_cylinder(a, b, 12, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(c, d, 12, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(e, f, 12, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(g, h, 12, main_block->get_vox(57, 1, false) );
 
 // draw the stairs for the spiral staircase...
 
@@ -147,15 +147,15 @@ int main()
 
 
 // cutout for the top stair (quarter circle)
-  main_block->draw_triangle(fe_tower_location, fe_tower_location + displacement_vectors[7], fe_tower_location + displacement_vectors[0], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(ba_tower_location, ba_tower_location + displacement_vectors[7], ba_tower_location + displacement_vectors[0], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(dc_tower_location, dc_tower_location + displacement_vectors[7], dc_tower_location + displacement_vectors[0], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(hg_tower_location, hg_tower_location + displacement_vectors[7], hg_tower_location + displacement_vectors[0], 3.0, main_block->get_vox( 0, 0, false) );
+  main_block->draw_triangle(fe_tower_location, fe_tower_location + displacement_vectors[7], fe_tower_location + displacement_vectors[0], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(ba_tower_location, ba_tower_location + displacement_vectors[7], ba_tower_location + displacement_vectors[0], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(dc_tower_location, dc_tower_location + displacement_vectors[7], dc_tower_location + displacement_vectors[0], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(hg_tower_location, hg_tower_location + displacement_vectors[7], hg_tower_location + displacement_vectors[0], 3.0, main_block->get_vox(57, 1, false) );
 
-  main_block->draw_triangle(fe_tower_location, fe_tower_location + displacement_vectors[0], fe_tower_location + displacement_vectors[1], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(ba_tower_location, ba_tower_location + displacement_vectors[0], ba_tower_location + displacement_vectors[1], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(dc_tower_location, dc_tower_location + displacement_vectors[0], dc_tower_location + displacement_vectors[1], 3.0, main_block->get_vox( 0, 0, false) );
-  main_block->draw_triangle(hg_tower_location, hg_tower_location + displacement_vectors[0], hg_tower_location + displacement_vectors[1], 3.0, main_block->get_vox( 0, 0, false) );
+  main_block->draw_triangle(fe_tower_location, fe_tower_location + displacement_vectors[0], fe_tower_location + displacement_vectors[1], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(ba_tower_location, ba_tower_location + displacement_vectors[0], ba_tower_location + displacement_vectors[1], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(dc_tower_location, dc_tower_location + displacement_vectors[0], dc_tower_location + displacement_vectors[1], 3.0, main_block->get_vox(57, 1, false) );
+  main_block->draw_triangle(hg_tower_location, hg_tower_location + displacement_vectors[0], hg_tower_location + displacement_vectors[1], 3.0, main_block->get_vox(57, 1, false) );
 
 
   a += vec(0,2,0);
@@ -187,10 +187,10 @@ int main()
   main_block->draw_cylinder(e, e+vec(0,8,0), 14, main_block->get_vox( 60, 255, false) );
   main_block->draw_cylinder(g, g+vec(0,8,0), 14, main_block->get_vox( 60, 255, false) );
 
-  main_block->draw_cylinder(a+vec(0,2,0), a+vec(0,8,0), 10, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(c+vec(0,2,0), c+vec(0,8,0), 10, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(e+vec(0,2,0), e+vec(0,8,0), 10, main_block->get_vox( 0, 0, false) );
-  main_block->draw_cylinder(g+vec(0,2,0), g+vec(0,8,0), 10, main_block->get_vox( 0, 0, false) );
+  main_block->draw_cylinder(a+vec(0,2,0), a+vec(0,8,0), 10, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(c+vec(0,2,0), c+vec(0,8,0), 10, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(e+vec(0,2,0), e+vec(0,8,0), 10, main_block->get_vox(57, 1, false) );
+  main_block->draw_cylinder(g+vec(0,2,0), g+vec(0,8,0), 10, main_block->get_vox(57, 1, false) );
 
 // crenelations for towers - lengthen displacement vectors
   for(int i = 0; i < 8; i++)
@@ -198,10 +198,10 @@ int main()
 
   for(int i = 0; i < 8; i++)
   {
-    main_block->draw_cylinder(a+vec(0,8,0), a+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox( 0, 0, false) );
-    main_block->draw_cylinder(c+vec(0,8,0), c+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox( 0, 0, false) );
-    main_block->draw_cylinder(e+vec(0,8,0), e+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox( 0, 0, false) );
-    main_block->draw_cylinder(g+vec(0,8,0), g+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox( 0, 0, false) );
+    main_block->draw_cylinder(a+vec(0,8,0), a+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox(57, 1, false) );
+    main_block->draw_cylinder(c+vec(0,8,0), c+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox(57, 1, false) );
+    main_block->draw_cylinder(e+vec(0,8,0), e+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox(57, 1, false) );
+    main_block->draw_cylinder(g+vec(0,8,0), g+vec(0,8,0)+displacement_vectors[i], 2, main_block->get_vox(57, 1, false) );
   }
 
 // walkways on the walls - wood layer (20) then empty layer for negative space
@@ -210,6 +210,7 @@ int main()
 // those along the x axis
   vec wa, wb, wc, wd, we, wf, wg, wh;
 
+// wood layer
   wa = castle_center + vec(-38, 77, 48);
   wb = castle_center + vec(-38, 70, 48);
   wc = castle_center + vec( 38, 77, 48);
@@ -219,8 +220,23 @@ int main()
   wg = castle_center + vec( 38, 77, 42);
   wh = castle_center + vec( 38, 70, 42);
 
+  // upper walkway
   main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 20, 255, false) );
 
+  vec shift = vec(0,-20, 0);
+
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+
+
+
+// empty layer
   wa = castle_center + vec(-38, 77, 48);
   wb = castle_center + vec(-38, 72, 48);
   wc = castle_center + vec( 38, 77, 48);
@@ -230,10 +246,35 @@ int main()
   wg = castle_center + vec( 38, 77, 42);
   wh = castle_center + vec( 38, 72, 42);
 
-  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 0, 0, false) );
+  // upper walkway
+  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox(57, 1, false) );
 
-  main_block->draw_cylinder((wa+we)/2.0f, (wc+wg)/2.0f, 3, main_block->get_vox( 0, 0, false) );
+  shift = vec(0,-20, 0);
 
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+
+// crown of the doorway
+  main_block->draw_cylinder((wa+we)/2.0f, (wc+wg)/2.0f, 3, main_block->get_vox(57, 1, false) );
+
+  shift = vec(0,-20, 0);
+
+  // lower walkway
+  main_block->draw_cylinder(((wa+we)/2.0f)+shift, ((wc+wg)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // even lower walkway
+  main_block->draw_cylinder(((wa+we)/2.0f)+shift, ((wc+wg)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+
+// wood layer
   wa = castle_center + vec(-38, 77, -48);
   wb = castle_center + vec(-38, 70, -48);
   wc = castle_center + vec( 38, 77, -48);
@@ -245,6 +286,19 @@ int main()
 
   main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 20, 255, false) );
 
+  shift = vec(0,-20, 0);
+
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+
+
+// empty layer
   wa = castle_center + vec(-38, 77, -48);
   wb = castle_center + vec(-38, 72, -48);
   wc = castle_center + vec( 38, 77, -48);
@@ -254,13 +308,31 @@ int main()
   wg = castle_center + vec( 38, 77, -42);
   wh = castle_center + vec( 38, 72, -42);
 
-  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 0, 0, false) );
+  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox(57, 1, false) );
 
-  main_block->draw_cylinder((wa+we)/2.0f, (wc+wg)/2.0f, 3, main_block->get_vox( 0, 0, false) );
+  shift = vec(0,-20, 0);
 
-// crenelations
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
 
-  // for(int i = 0; i < )
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+
+// crown of the doorway
+  main_block->draw_cylinder((wa+we)/2.0f, (wc+wg)/2.0f, 3, main_block->get_vox(57, 1, false) );
+
+  shift = vec(0,-20, 0);
+
+  // lower walkway
+  main_block->draw_cylinder(((wa+we)/2.0f)+shift, ((wc+wg)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // even lower walkway
+  main_block->draw_cylinder(((wa+we)/2.0f)+shift, ((wc+wg)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
 
 
 //--------------------------------------
@@ -268,6 +340,7 @@ int main()
 
 // those along the z axis
 
+// wood layer
   wa = castle_center + vec(-42, 77, 38);
   wb = castle_center + vec(-42, 70, 38);
   wc = castle_center + vec(-48, 77, 38);
@@ -277,8 +350,22 @@ int main()
   wg = castle_center + vec(-48, 77,-38);
   wh = castle_center + vec(-48, 70,-38);
 
+  // upper walkway
   main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 20, 255, false) );
 
+  shift = vec(0,-20, 0);
+
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+
+
+// empty layer
   wa = castle_center + vec(-42, 77, 38);
   wb = castle_center + vec(-42, 72, 38);
   wc = castle_center + vec(-48, 77, 38);
@@ -288,10 +375,35 @@ int main()
   wg = castle_center + vec(-48, 77,-38);
   wh = castle_center + vec(-48, 72,-38);
 
-  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 0, 0, false) );
+  // upper walkway
+  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox(57, 1, false) );
 
-  main_block->draw_cylinder((wg+we)/2.0f, (wc+wa)/2.0f, 3, main_block->get_vox( 0, 0, false) );
+  shift = vec(0,-20, 0);
 
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+
+
+// crown of doorway
+  main_block->draw_cylinder((wg+we)/2.0f, (wc+wa)/2.0f, 3, main_block->get_vox(57, 1, false) );
+
+  shift = vec(0,-20, 0);
+
+  // lower walkway
+  main_block->draw_cylinder(((wg+we)/2.0f)+shift, ((wc+wa)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // even lower walkway
+  main_block->draw_cylinder(((wg+we)/2.0f)+shift, ((wc+wa)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+// wood layer
   wa = castle_center + vec(42, 77, 38);
   wb = castle_center + vec(42, 70, 38);
   wc = castle_center + vec(48, 77, 38);
@@ -301,8 +413,22 @@ int main()
   wg = castle_center + vec(48, 77,-38);
   wh = castle_center + vec(48, 70,-38);
 
+  // upper walkway
   main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 20, 255, false) );
 
+  shift = vec(0,-20, 0);
+
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox( 20, 255, false) );
+
+
+
+// empty layer
   wa = castle_center + vec(42, 77, 38);
   wb = castle_center + vec(42, 72, 38);
   wc = castle_center + vec(48, 77, 38);
@@ -312,18 +438,56 @@ int main()
   wg = castle_center + vec(48, 77,-38);
   wh = castle_center + vec(48, 72,-38);
 
-  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox( 0, 0, false) );
+  main_block->draw_quadrilateral_hexahedron(wa, wb, wc, wd, we, wf, wg, wh, main_block->get_vox(57, 1, false) );
 
-  main_block->draw_cylinder((wg+we)/2.0f, (wc+wa)/2.0f, 3, main_block->get_vox( 0, 0, false) );
+  shift = vec(0,-20, 0);
+
+  // middle walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // lower walkway
+  main_block->draw_quadrilateral_hexahedron(wa+shift, wb+shift, wc+shift, wd+shift, we+shift, wf+shift, wg+shift, wh+shift, main_block->get_vox(57, 1, false) );
+
+
+  main_block->draw_cylinder((wg+we)/2.0f, (wc+wa)/2.0f, 3, main_block->get_vox(57, 1, false) );
+
+  shift = vec(0,-20, 0);
+
+  // lower walkway
+  main_block->draw_cylinder(((wg+we)/2.0f)+shift, ((wc+wa)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
+
+  shift *= 2.0f;
+
+  // even lower walkway
+  main_block->draw_cylinder(((wg+we)/2.0f)+shift, ((wc+wa)/2.0f)+shift, 3, main_block->get_vox(57, 1, false) );
 
 // crenelations
 
+  for(int i = 0; i <= 60; i+=6)
+  {
+    main_block->draw_cylinder(castle_center+vec(-30+i, 76, 50), castle_center+vec(-30+i, 76, -50), 1, main_block->get_vox(57, 1, false) );
+    main_block->draw_cylinder(castle_center+vec(50, 76, -30+i), castle_center+vec(-50, 76, -30+i), 1, main_block->get_vox(57, 1, false) );
+  }
 
+// roadway
+  a = castle_center + vec(-280,  35,  10);
+  b = castle_center + vec(-280,   5,  10);
+  c = castle_center + vec( -40,  35,  10);
+  d = castle_center + vec( -40,   5,  10);
+  e = castle_center + vec(-280,  35, -10);
+  f = castle_center + vec(-280,   5, -10);
+  g = castle_center + vec( -40,  35, -10);
+  h = castle_center + vec( -40,   5, -10);
 
+  vec k = vec(0,-2,0);
 
+  main_block->draw_quadrilateral_hexahedron(a+k, b+k, c+k, d+k, e+k, f+k, g+k, h+k, main_block->get_vox(20, 255, false) );
 
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox(57, 1, false) );
 
-
+  main_block->draw_cylinder( (a+e)/2.0f, (c+g)/2.0f, 10,  main_block->get_vox(57, 1, false) );
 
 
 
