@@ -110,7 +110,7 @@ class Voraldo
 			// tmin and tmax let the user know the far and near points of intersection
 
 			Vox get_vox( int desired_color, unsigned char alpha, bool mask );
-			Vox get_vox( RGBA color, bool mask );
+			Vox get_vox( RGBA color, bool mask ); // if you don't care about the alpha channel
 
 
 			bool compare_colors(RGBA first, RGBA second);
@@ -217,8 +217,8 @@ class Voraldo
 		void draw_heightmap(/*std::string filename, std::vector<Vox> materials,*/ bool draw=true, bool mask=false);
 			//how to handle materials? vector<Vox> as an argument, then equate the ratios of height/max height to index/length
 
-		void draw_minecraft_style_terrain( /*vec offset, vec scale,*/ bool draw=true, bool mask=false);
-			// scaled perlin noise - there's potentially a lot to this
+		void draw_minecraft_style_terrain( vec offset=vec(0.0f, 0.0f, 0.0f), vec scale=vec(0.004f, 0.004f, 0.008f), bool draw=true, bool mask=false);
+			// scaled perlin noise - there's potentially a lot of directions to go with this
 
 
 //      __    _       __    __  _
@@ -231,7 +231,7 @@ class Voraldo
 
 
 		void lighting_directional();
-		//uses the same algorithm as the CPU renderer
+		//uses nearly the same algorithm as the CPU renderer
 
 		void lighting_ambient_occlusion();
 

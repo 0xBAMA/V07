@@ -99,36 +99,37 @@ Voraldo::Voraldo()
 
 //GREYSCALE
 
-  palette[52] = {255,255,255,255};            //White
-  palette[53] = {190,190,190,255};           //MS Light Grey High
-  palette[54] = {181,181,181,255};          //MS Light Grey Low
-  palette[55] = {126,126,126,255};         //MS Dark Grey High
-  palette[56] = { 94, 96,110,255};        //MS Dark Grey Low
-  palette[57] = {212,237,237,255};       //T Lighter Grey
-  palette[58] = {134,149,152,255};      //T Med Light Grey
-  palette[59] = { 95, 99,103,255};     //T Med Grey
-  palette[60] = { 58, 59, 61,255};    //T Dark-Med Grey
-  palette[61] = { 40, 34, 31,255};   //T Dark Grey
-  palette[62] = {  0,  0,  0,255};  //Black
+  palette[52] = {255,255,255,255};             //White
+  palette[53] = {190,190,190,255};            //MS Light Grey High
+  palette[54] = {181,181,181,255};           //MS Light Grey Low
+  palette[55] = {126,126,126,255};          //MS Dark Grey High
+  palette[56] = { 94, 96,110,255};         //MS Dark Grey Low
+  palette[57] = {212,237,237,255};        //T Lighter Grey
+	palette[58] = {172,194,195,255};			 //T Light Grey
+  palette[59] = {134,149,152,255};      //T Med Light Grey
+  palette[60] = { 95, 99,103,255};     //T Med Grey
+  palette[61] = { 58, 59, 61,255};    //T Dark-Med Grey
+  palette[62] = { 40, 34, 31,255};   //T Dark Grey
+  palette[63] = {  0,  0,  0,255};  //Black
 
 
 // weird desaturated palette "steam lords"
-  palette[63] = { 33, 59, 37,255};	              //#213b25 dark green
-  palette[64] = { 58,	96,	74,255};	             //#3a604a medium green
-  palette[65] = { 79,119, 84,255};	            //#4f7754 light green
-  palette[66] = {161,159,124,255}; 	           //#a19f7c light tan
-  palette[67] = {119,116,	79,255};	          //#77744f medium tan
-  palette[68] = {119,	92,	79,255};	         //#775c4f light rose
-  palette[69] = { 96,	59,	58,255};	        //#603b3a dark rose
-  palette[70] = { 59,	33,	55,255};	       //#3b2137 purple
-  palette[71] = { 23,	14,	25,255};      	//#170e19 darkest blue (0)
-  palette[72] = { 47,	33,	59,255};	     //#2f213b dark blue (1)
-  palette[73] = { 67,	58,	96,255};	    //#433a60 dark blue (2)
-  palette[74] = { 79,	82,119,255};	   //#4f5277 dark blue (3)
-  palette[75] = {101,115,140,255};	  //#65738c light blue (4)
-  palette[76] = {124,148,161,255};	 //#7c94a1 light blue (5)
-  palette[77] = {160,185,186,255};	//#a0b9ba light blue (6)
-  palette[78] = {192,209,204,255}; //#c0d1cc light blue (7)
+  palette[64] = { 33, 59, 37,255};	              //#213b25 dark green
+  palette[65] = { 58,	96,	74,255};	             //#3a604a medium green
+  palette[66] = { 79,119, 84,255};	            //#4f7754 light green
+  palette[67] = {161,159,124,255}; 	           //#a19f7c light tan
+  palette[68] = {119,116,	79,255};	          //#77744f medium tan
+  palette[69] = {119,	92,	79,255};	         //#775c4f light rose
+  palette[70] = { 96,	59,	58,255};	        //#603b3a dark rose
+  palette[71] = { 59,	33,	55,255};	       //#3b2137 purple
+  palette[72] = { 23,	14,	25,255};      	//#170e19 darkest blue (0)
+  palette[73] = { 47,	33,	59,255};	     //#2f213b dark blue (1)
+  palette[74] = { 67,	58,	96,255};	    //#433a60 dark blue (2)
+  palette[75] = { 79,	82,119,255};	   //#4f5277 dark blue (3)
+  palette[76] = {101,115,140,255};	  //#65738c light blue (4)
+  palette[77] = {124,148,161,255};	 //#7c94a1 light blue (5)
+  palette[78] = {160,185,186,255};	//#a0b9ba light blue (6)
+  palette[79] = {192,209,204,255}; //#c0d1cc light blue (7)
 
 
 
@@ -159,7 +160,7 @@ Voraldo::~Voraldo()
 //    / ___/ __ `/ | / / _ \
 //   (__  ) /_/ /| |/ /  __/
 //  /____/\__,_/ |___/\___/
-// -----------------------
+// ----------------------- // this is fundamental to the interoperability of the two programs gen and vu
 
 void Voraldo::save( std::string filename )
 {
@@ -227,7 +228,7 @@ void Voraldo::save( std::string filename )
 //    / / __ \/ __ `/ __  /
 //   / / /_/ / /_/ / /_/ /
 //  /_/\____/\__,_/\__,_/
-// ---------------------
+// --------------------- // this is significant, because it allows external editing of models, i.e. with GIMP
 
 void Voraldo::load( std::string filename )
 {
@@ -1340,9 +1341,63 @@ void Voraldo::draw_heightmap(/*std::string filename, std::vector<Vox> materials,
 
 
 
-void Voraldo::draw_minecraft_style_terrain( /*vec offset, vec scale, */ bool draw, bool mask)
+void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bool mask)
 {
+	PerlinNoise p;
 
+	float grass_threshold = 0.35f;
+	float land_threshold  = 0.45f;
+	float rock_threshold  = 0.60f;
+
+	Vox grass_material, land_material, rock_material;
+
+	grass_material = get_vox( 25, 255, false);
+	land_material  = get_vox( 21, 255, false);
+	rock_material  = get_vox( 60, 255, false);
+
+	float z_scale_factor;
+
+	float noise_sample = 0.0f;
+
+	for( int z = 0; z < z_dim; z++ ) // z comes first because I don't want to have to recalculate this z_scale_factor inside three nested loops
+	{// compute z_scale_factor once per slice on the z axis
+
+		cout << (z_scale_factor = 2.0f - ( z / 75.0f )) << endl;
+
+		for( int y = 0; y < y_dim; y++ )
+		{
+			for( int x = 0; x < x_dim; x++ )
+			{//per voxel
+
+				// noise_sample = z_scale_factor * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ); // single octave
+
+				// noise_sample = z_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+																					// p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z )); // two octaves
+
+				// noise_sample = z_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+				// 																	0.5 * p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z ) +
+				// 																		0.25 * p.noise( scale.x * (x*4.0f) + offset.x, scale.y * (y*4.0f) + offset.y, scale.z * (z*4.0f) + offset.z )); // three octaves
+
+				noise_sample = z_scale_factor * (0.5 * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+																					 p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z ) -
+																						2.0 * p.noise( scale.x * (x*4.0f) + offset.x, scale.y * (y*4.0f) + offset.y, scale.z * (z*4.0f) + offset.z ) +
+																							4.0 * p.noise( scale.x * (x*8.0f) + offset.x, scale.y * (y*8.0f) + offset.y, scale.z * (z*8.0f) + offset.z )	); // four octaves
+
+				if( noise_sample > rock_threshold )
+				{
+					draw_point( vec( x, y, z ), rock_material, draw, mask );
+				}
+				else if( noise_sample > land_threshold )
+				{
+					draw_point( vec( x, y, z ), land_material, draw, mask );
+				}
+				else if( noise_sample > grass_threshold )
+				{
+					draw_point( vec( x, y, z ), grass_material, draw, mask );
+				}
+			}
+		}
+	}
 }
 
 

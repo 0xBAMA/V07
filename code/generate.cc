@@ -50,6 +50,9 @@ int main()
 
 
 
+  main_block->draw_sphere(vec(255.5, 127.5, 127.5), 500, main_block->get_vox( 57, 1, false) );
+  main_block->draw_minecraft_style_terrain();
+  main_block->draw_sphere(vec(255.5, 127.5, 100), 50, main_block->get_vox( 0, 0, false) );
 
 
 
