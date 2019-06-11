@@ -1355,30 +1355,30 @@ void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bo
 	land_material  = get_vox( 21, 255, false);
 	rock_material  = get_vox( 60, 255, false);
 
-	float z_scale_factor;
+	float y_scale_factor;
 
 	float noise_sample = 0.0f;
 
-	for( int z = 0; z < z_dim; z++ ) // z comes first because I don't want to have to recalculate this z_scale_factor inside three nested loops
-	{// compute z_scale_factor once per slice on the z axis
+	for( int y = 0; y < y_dim; y++ ) // y comes first because I don't want to have to recalculate this y_scale_factor inside three nested loops
+	{// compute y_scale_factor once per slice on the y axis
 
-		cout << (z_scale_factor = 2.0f - ( z / 75.0f )) << endl;
+		cout << (y_scale_factor = 2.0f - ( y / 75.0f )) << endl;
 
-		for( int y = 0; y < y_dim; y++ )
+		for( int z = 0; z < z_dim; z++ )
 		{
 			for( int x = 0; x < x_dim; x++ )
 			{//per voxel
 
-				// noise_sample = z_scale_factor * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ); // single octave
+				// noise_sample = y_scale_factor * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ); // single octave
 
-				// noise_sample = z_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+				// noise_sample = y_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
 																					// p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z )); // two octaves
 
-				// noise_sample = z_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+				// noise_sample = y_scale_factor * (p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
 				// 																	0.5 * p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z ) +
 				// 																		0.25 * p.noise( scale.x * (x*4.0f) + offset.x, scale.y * (y*4.0f) + offset.y, scale.z * (z*4.0f) + offset.z )); // three octaves
 
-				noise_sample = z_scale_factor * (0.5 * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
+				noise_sample = y_scale_factor * (0.5 * p.noise( scale.x * x + offset.x, scale.y * y + offset.y, scale.z * z + offset.z ) +
 																					 p.noise( scale.x * (x*2.0f) + offset.x, scale.y * (y*2.0f) + offset.y, scale.z * (z*2.0f) + offset.z ) -
 																						2.0 * p.noise( scale.x * (x*4.0f) + offset.x, scale.y * (y*4.0f) + offset.y, scale.z * (z*4.0f) + offset.z ) +
 																							4.0 * p.noise( scale.x * (x*8.0f) + offset.x, scale.y * (y*8.0f) + offset.y, scale.z * (z*8.0f) + offset.z )	); // four octaves
