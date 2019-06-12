@@ -1,8 +1,11 @@
 #version 450 core
 
-in  vec4 vPosition;
 in  vec4 vColor;
+in  vec4 vPosition;
+
 out vec4 color;
+out vec4 vPosition_passthrough;
+
 
 out vec3 TexCoord;
 
@@ -45,9 +48,11 @@ void main()
 
     color = vColor;
 
-    if(vPosition.x == offset){
-      color = vec4(0,0,0,1);
-    }
+    //if(vPosition.x == offset){
+    //  color = vec4(0,0,0,1);
+    // }
+
+    vPosition_passthrough = vPosition;
 
 
     TexCoord = vec3( 1* 0.5 * (vPosition.x + 1.0), 1* 1 * (vPosition.y + 0.5), 1* 1 *(vPosition.z + 0.5));

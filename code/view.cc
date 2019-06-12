@@ -131,12 +131,12 @@ point4 points[NumVertices];
 color4 colors[NumVertices];
 
 
+float slice_width = 0.0f;
 
 
-
-//silly thing
-// const int num_offsets = 512;
-const int num_offsets = 1024;
+//how many slices
+const int num_offsets = 512;
+// const int num_offsets = 1024;
 int current_offset;
 float offsets[num_offsets];
 
@@ -156,8 +156,8 @@ void generate_points()
 
 	PerlinNoise p;
 
-	// GLfloat increment = 1.0/256.0;
-	GLfloat increment = 1.0/512.0;
+	GLfloat increment = 1.0/256.0;
+	// GLfloat increment = 1.0/512.0;
 
 
 	current_offset = 0;
@@ -338,6 +338,10 @@ void init( Shader s )
 		slice_width_loc = glGetUniformLocation( s.Program, "slice_width" );
 
 
+		glUniform1f( offset_loc, offsets[current_offset] );
+		glUniform1f( slice_width_loc, slice_width );
+
+
 
 		Projection = glm::ortho(left, right, top, bottom, zNear, zFar);
 
@@ -381,13 +385,6 @@ void display( void )
 
 		// update the value of theta in the shader
     glUniform3fv( theta_loc, 1, Theta );
-
-
-		// update the value of the offset in the shader
-		glUniform1f( offset_loc, offsets[current_offset] );
-
-
-
 
 
 		// the draw call
@@ -491,6 +488,8 @@ void keyboard( unsigned char key, int x, int y )
 				if(current_offset >= num_offsets)
 					current_offset = 0;
 
+				glUniform1f( offset_loc, offsets[current_offset] );
+
 				break;
 
 			case ']':
@@ -499,6 +498,22 @@ void keyboard( unsigned char key, int x, int y )
 				if(current_offset < 0)
 					current_offset = num_offsets-1;
 
+				glUniform1f( offset_loc, offsets[current_offset] );
+
+				break;
+
+			//WIDEN OR SHRINK THE SLICE
+			case 'o':
+				slice_width += 0.01;
+				glUniform1f( slice_width_loc, slice_width );
+				break;
+			case 'p':
+				slice_width -= 0.01;
+
+				if(slice_width < 0)
+					slice_width = 0;
+
+				glUniform1f( slice_width_loc, slice_width);
 				break;
 
     }
