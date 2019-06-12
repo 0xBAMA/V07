@@ -126,6 +126,19 @@ int main()
     main_block->draw_triangle(dc_tower_location, dc_tower_location + displacement_vectors[index1], dc_tower_location + displacement_vectors[index2], 2.0, main_block->get_vox( 20, 255, false) );
     main_block->draw_triangle(hg_tower_location, hg_tower_location + displacement_vectors[index1], hg_tower_location + displacement_vectors[index2], 2.0, main_block->get_vox( 20, 255, false) );
 
+    main_block->draw_line_segment(fe_tower_location + vec(0,0.75,0), fe_tower_location + displacement_vectors[index1] + vec(0,0.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(ba_tower_location + vec(0,0.75,0), ba_tower_location + displacement_vectors[index1] + vec(0,0.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(dc_tower_location + vec(0,0.75,0), dc_tower_location + displacement_vectors[index1] + vec(0,0.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(hg_tower_location + vec(0,0.75,0), hg_tower_location + displacement_vectors[index1] + vec(0,0.75,0), main_block->get_vox( 21, 255, false) );
+
+
+
+    // railings
+    main_block->draw_line_segment(fe_tower_location + displacement_vectors[index1] + vec(0,5,0), fe_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(ba_tower_location + displacement_vectors[index1] + vec(0,5,0), ba_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(dc_tower_location + displacement_vectors[index1] + vec(0,5,0), dc_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_line_segment(hg_tower_location + displacement_vectors[index1] + vec(0,5,0), hg_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+
     // increment the indicies for the displacement vectors
     index1++; index2++;
     if(index1 == 8) index1 = 0;
@@ -488,6 +501,193 @@ int main()
   main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox(57, 1, false) );
 
   main_block->draw_cylinder( (a+e)/2.0f, (c+g)/2.0f, 10,  main_block->get_vox(57, 1, false) );
+
+
+  main_block->mask_by_state(60);
+
+  main_block->mask_invert_mask();
+
+
+  main_block->draw_cylinder( (a+e)/2.0f, (c+g)/2.0f, 12,  main_block->get_vox(61, 255, false) );
+
+  a = castle_center + vec( -80,  35,  12);
+  b = castle_center + vec( -80,   5,  12);
+  c = castle_center + vec( -40,  35,  12);
+  d = castle_center + vec( -40,   5,  12);
+  e = castle_center + vec( -80,  35, -12);
+  f = castle_center + vec( -80,   5, -12);
+  g = castle_center + vec( -40,  35, -12);
+  h = castle_center + vec( -40,   5, -12);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox(61, 255, false) );
+
+  main_block->mask_unmask_all();
+
+  main_block->mask_by_state(60);
+
+  main_block->mask_by_state(61);
+
+// the rungs of the gate
+  for ( int i = -8; i <= 8; i+=4 )
+  {
+    main_block->draw_line_segment(castle_center+vec(-48,5,i), castle_center+vec(-48,50,i), main_block->get_vox(13, 255, false) );
+  }
+
+
+// the basic shape of the keep
+  a = castle_center + vec(-30,  60,  30);
+  b = castle_center + vec(-30,   0,  30);
+  c = castle_center + vec( 30,  60,  30);
+  d = castle_center + vec( 30,   0,  30);
+  e = castle_center + vec(-30,  60, -30);
+  f = castle_center + vec(-30,   0, -30);
+  g = castle_center + vec( 30,  60, -30);
+  h = castle_center + vec( 30,   0, -30);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 60, 255, false) );
+
+// cut out the inside
+  a = castle_center + vec(-26,  55,  26);
+  b = castle_center + vec(-26,   5,  26);
+  c = castle_center + vec( 26,  55,  26);
+  d = castle_center + vec( 26,   5,  26);
+  e = castle_center + vec(-26,  55, -26);
+  f = castle_center + vec(-26,   5, -26);
+  g = castle_center + vec( 26,  55, -26);
+  h = castle_center + vec( 26,   5, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox(57, 1, false) );
+
+// subfloor
+  a = castle_center + vec(-26,  7,  26);
+  b = castle_center + vec(-26,   5,  26);
+  c = castle_center + vec( 26,  7,  26);
+  d = castle_center + vec( 26,   5,  26);
+  e = castle_center + vec(-26,  7, -26);
+  f = castle_center + vec(-26,   5, -26);
+  g = castle_center + vec( 26,  7, -26);
+  h = castle_center + vec( 26,   5, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 20, 255, false) );
+
+// red carpet
+  a = castle_center + vec(-26,  8,  26);
+  b = castle_center + vec(-26,   6,  26);
+  c = castle_center + vec( 26,  8,  26);
+  d = castle_center + vec( 26,   6,  26);
+  e = castle_center + vec(-26,  8, -26);
+  f = castle_center + vec(-26,   6, -26);
+  g = castle_center + vec( 26,  8, -26);
+  h = castle_center + vec( 26,   6, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 3, 255, false) );
+
+
+// subfloor
+  a = castle_center + vec(-26,  17,  26);
+  b = castle_center + vec(-26,   15,  26);
+  c = castle_center + vec( 26,  17,  26);
+  d = castle_center + vec( 26,   15,  26);
+  e = castle_center + vec(-26,  17, -26);
+  f = castle_center + vec(-26,   15, -26);
+  g = castle_center + vec( 26,  17, -26);
+  h = castle_center + vec( 26,   15, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 20, 255, false) );
+
+// red carpet
+  a = castle_center + vec(-26,  18,  26);
+  b = castle_center + vec(-26,   16,  26);
+  c = castle_center + vec( 26,  18,  26);
+  d = castle_center + vec( 26,   16,  26);
+  e = castle_center + vec(-26,  18, -26);
+  f = castle_center + vec(-26,   16, -26);
+  g = castle_center + vec( 26,  18, -26);
+  h = castle_center + vec( 26,   16, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 3, 255, false) );
+
+// subfloor
+  a = castle_center + vec(-26,  43,  26);
+  b = castle_center + vec(-26,   41,  26);
+  c = castle_center + vec( 26,  43,  26);
+  d = castle_center + vec( 26,   41,  26);
+  e = castle_center + vec(-26,  43, -26);
+  f = castle_center + vec(-26,   41, -26);
+  g = castle_center + vec( 26,  43, -26);
+  h = castle_center + vec( 26,   41, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 20, 255, false) );
+
+// red carpet
+  a = castle_center + vec(-26,  44,  26);
+  b = castle_center + vec(-26,   42,  26);
+  c = castle_center + vec( 26,  44,  26);
+  d = castle_center + vec( 26,   42,  26);
+  e = castle_center + vec(-26,  44, -26);
+  f = castle_center + vec(-26,   42, -26);
+  g = castle_center + vec( 26,  44, -26);
+  h = castle_center + vec( 26,   42, -26);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 3, 255, false) );
+
+
+  // THE STAIRCASE INSIDE THE KEEP
+
+  vec internal_staircase_location = castle_center + vec(15,8,15);
+
+  main_block->draw_cylinder(internal_staircase_location, internal_staircase_location+vec(0,35,0), 9, main_block->get_vox(57, 1, false) );
+
+
+
+  index1 = 0;
+  index2 = 1;
+
+  // normalize and multiply to make them all the same lengths
+  for(int i = 0; i < 8; i++)
+    displacement_vectors[i] = 10.0f * normalize(displacement_vectors[i]);
+
+
+  for(int i = 0; i < 21; i++)
+  {
+    // drawing the steps for this level
+    main_block->draw_triangle(internal_staircase_location, internal_staircase_location + displacement_vectors[index1], internal_staircase_location + displacement_vectors[index2], 1.5, main_block->get_vox( 20, 255, false) );
+    main_block->draw_line_segment(internal_staircase_location + vec(0,0.75,0), internal_staircase_location + displacement_vectors[index1] + vec(0,0.75,0), main_block->get_vox( 21, 255, false) );
+
+
+    // railing
+    main_block->draw_line_segment(internal_staircase_location + displacement_vectors[index1] + vec(0,5,0), internal_staircase_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+
+    // increment the indicies for the displacement vectors
+    index1++; index2++;
+    if(index1 == 8) index1 = 0;
+    if(index2 == 8) index2 = 0;
+
+    // move 'em on up
+    internal_staircase_location += vec(0,1.75,0);
+
+  }
+
+  // middle post for the stairs
+  main_block->draw_cylinder(internal_staircase_location, internal_staircase_location+vec(0,-35,0), 2, main_block->get_vox(60, 255, false) );
+
+
+// roof
+  a = castle_center + vec(-30,  59,  30);
+  b = castle_center + vec(-30,   61,  30);
+  c = castle_center + vec( 30,  59,  30);
+  d = castle_center + vec( 30,   61,  30);
+  e = castle_center + vec(-30,  59, -30);
+  f = castle_center + vec(-30,   61, -30);
+  g = castle_center + vec( 30,  59, -30);
+  h = castle_center + vec( 30,   61, -30);
+
+  main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 15, 255, false) );
+
+
+  //TREES
+
+
 
 
 

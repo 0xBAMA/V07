@@ -157,7 +157,9 @@ void generate_points()
 	PerlinNoise p;
 
 	GLfloat increment = 1.0/256.0;
-	// GLfloat increment = 1.0/512.0;
+	GLfloat increment_offset = 1.0/512.0;
+	// GLfloat increment_offset = 0;
+
 
 
 	current_offset = 0;
@@ -183,34 +185,34 @@ void generate_points()
 
 			//TRIANGLE ABC
 			// POINT A
-			points[Index] = point4( x, 0.5, -0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, 0.5, -0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
 			// POINT B
-			points[Index] = point4( x, 0.5, 0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, 0.5, 0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
 			// POINT C
-			points[Index] = point4( x, -0.5, 0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, -0.5, 0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
 
 			//TRIANGLE ACD
 			// POINT A
-			points[Index] = point4( x, 0.5, -0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, 0.5, -0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
 			// POINT C
-			points[Index] = point4( x, -0.5, 0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, -0.5, 0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
 			// POINT D
-			points[Index] = point4( x, -0.5, -0.5, 1.0 );
+			points[Index] = point4( x + increment_offset, -0.5, -0.5, 1.0 );
 			colors[Index] = point4( 1.0, 1.0, 1.0, 1.0);
 			Index++;
 
@@ -266,9 +268,6 @@ void init( Shader s )
 
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
 		// This one looks the best
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -431,6 +430,19 @@ void keyboard( unsigned char key, int x, int y )
 			// change direction of rotation
 			case 't':
 					rotation_direction = rotation_direction ? false : true;
+					break;
+
+			// change to known rotation
+			case 'y':
+					Theta[0] = 42;
+					Theta[1] = 38;
+					Theta[2] = 0;
+					rotate = false;
+					break;
+
+			// echo to command line the current rotation
+			case 'j':
+					cout << Theta[0] << " " << Theta[1] << " " << Theta[2] << endl;
 					break;
 
 			// resize points

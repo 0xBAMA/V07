@@ -29,7 +29,7 @@ void main()
   else
   {// we are dealing with a nonzero slice width - blank out slices except those within slice_width of offset
 
-    if(abs(vPosition_passthrough.x - offset) <= slice_width)
+    if(abs(vPosition_passthrough.x - offset) <= (slice_width/2.0))
     {
       fColor = texture(ourTexture, TexCoord);
     }

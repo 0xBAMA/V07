@@ -1353,7 +1353,7 @@ void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bo
 
 	grass_material = get_vox( 25, 255, false);
 	land_material  = get_vox( 21, 255, false);
-	rock_material  = get_vox( 60, 255, false);
+	rock_material  = get_vox( 54, 255, false);
 
 	float y_scale_factor;
 
