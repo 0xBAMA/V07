@@ -504,11 +504,11 @@ void keyboard( unsigned char key, int x, int y )
 
 			//WIDEN OR SHRINK THE SLICE
 			case 'o':
-				slice_width += 0.01;
+				slice_width += 0.005;
 				glUniform1f( slice_width_loc, slice_width );
 				break;
 			case 'p':
-				slice_width -= 0.01;
+				slice_width -= 0.005;
 
 				if(slice_width < 0)
 					slice_width = 0;
