@@ -279,6 +279,8 @@ void init( Shader s )
 		// unsigned char *data = stbi_load("big grid.png", &width, &height, &nrChannels, 0);
 		unsigned char *data = stbi_load("save.png", &width, &height, &nrChannels, 0);
 
+		cout << endl << sizeof(data) << endl;
+
 
 		if (data)
 		{

@@ -1680,9 +1680,11 @@ void Voraldo::display(std::string filename, float x_rot, float y_rot, float z_ro
 void Voraldo::lighting_ambient_occlusion()
 {
   vec index;
-  Vox temp;
+  Vox temp_vox;
   int sum;
   int tot;
+
+	RGBA temp_color;
 
 	double ratio;
 
@@ -1697,15 +1699,14 @@ void Voraldo::lighting_ambient_occlusion()
 				index = vec(x,y,z);
 
 
-				//this is crude, slow - consider other methods?
 				for (int inner_x = -1; inner_x <= 1; inner_x++)
 				{
 					for (int inner_y = -1; inner_y <= 1; inner_y++)
 					{
 						for (int inner_z = -1; inner_z <= 1; inner_z++)
 						{
-							temp = get_data_by_vector_index(vec(x+inner_x,y+inner_y,z+inner_z));
-							sum += temp.color.alpha;
+							temp_vox = get_data_by_vector_index(index + vec(inner_x, inner_y, inner_z));
+							sum += temp_vox.color.alpha;
 							tot += 255;
 						}
 					}
@@ -1721,14 +1722,49 @@ void Voraldo::lighting_ambient_occlusion()
 
 				// 0.1 -
 
-				// <0.01 - no adjustment
+				// <0.01 - no adjustment255
 
 
-				ratio = (double)sum/(double)tot;
+				ratio = ((double)sum) / ((double)tot);
+
+				temp_color.red = temp_vox.color.red * ratio;
+				temp_color.green = temp_vox.color.green * ratio;
+				temp_color.blue = temp_vox.color.blue * ratio;
+				temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+				// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
 
 
-				if( ratio == 27.0/6885 )
-					set_data_by_vector_index(index, get_vox(1, 2, false));
+				set_data_by_vector_index(index, get_vox(temp_color, false));
+
+
+				// if( ratio < 0.1 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(1, 1, false));
+				// }
+				// else if( ratio < 0.15 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 1, false));
+				// }
+				// else if( ratio < 0.21 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 255, false));
+				// }
+				// else if( ratio < 0.25 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(7, 20, false));
+				// }
+				// else if( ratio < 0.3 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(23, 2, false));
+				// }
+				// else if( ratio < 0.5 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 25, false));
+				// }
+				// else
+				// {
+				// 	set_data_by_vector_index(index, get_vox(63, 255, false));
+				// }
 			}
 		}
 	}
