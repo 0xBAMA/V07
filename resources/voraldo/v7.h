@@ -115,6 +115,8 @@ class Voraldo
 
 			bool compare_colors(RGBA first, RGBA second);
 
+			float clamp(float value, float low, float high);
+
 			//CPU Renderer
 			void display(std::string filename, float x_rot, float y_rot, float z_rot, float scale, bool perspective);
 

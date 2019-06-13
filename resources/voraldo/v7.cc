@@ -1677,7 +1677,62 @@ void Voraldo::display(std::string filename, float x_rot, float y_rot, float z_ro
 //          \/           \/       \/                       \/        \/
 
 
+void Voraldo::lighting_ambient_occlusion()
+{
+  vec index;
+  Vox temp;
+  int sum;
+  int tot;
 
+	double ratio;
+
+	for(int x = 0; x < x_dim; x++)
+	{
+		for(int y = 0; y < y_dim; y++)
+		{
+			for(int z = 0; z < z_dim; z++)
+			{
+				sum = 0;
+				tot = 0;
+				index = vec(x,y,z);
+
+
+				//this is crude, slow - consider other methods?
+				for (int inner_x = -1; inner_x <= 1; inner_x++)
+				{
+					for (int inner_y = -1; inner_y <= 1; inner_y++)
+					{
+						for (int inner_z = -1; inner_z <= 1; inner_z++)
+						{
+							temp = get_data_by_vector_index(vec(x+inner_x,y+inner_y,z+inner_z));
+							sum += temp.color.alpha;
+							tot += 255;
+						}
+					}
+				}
+
+				// 1.0 - full neighborhood
+
+				// 0.75 -
+
+				// 0.5 -
+
+				// 0.25 -
+
+				// 0.1 -
+
+				// <0.01 - no adjustment
+
+
+				ratio = (double)sum/(double)tot;
+
+
+				if( ratio == 27.0/6885 )
+					set_data_by_vector_index(index, get_vox(1, 2, false));
+			}
+		}
+	}
+}
 
 
 
@@ -1893,7 +1948,7 @@ Vox Voraldo::get_vox( RGBA color, bool mask )
 }
 
 
-float clamp(float value, float low, float high)
+float Voraldo::clamp(float value, float low, float high)
 {
   if(value > high)
   {

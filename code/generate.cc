@@ -776,8 +776,12 @@ int main()
   }
 
 
+  main_block->mask_unmask_all();
 
 
+  main_block->lighting_ambient_occlusion();
+  // main_block->lighting->apply_directional_lighting(5.0, 3.14, 0.25*3.14, 3.14/3, 0.15, true);
+  // main_block->lighting->scale_lighting_intensity(4.0);
 
 //FRAMING
   bool draw_axes = false;
@@ -789,9 +793,7 @@ int main()
 
 
 
-  // main_block->lighting->apply_ambient_occlusion();
-  // main_block->lighting->apply_directional_lighting(5.0, 3.14, 0.25*3.14, 3.14/3, 0.15, true);
-  // main_block->lighting->scale_lighting_intensity(4.0);
+
 
   tock = Clock::now();
 
