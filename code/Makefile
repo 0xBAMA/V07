@@ -2,6 +2,7 @@ CC = g++
 
 MAKE_VIEWER_EXE= -o vu -time
 MAKE_GENERATE_EXE= -o gen -time
+MAKE_TEST_EXE= -o test -time
 
 GL_FLAGS = -lglut -lGLEW -lGL -lGLU
 
@@ -19,3 +20,6 @@ vu: view.cc
 
 gen: generate.cc ../resources/voraldo/v7.cc
 	$(CC) generate.cc  $(VORALDO_FLAGS) $(LODEPNG_FLAGS) $(MAKE_GENERATE_EXE) $(GL_FLAGS) $(CIMG_FLAGS)
+
+test: test.cc
+	$(CC) test.cc $(VORALDO_FLAGS) $(LODEPNG_FLAGS) $(MAKE_TEST_EXE) $(CIMG_FLAGS)

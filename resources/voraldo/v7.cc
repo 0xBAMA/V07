@@ -1724,18 +1724,32 @@ void Voraldo::lighting_ambient_occlusion()
 
 				// <0.01 - no adjustment255
 
+				temp_vox = get_data_by_vector_index(index);
 
-				ratio = ((double)sum) / ((double)tot);
+				if(temp_vox.color.alpha > 1)
+				{
+					ratio = 1.0 - 0.5 * ((double)sum) / ((double)tot);
 
-				temp_color.red = temp_vox.color.red * ratio;
-				temp_color.green = temp_vox.color.green * ratio;
-				temp_color.blue = temp_vox.color.blue * ratio;
-				temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
-				// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+					temp_color.red = temp_vox.color.red * ratio;
+					temp_color.green = temp_vox.color.green * ratio;
+					temp_color.blue = temp_vox.color.blue * ratio;
+					temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+					// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
 
 
-				set_data_by_vector_index(index, get_vox(temp_color, false));
+					set_data_by_vector_index(index, get_vox(temp_color, false));
+					ratio = 1.0 - 0.1 * ((double)sum) / ((double)tot);
 
+					temp_color.red = temp_vox.color.red * ratio;
+					temp_color.green = temp_vox.color.green * ratio;
+					temp_color.blue = temp_vox.color.blue * ratio;
+					temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+					// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+
+
+					set_data_by_vector_index(index, get_vox(temp_color, false));
+
+				}
 
 				// if( ratio < 0.1 )
 				// {

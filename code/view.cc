@@ -251,8 +251,7 @@ void init( Shader s )
 		// alpha blending
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
+		// glBlendFunc(GL_ONE, GL_ONE);
 
 
 		glGenTextures(1, &texture); // Generate an ID
@@ -270,14 +269,15 @@ void init( Shader s )
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// This one looks the best
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 
 		// load and generate the texture
 		int width, height, nrChannels;
-		// unsigned char *data = stbi_load("big grid.png", &width, &height, &nrChannels, 0);
+		// unsigned char *data = stbi_load("bigass.png", &width, &height, &nrChannels, 0);
 		unsigned char *data = stbi_load("save.png", &width, &height, &nrChannels, 0);
+
 
 		cout << endl << sizeof(data) << endl;
 
@@ -285,12 +285,12 @@ void init( Shader s )
 		if (data)
 		{
 			//this will seg fault if every pixel has alpha = 0 or alpha = 255
-		    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		    glGenerateMipmap(GL_TEXTURE_3D);
+	    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	    glGenerateMipmap(GL_TEXTURE_3D);
 		}
 		else
 		{
-		    std::cout << "Failed to load texture" << std::endl;
+	    std::cout << "Failed to load texture" << std::endl;
 		}
 
 		stbi_image_free(data);
@@ -381,7 +381,6 @@ void display( void )
 		tick = Clock::now();
 
 
-
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		// update the value of theta in the shader
@@ -391,8 +390,6 @@ void display( void )
 		// the draw call
     glDrawArrays( GL_TRIANGLES, 0, NumVertices );
 		// glDrawArrays( GL_LINE_LOOP, 0, NumVertices );
-
-
 
 
     glutSwapBuffers();
