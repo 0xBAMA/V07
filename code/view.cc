@@ -219,7 +219,7 @@ void generate_points()
 
 			cout << "\rgenerate_points() produced " << Index << " points";
 
-			offsets[current_offset] = x;
+			offsets[current_offset] = x + increment_offset;
 			current_offset++;
 
 		}

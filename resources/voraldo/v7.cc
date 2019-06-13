@@ -1345,15 +1345,15 @@ void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bo
 {
 	PerlinNoise p;
 
-	float grass_threshold = 0.35f;
-	float land_threshold  = 0.45f;
+	// float grass_threshold = 0.35f;
+	float land_threshold  = 0.35f;
 	float rock_threshold  = 0.60f;
 
 	Vox grass_material, land_material, rock_material;
 
 	grass_material = get_vox( 25, 255, false);
 	land_material  = get_vox( 21, 255, false);
-	rock_material  = get_vox( 54, 255, false);
+	rock_material  = get_vox( 59, 255, false);
 
 	float y_scale_factor;
 
@@ -1391,13 +1391,80 @@ void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bo
 				{
 					draw_point( vec( x, y, z ), land_material, draw, mask );
 				}
-				else if( noise_sample > grass_threshold )
-				{
-					draw_point( vec( x, y, z ), grass_material, draw, mask );
+				// else if( noise_sample > grass_threshold )
+				// {
+				// 	draw_point( vec( x, y, z ), grass_material, draw, mask );
+				// }
+			}
+		}
+	}
+
+	// grass pass
+
+	vec current_location;
+
+	for(int x = 0; x < 512; x++)
+	{
+		for(int z = 0; z < 256; z++)
+		{
+			for(int y = 256; y > 0; y--)
+			{
+				current_location = vec(x,y,z);
+				if(compare_colors(get_data_by_vector_index(current_location).color, land_material.color))
+				{//surface layer
+					set_data_by_vector_index(current_location, grass_material);
+					break;
 				}
 			}
 		}
 	}
+
+
+	// flowers
+
+	for(int x = 0; x < 512; x++)
+	{
+		for(int z = 0; z < 256; z++)
+		{
+			for(int y = 256; y > 0; y--)
+			{
+				current_location = vec(x,y,z);
+				if(compare_colors(get_data_by_vector_index(current_location).color, grass_material.color))
+				{//surface layer
+					if(std::rand()%500 == 69)
+					{
+						set_data_by_vector_index(current_location+vec(0,2,0), get_vox(43,255,false));
+					}
+					else if(std::rand()%100 == 69)
+					{
+						set_data_by_vector_index(current_location+vec(0,2,0), get_vox(41,255,false));
+					}
+					else if(std::rand()%100 == 23)
+					{
+						set_data_by_vector_index(current_location+vec(0,2,0), get_vox(11,255,false));
+					}
+					else if(std::rand()%100 == 10)
+					{
+						set_data_by_vector_index(current_location+vec(0,2,0), get_vox(1,255,false));
+					}
+					else if(std::rand()%100 == 10)
+					{
+						set_data_by_vector_index(current_location+vec(0,2,0), get_vox(7,255,false));
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	// add some features to the stone layer
+
+	mask_by_state(59);
+	mask_invert_mask();
+
+	draw_perlin_noise(0.2, 0.3, get_vox(56, 255, false));
+
+	mask_unmask_all();
 }
 
 
@@ -1791,11 +1858,11 @@ bool Voraldo::compare_colors(RGBA first, RGBA second)
   unsigned char blue1 = first.blue;
   unsigned char blue2 = second.blue;
 
-  unsigned char alpha1 = first.alpha;
-  unsigned char alpha2 = second.alpha;
+  // unsigned char alpha1 = first.alpha;
+  // unsigned char alpha2 = second.alpha;
 
 
-  return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) && ( alpha1 == alpha2 ) );
+  return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) ); // && ( alpha1 == alpha2 ) );
 }
 
 

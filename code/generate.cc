@@ -134,10 +134,10 @@ int main()
 
 
     // railings
-    main_block->draw_line_segment(fe_tower_location + displacement_vectors[index1] + vec(0,5,0), fe_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
-    main_block->draw_line_segment(ba_tower_location + displacement_vectors[index1] + vec(0,5,0), ba_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
-    main_block->draw_line_segment(dc_tower_location + displacement_vectors[index1] + vec(0,5,0), dc_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
-    main_block->draw_line_segment(hg_tower_location + displacement_vectors[index1] + vec(0,5,0), hg_tower_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_cylinder(fe_tower_location + displacement_vectors[index1] + vec(0,5,0), fe_tower_location + displacement_vectors[index2] + vec(0,6.75,0), 1.0, main_block->get_vox( 21, 255, false) );
+    main_block->draw_cylinder(ba_tower_location + displacement_vectors[index1] + vec(0,5,0), ba_tower_location + displacement_vectors[index2] + vec(0,6.75,0), 1.0, main_block->get_vox( 21, 255, false) );
+    main_block->draw_cylinder(dc_tower_location + displacement_vectors[index1] + vec(0,5,0), dc_tower_location + displacement_vectors[index2] + vec(0,6.75,0), 1.0, main_block->get_vox( 21, 255, false) );
+    main_block->draw_cylinder(hg_tower_location + displacement_vectors[index1] + vec(0,5,0), hg_tower_location + displacement_vectors[index2] + vec(0,6.75,0), 1.0, main_block->get_vox( 21, 255, false) );
 
     // increment the indicies for the displacement vectors
     index1++; index2++;
@@ -656,7 +656,7 @@ int main()
 
 
     // railing
-    main_block->draw_line_segment(internal_staircase_location + displacement_vectors[index1] + vec(0,5,0), internal_staircase_location + displacement_vectors[index2] + vec(0,6.75,0), main_block->get_vox( 21, 255, false) );
+    main_block->draw_cylinder(internal_staircase_location + displacement_vectors[index1] + vec(0,5,0), internal_staircase_location + displacement_vectors[index2] + vec(0,6.75,0), 1.0, main_block->get_vox( 21, 255, false) );
 
     // increment the indicies for the displacement vectors
     index1++; index2++;
@@ -685,16 +685,102 @@ int main()
   main_block->draw_quadrilateral_hexahedron(a, b, c, d, e, f, g, h, main_block->get_vox( 15, 255, false) );
 
 
-  //TREES
+// TREES
+
+  // normalize and multiply to make them all the same lengths
+  for(int i = 0; i < 8; i++)
+    displacement_vectors[i] = 1.0f * normalize(displacement_vectors[i]);
+
+  main_block->mask_by_state( 57 );
+  main_block->mask_invert_mask( ); // mask everything but the air
+
+  vec current_tree_location;
+  bool draw_tree = false;
+  int treeheight, trianglewidth;
+
+  std::srand(5);
+
+  for(int treex = 0; treex < 512; treex++)
+  {
+    for(int treez = 0; treez < 256; treez++)
+    {
+
+      if(std::rand()%500 == 1)
+      {// do a tree
+        for(int j = 0; j < 256; j++)
+        {// go down to the first grass-containing cell
+          current_tree_location = vec(treex, 256-j, treez);
+
+          if(main_block->compare_colors(main_block->get_data_by_vector_index(current_tree_location).color, main_block->palette[25]))
+          {
+            draw_tree = true;
+            break;
+          }
+        }
+
+        if(treex > (255 - 60) && treex < (255 + 60) && treez > (127 - 60) && treez < (127 + 60)) draw_tree = false;
+
+        //draw the tree
+        if(draw_tree)
+        {
+          cout << "drawing a tree at " << treex << " " << treez << endl;
+
+          treeheight = std::rand()%5;
+
+          index1 = 0;
+          index2 = 3;
+
+          switch(treeheight)
+          {
+            case 0:
+              main_block->draw_sphere(current_tree_location+vec(0,20,0), 3.0, main_block->get_vox(64, 255, false) );
+              main_block->draw_cylinder(current_tree_location, current_tree_location+vec(0,20,0), 1, main_block->get_vox(21, 255, false) );
+              break;
+            case 1:
+              main_block->draw_sphere(current_tree_location+vec(0,22,0), 4.0, main_block->get_vox(64, 255, false) );
+              main_block->draw_cylinder(current_tree_location, current_tree_location+vec(0,22,0), 1.5, main_block->get_vox(21, 255, false) );
+              break;
+            case 2:
+              main_block->draw_sphere(current_tree_location+vec(0,25,0), 5.0, main_block->get_vox(64, 255, false) );
+              main_block->draw_cylinder(current_tree_location, current_tree_location+vec(0,25,0), 1.5, main_block->get_vox(21, 255, false) );
+              break;
+            case 3:
+              trianglewidth = 9;
+              main_block->draw_cylinder(current_tree_location, current_tree_location+vec(0,28,0), 1.0, main_block->get_vox(21, 255, false) );
+
+              for(int i = 6; i < 36; i+=4)
+              {
+                // main_block->draw_triangle(current_tree_location+vec(0,i,0), current_tree_location+vec(0,i-5,0)+(float)trianglewidth*displacement_vectors[index1], current_tree_location+vec(0,i-5,0)+(float)trianglewidth*displacement_vectors[index2], 2.0, main_block->get_vox(64, 255, false));
+                //
+                // index1+=5; index2+=3;
+                // if(index1 >= 8) index1 = 0;
+                // if(index2 >= 8) index2 = 0;
+
+                main_block->draw_sphere(current_tree_location+vec(0,i,0), trianglewidth, main_block->get_vox(64, 255, false) );
 
 
+                trianglewidth--;
+              }
+              break;
+            case 4:
+              main_block->draw_sphere(current_tree_location+vec(0,32,0), 7.0, main_block->get_vox(64, 255, false) );
+              main_block->draw_cylinder(current_tree_location, current_tree_location+vec(0,32,0), 1.75, main_block->get_vox(21, 255, false) );
+              break;
+            default:
+              break;
+          }
+          draw_tree = false;
+        }
+      }
+    }
+  }
 
 
 
 
 
 //FRAMING
-  bool draw_axes = true;
+  bool draw_axes = false;
   if( draw_axes )
   {
     draw_axes_and_corners();

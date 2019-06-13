@@ -94,7 +94,7 @@ class Voraldo
 			Vox get_data_by_vector_index(vec index);
 			//return the state value for the selected index... this is going to take a lot more time now
 
-			void set_data_by_vector_index(vec index, Vox set, bool draw, bool mask, bool force = false);
+			void set_data_by_vector_index(vec index, Vox set, bool draw=true, bool mask=false, bool force = false);
 			//set the data at the selected index, also setting the mask if the
 			//mask variable is true
 
