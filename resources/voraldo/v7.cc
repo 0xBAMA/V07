@@ -176,12 +176,15 @@ void Voraldo::save( std::string filename )
   Vox temp;
   RGBA temporary_color;
 
-  std::vector<unsigned char> image;
+  // std::vector<unsigned char> image;
+	std::vector<unsigned char> image;
+
+
 
   unsigned image_width = width;
   unsigned image_height = height * depth;
 
-  int size = 4 * width * height * depth;
+  int size = 8 * width * height * depth; // two bytes per color, now, for 16-bit
 
   image.resize( size );
 
@@ -200,15 +203,41 @@ void Voraldo::save( std::string filename )
       for(int x = 0; x < width; x++)
       {
 
-        temp = get_data_by_vector_index(vec( ( float ) x, ( float ) y, ( float ) z ) );
+        temp = get_data_by_vector_index(vec( x, y, z ) );
 
         temporary_color = temp.color;
 
-        image[index] = temporary_color.red;   index++;
-        image[index] = temporary_color.green; index++;
-        image[index] = temporary_color.blue;  index++;
-        image[index] = temporary_color.alpha; index++;
 
+				image[index] = 0*temporary_color.red;
+				index++;
+				image[index] = temporary_color.red;
+				index++;
+
+				image[index] = 0*temporary_color.green;
+				index++;
+				image[index] = temporary_color.green;
+				index++;
+
+				image[index] = 0*temporary_color.blue;
+				index++;
+				image[index] = temporary_color.blue;
+				index++;
+
+
+				if(temporary_color.alpha == 1)
+				{
+					image[index] = 165;
+					index++;
+					image[index] = 0;
+					index++;
+				}
+				else
+				{
+	        image[index] = temporary_color.alpha;
+					index++;
+					image[index] = temporary_color.alpha;
+					index++;
+				}
 
       }
 
@@ -218,7 +247,10 @@ void Voraldo::save( std::string filename )
 
   //z * height * width  +  y * width  +  x
 
-  unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height);
+  // unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height,  LodePNGColorType::LCT_RGBA, 16);
+	unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height,  LodePNGColorType::LCT_RGBA, 16);
+
+
   if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
 }
 
@@ -1468,6 +1500,108 @@ void Voraldo::draw_minecraft_style_terrain( vec offset, vec scale, bool draw, bo
 }
 
 
+void Voraldo::blur( int radius, bool change_alpha)
+{
+	vec index;
+  Vox temp_vox;
+  int sum;
+  int tot;
+
+	RGBA temp_color;
+
+	double ratio;
+
+
+	//vector to hold temporary colors (avoid the corruption I was seeing)
+
+
+
+	for(int x = 0; x < x_dim; x++)
+	{
+		for(int y = 0; y < y_dim; y++)
+		{
+			for(int z = 0; z < z_dim; z++)
+			{
+				sum = 0;
+				tot = 0;
+				index = vec(x,y,z);
+
+
+				for (int inner_x = -1 * radius; inner_x <= 1 * radius; inner_x++)
+				{
+					for (int inner_y = -1 * radius; inner_y <= 1 * radius; inner_y++)
+					{
+						for (int inner_z = -1 * radius; inner_z <= 1 * radius; inner_z++)
+						{
+							temp_vox = get_data_by_vector_index(index + vec(inner_x, inner_y, inner_z));
+							sum += temp_vox.color.alpha;
+							tot += 255;
+						}
+					}
+				}
+
+
+
+				// temp_vox = get_data_by_vector_index(index);
+				//
+				// if(temp_vox.color.alpha > 1)
+				// {
+				// 	ratio = 1.0 - 0.5 * ((double)sum) / ((double)tot);
+				//
+				// 	temp_color.red = temp_vox.color.red * ratio;
+				// 	temp_color.green = temp_vox.color.green * ratio;
+				// 	temp_color.blue = temp_vox.color.blue * ratio;
+				// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+				// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+				//
+				// 	set_data_by_vector_index(index, get_vox(temp_color, false));
+				// 	ratio = 1.0 - 0.1 * ((double)sum) / ((double)tot);
+				//
+				// 	temp_color.red = temp_vox.color.red * ratio;
+				// 	temp_color.green = temp_vox.color.green * ratio;
+				// 	temp_color.blue = temp_vox.color.blue * ratio;
+				// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+				// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+				//
+				//
+				// 	set_data_by_vector_index(index, get_vox(temp_color, false));
+				// }
+
+				// if( ratio < 0.1 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(1, 1, false));
+				// }
+				// else if( ratio < 0.15 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 1, false));
+				// }
+				// else if( ratio < 0.21 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 255, false));
+				// }
+				// else if( ratio < 0.25 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(7, 20, false));
+				// }
+				// else if( ratio < 0.3 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(23, 2, false));
+				// }
+				// else if( ratio < 0.5 )
+				// {
+				// 	set_data_by_vector_index(index, get_vox(33, 25, false));
+				// }
+				// else
+				// {
+				// 	set_data_by_vector_index(index, get_vox(63, 255, false));
+				// }
+			}
+		}
+	}
+}
+
+
+
 
 //  ___________________ ____ ___
 //  \_   ___ \______   \    |   \
@@ -1954,17 +2088,17 @@ bool Voraldo::intersect_ray_bbox(vec bbox_min, vec bbox_max, vec ray_org, vec ra
 bool Voraldo::compare_colors(RGBA first, RGBA second)
 {
 
-  unsigned char red1 = first.red;
-  unsigned char red2 = second.red;
+  auto red1 = first.red;
+  auto red2 = second.red;
 
-  unsigned char green1 = first.green;
-  unsigned char green2 = second.green;
+  auto green1 = first.green;
+  auto green2 = second.green;
 
-  unsigned char blue1 = first.blue;
-  unsigned char blue2 = second.blue;
+  auto blue1 = first.blue;
+  auto blue2 = second.blue;
 
-  // unsigned char alpha1 = first.alpha;
-  // unsigned char alpha2 = second.alpha;
+  // auto alpha1 = first.alpha;
+  // auto alpha2 = second.alpha;
 
 
   return ( ( red1 == red2 ) && ( green1 == green2 ) && ( blue1 == blue2 ) ); // && ( alpha1 == alpha2 ) );

@@ -1,1 +1,1 @@
-cmd: echo Buliding && cd ./code && make && gen && vu
+cmd: echo Buliding && cd ./code && make && gen && vu save.png

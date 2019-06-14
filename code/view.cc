@@ -10,6 +10,10 @@
 
 
 
+#include "../resources/lodepng.h"
+// Good, simple png library
+
+
 
 //stream class shit
 using std::cout;
@@ -269,31 +273,40 @@ void init( Shader s )
 		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// This one looks the best
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		// glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 
 		// load and generate the texture
-		int width, height, nrChannels;
+		// int width, height, nrChannels;
 		// unsigned char *data = stbi_load("bigass.png", &width, &height, &nrChannels, 0);
-		unsigned char *data = stbi_load("save.png", &width, &height, &nrChannels, 0);
+		// unsigned short int *data = stbi_load("save.png", &width, &height, &nrChannels, 0);
 
 
-		cout << endl << sizeof(data) << endl;
+
+		// Load file and decode image.
+		// std::vector<unsigned short int> image_data;
+		std::vector<unsigned char> image_data;
+		unsigned width, height;
+		unsigned error = lodepng::decode(image_data, width, height, "save.png", LodePNGColorType::LCT_RGBA, 16);
 
 
-		if (data)
+		// cout << endl << sizeof(image_data) << endl;
+
+
+		if (error == 0)
 		{
-			//this will seg fault if every pixel has alpha = 0 or alpha = 255
-	    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	    // glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_SHORT, &image_data[0]);
 	    glGenerateMipmap(GL_TEXTURE_3D);
 		}
 		else
 		{
 	    std::cout << "Failed to load texture" << std::endl;
+			std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 		}
 
-		stbi_image_free(data);
+		// stbi_image_free(data);
 
 
 

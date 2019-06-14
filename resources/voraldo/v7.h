@@ -61,6 +61,11 @@ struct RGBA{
 	unsigned char green;
 	unsigned char blue;
 	unsigned char alpha;
+
+	// unsigned short int red;
+	// unsigned short int green;
+	// unsigned short int blue;
+	// unsigned short int alpha;
 };
 
 struct Vox{
@@ -221,6 +226,8 @@ class Voraldo
 
 		void draw_minecraft_style_terrain( vec offset=vec(0.0f, 0.0f, 0.0f), vec scale=vec(0.006f, 0.004f, 0.008f), bool draw=true, bool mask=false);
 			// scaled perlin noise - there's potentially a lot of directions to go with this
+
+		void blur( int radius, bool change_alpha);
 
 
 //      __    _       __    __  _
