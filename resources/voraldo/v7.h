@@ -56,19 +56,18 @@ using std::endl;
 
 using std::vector;
 
-struct RGBA{
+struct RGBA
+{
 	unsigned char red;
 	unsigned char green;
 	unsigned char blue;
-	unsigned char alpha;
 
-	// unsigned short int red;
-	// unsigned short int green;
-	// unsigned short int blue;
-	// unsigned short int alpha;
+	unsigned char alpha;
+	unsigned char alpha_low;
 };
 
-struct Vox{
+struct Vox
+{
 	RGBA color;
 
 	bool mask;
@@ -114,7 +113,7 @@ class Voraldo
 			// returns true if the vector starting at ray_org doing in direction ray_dir hits the bounding box
 			// tmin and tmax let the user know the far and near points of intersection
 
-			Vox get_vox( int desired_color, unsigned char alpha, bool mask );
+			Vox get_vox( int desired_color, float alpha, bool mask );
 			Vox get_vox( RGBA color, bool mask ); // if you don't care about the alpha channel
 
 

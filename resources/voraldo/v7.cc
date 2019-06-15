@@ -177,22 +177,24 @@ void Voraldo::save( std::string filename )
   RGBA temporary_color;
 
   // std::vector<unsigned char> image;
-	std::vector<unsigned char> image;
-
+	std::vector<unsigned char> color_image;
+	std::vector<unsigned char> alpha_grayscale_image;
 
 
   unsigned image_width = width;
   unsigned image_height = height * depth;
 
-  int size = 8 * width * height * depth; // two bytes per color, now, for 16-bit
+  int color_image_size = 3 * width * height * depth;
+	int alpha_grayscale_image_size = 2 * width * height * depth;
 
-  image.resize( size );
-
-  // cout << "vector declared with " << image.capacity() << " elements" << endl;
-  // cout << "vector max size of " << image.max_size() << " elements" << endl << endl;
+  color_image.resize( color_image_size );
+	alpha_grayscale_image.resize( alpha_grayscale_image_size );
 
 
-  int index = 0;
+
+
+  int color_image_index = 0;
+	int alpha_grayscale_image_index = 0;
 
 	// put the data in the image
 
@@ -208,36 +210,22 @@ void Voraldo::save( std::string filename )
         temporary_color = temp.color;
 
 
-				image[index] = 0*temporary_color.red;
-				index++;
-				image[index] = temporary_color.red;
-				index++;
+				color_image[color_image_index] = temporary_color.red;
+				color_image_index++;
 
-				image[index] = 0*temporary_color.green;
-				index++;
-				image[index] = temporary_color.green;
-				index++;
+				color_image[color_image_index] = temporary_color.green;
+				color_image_index++;
 
-				image[index] = 0*temporary_color.blue;
-				index++;
-				image[index] = temporary_color.blue;
-				index++;
+				color_image[color_image_index] = temporary_color.blue;
+				color_image_index++;
 
 
-				if(temporary_color.alpha == 1)
-				{
-					image[index] = 165;
-					index++;
-					image[index] = 0;
-					index++;
-				}
-				else
-				{
-	        image[index] = temporary_color.alpha;
-					index++;
-					image[index] = temporary_color.alpha;
-					index++;
-				}
+        alpha_grayscale_image[alpha_grayscale_image_index] = temporary_color.alpha;
+				alpha_grayscale_image_index++;
+
+				alpha_grayscale_image[alpha_grayscale_image_index] = temporary_color.alpha_low;
+				alpha_grayscale_image_index++;
+
 
       }
 
@@ -247,11 +235,16 @@ void Voraldo::save( std::string filename )
 
   //z * height * width  +  y * width  +  x
 
-  // unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height,  LodePNGColorType::LCT_RGBA, 16);
-	unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height,  LodePNGColorType::LCT_RGBA, 16);
+	unsigned error = lodepng::encode("current_model/" + filename + "_color_8bit.png", color_image, image_width, image_height,  LodePNGColorType::LCT_RGB, 8 );
+
+	if(error) std::cout << "encoder error on the color image step " << error << ": "<< lodepng_error_text(error) << std::endl;
+
+	error = lodepng::encode("current_model/" + filename + "_alpha_16bit.png", alpha_grayscale_image, image_width, image_height,  LodePNGColorType::LCT_GREY, 16 );
+
+	if(error) std::cout << "encoder error on the alpha image step " << error << ": "<< lodepng_error_text(error) << std::endl;
 
 
-  if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
+
 }
 
 
@@ -264,17 +257,29 @@ void Voraldo::save( std::string filename )
 
 void Voraldo::load( std::string filename )
 {
-	std::vector<unsigned char> image;
+	std::vector<unsigned char> color_image;
+	std::vector<unsigned char> alpha_image;
+
 
 	unsigned width, height;
 
-	int index = 0;
+	int color_image_index = 0;
+	int alpha_image_index = 0;
+
 
 	//decode
-	unsigned error = lodepng::decode( image, width, height, filename.c_str( ) );
+	unsigned error = lodepng::decode( color_image, width, height, "current_model/" + filename + "color_8bit.png",  LodePNGColorType::LCT_RGB, 8 );
 
 	//if there's an error, display it
-	if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text( error ) << std::endl;
+	if(error) std::cout << "decoder error in color image step - " << error << ": " << lodepng_error_text( error ) << std::endl;
+
+
+
+	error = lodepng::decode( alpha_image, width, height, "current_model/" + filename + "alpha_16bit.png",  LodePNGColorType::LCT_GREY, 16 );
+
+	if(error) std::cout << "decoder error in alpha image step - " << error << ": " << lodepng_error_text( error ) << std::endl;
+
+
 
 	// initialize block with dimensions 512 x 256 x 256
 
@@ -290,18 +295,26 @@ void Voraldo::load( std::string filename )
     {
       for(int x = 0; x < 512; x++)
       {
+				temp.red   = color_image[color_image_index];
+				color_image_index++;
 
-				temp.red   = image[index]; index++;
-				temp.green = image[index]; index++;
-				temp.blue  = image[index]; index++;
-				temp.alpha = image[index]; index++;
+				temp.green = color_image[color_image_index];
+				color_image_index++;
 
-				set_data_by_vector_index( vec( ( float ) x, ( float ) y, ( float ) z ), get_vox( temp, false ), true, false );
+				temp.blue  = color_image[color_image_index];
+				color_image_index++;
 
+
+				temp.alpha = alpha_image[alpha_image_index];
+				alpha_image_index++;
+
+				temp.alpha_low = alpha_image[alpha_image_index];
+				alpha_image_index++;
+
+
+				set_data_by_vector_index( vec( x, y, z ), get_vox( temp, false ), true, false );
       }
-
     }
-
   }
 
 
@@ -356,7 +369,7 @@ void Voraldo::init_block(vec dimensions)
         data[x][y][z].color.red   = 0;
         data[x][y][z].color.green = 0;
         data[x][y][z].color.blue  = 0;
-        data[x][y][z].color.alpha = 0;
+        data[x][y][z].color.alpha = data[x][y][z].color.alpha_low  = 0;
 
 
         data[x][y][z].mask = false;
@@ -1516,88 +1529,88 @@ void Voraldo::blur( int radius, bool change_alpha)
 
 
 
-	for(int x = 0; x < x_dim; x++)
-	{
-		for(int y = 0; y < y_dim; y++)
-		{
-			for(int z = 0; z < z_dim; z++)
-			{
-				sum = 0;
-				tot = 0;
-				index = vec(x,y,z);
-
-
-				for (int inner_x = -1 * radius; inner_x <= 1 * radius; inner_x++)
-				{
-					for (int inner_y = -1 * radius; inner_y <= 1 * radius; inner_y++)
-					{
-						for (int inner_z = -1 * radius; inner_z <= 1 * radius; inner_z++)
-						{
-							temp_vox = get_data_by_vector_index(index + vec(inner_x, inner_y, inner_z));
-							sum += temp_vox.color.alpha;
-							tot += 255;
-						}
-					}
-				}
-
-
-
-				// temp_vox = get_data_by_vector_index(index);
-				//
-				// if(temp_vox.color.alpha > 1)
-				// {
-				// 	ratio = 1.0 - 0.5 * ((double)sum) / ((double)tot);
-				//
-				// 	temp_color.red = temp_vox.color.red * ratio;
-				// 	temp_color.green = temp_vox.color.green * ratio;
-				// 	temp_color.blue = temp_vox.color.blue * ratio;
-				// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
-				// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
-				//
-				// 	set_data_by_vector_index(index, get_vox(temp_color, false));
-				// 	ratio = 1.0 - 0.1 * ((double)sum) / ((double)tot);
-				//
-				// 	temp_color.red = temp_vox.color.red * ratio;
-				// 	temp_color.green = temp_vox.color.green * ratio;
-				// 	temp_color.blue = temp_vox.color.blue * ratio;
-				// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
-				// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
-				//
-				//
-				// 	set_data_by_vector_index(index, get_vox(temp_color, false));
-				// }
-
-				// if( ratio < 0.1 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(1, 1, false));
-				// }
-				// else if( ratio < 0.15 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(33, 1, false));
-				// }
-				// else if( ratio < 0.21 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(33, 255, false));
-				// }
-				// else if( ratio < 0.25 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(7, 20, false));
-				// }
-				// else if( ratio < 0.3 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(23, 2, false));
-				// }
-				// else if( ratio < 0.5 )
-				// {
-				// 	set_data_by_vector_index(index, get_vox(33, 25, false));
-				// }
-				// else
-				// {
-				// 	set_data_by_vector_index(index, get_vox(63, 255, false));
-				// }
-			}
-		}
-	}
+	// for(int x = 0; x < x_dim; x++)
+	// {
+	// 	for(int y = 0; y < y_dim; y++)
+	// 	{
+	// 		for(int z = 0; z < z_dim; z++)
+	// 		{
+	// 			sum = 0;
+	// 			tot = 0;
+	// 			index = vec(x,y,z);
+	//
+	//
+	// 			for (int inner_x = -1 * radius; inner_x <= 1 * radius; inner_x++)
+	// 			{
+	// 				for (int inner_y = -1 * radius; inner_y <= 1 * radius; inner_y++)
+	// 				{
+	// 					for (int inner_z = -1 * radius; inner_z <= 1 * radius; inner_z++)
+	// 					{
+	// 						temp_vox = get_data_by_vector_index(index + vec(inner_x, inner_y, inner_z));
+	// 						sum += temp_vox.color.alpha;
+	// 						tot += 255;
+	// 					}
+	// 				}
+	// 			}
+	//
+	//
+	//
+	// 			// temp_vox = get_data_by_vector_index(index);
+	// 			//
+	// 			// if(temp_vox.color.alpha > 1)
+	// 			// {
+	// 			// 	ratio = 1.0 - 0.5 * ((double)sum) / ((double)tot);
+	// 			//
+	// 			// 	temp_color.red = temp_vox.color.red * ratio;
+	// 			// 	temp_color.green = temp_vox.color.green * ratio;
+	// 			// 	temp_color.blue = temp_vox.color.blue * ratio;
+	// 			// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+	// 			// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+	// 			//
+	// 			// 	set_data_by_vector_index(index, get_vox(temp_color, false));
+	// 			// 	ratio = 1.0 - 0.1 * ((double)sum) / ((double)tot);
+	// 			//
+	// 			// 	temp_color.red = temp_vox.color.red * ratio;
+	// 			// 	temp_color.green = temp_vox.color.green * ratio;
+	// 			// 	temp_color.blue = temp_vox.color.blue * ratio;
+	// 			// 	temp_color.alpha = temp_vox.color.alpha; // there was severe artifacting when the alpha was being
+	// 			// 	// manipulated at the same time as the sweep through the data (corrupted neighborhoods)
+	// 			//
+	// 			//
+	// 			// 	set_data_by_vector_index(index, get_vox(temp_color, false));
+	// 			// }
+	//
+	// 			// if( ratio < 0.1 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(1, 1, false));
+	// 			// }
+	// 			// else if( ratio < 0.15 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(33, 1, false));
+	// 			// }
+	// 			// else if( ratio < 0.21 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(33, 255, false));
+	// 			// }
+	// 			// else if( ratio < 0.25 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(7, 20, false));
+	// 			// }
+	// 			// else if( ratio < 0.3 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(23, 2, false));
+	// 			// }
+	// 			// else if( ratio < 0.5 )
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(33, 25, false));
+	// 			// }
+	// 			// else
+	// 			// {
+	// 			// 	set_data_by_vector_index(index, get_vox(63, 255, false));
+	// 			// }
+	// 		}
+	// 	}
+	// }
 }
 
 
@@ -2107,12 +2120,31 @@ bool Voraldo::compare_colors(RGBA first, RGBA second)
 
 
 
-Vox Voraldo::get_vox( int palette_number, unsigned char alpha, bool mask )
+Vox Voraldo::get_vox( int palette_number, float alpha, bool mask )
 {
   Vox temp;
 
-  temp.color = palette[palette_number];
-  temp.color.alpha = alpha;
+	temp.color = palette[palette_number];
+
+	if(alpha > 255)
+	{
+		temp.color.alpha = 255;
+		temp.color.alpha_low = 255;
+	}
+	else if( alpha - std::floor(alpha) != 0 )
+	{ // use decimal to represent the low bits, map 0 to 1 to the range 0 to 255
+
+		temp.color.alpha = (unsigned char) std::floor(alpha);
+		temp.color.alpha_low = (unsigned char) ((alpha - std::floor(alpha)) * 255);
+
+	}
+	else
+	{	// no decimal, just cast as unsigned char
+
+		temp.color.alpha = (unsigned char) alpha;
+		temp.color.alpha_low = 0;
+	}
+
   temp.mask = mask;
 
   return temp;
