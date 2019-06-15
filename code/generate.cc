@@ -697,6 +697,7 @@ int main()
       displacement_vectors[i] = 1.0f * normalize(displacement_vectors[i]);
 
     main_block->mask_by_state( 57 );
+    main_block->mask_by_state(  0 );
     main_block->mask_invert_mask( ); // mask everything but the air
 
     vec current_tree_location;
@@ -781,12 +782,16 @@ int main()
     }
 
 
-    main_block->mask_unmask_all();
 
 
     // main_block->lighting_ambient_occlusion();
     // main_block->lighting->apply_directional_lighting(5.0, 3.14, 0.25*3.14, 3.14/3, 0.15, true);
     // main_block->lighting->scale_lighting_intensity(4.0);
+
+
+
+    main_block->mask_unmask_all();
+
 
 
 
