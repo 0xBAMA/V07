@@ -162,7 +162,7 @@ Voraldo::~Voraldo()
 //  /____/\__,_/ |___/\___/
 // ----------------------- // this is fundamental to the interoperability of the two programs gen and vu
 
-void Voraldo::save( std::string filename )
+void Voraldo::save_16_bit( std::string filename )
 {
   // using namespace cimg_library;
 
@@ -255,7 +255,7 @@ void Voraldo::save( std::string filename )
 //  /_/\____/\__,_/\__,_/
 // --------------------- // this is significant, because it allows external editing of models, i.e. with GIMP
 
-void Voraldo::load( std::string filename )
+void Voraldo::load_16_bit( std::string filename )
 {
 	std::vector<unsigned char> color_image;
 	std::vector<unsigned char> alpha_image;
@@ -321,6 +321,132 @@ void Voraldo::load( std::string filename )
 
 
 }
+
+
+
+//     _________ __   _____
+//    / ___/ __ `/ | / / _ \
+//   (__  ) /_/ /| |/ /  __/
+//  /____/\__,_/ |___/\___/
+// ----------------------- // this is fundamental to the interoperability of the two programs gen and vu
+
+void Voraldo::save( std::string filename )
+{
+  // using namespace cimg_library;
+
+  int width = x_dim;
+  int height = y_dim;
+  int depth = z_dim;
+
+  // cout << "saving block of " << width << " " << height << " " << depth << endl;
+
+
+  Vox temp;
+  RGBA temporary_color;
+
+  std::vector<unsigned char> image;
+
+  unsigned image_width = width;
+  unsigned image_height = height * depth;
+
+  int size = 4 * width * height * depth;
+
+  image.resize( size );
+
+  // cout << "vector declared with " << image.capacity() << " elements" << endl;
+  // cout << "vector max size of " << image.max_size() << " elements" << endl << endl;
+
+
+  int index = 0;
+
+	// put the data in the image
+
+  for(int z = 0; z < depth; z++)
+  {
+    for(int y = 0; y < height; y++)
+    {
+      for(int x = 0; x < width; x++)
+      {
+
+        temp = get_data_by_vector_index(vec( ( float ) x, ( float ) y, ( float ) z ) );
+
+        temporary_color = temp.color;
+
+        image[index] = temporary_color.red;   index++;
+        image[index] = temporary_color.green; index++;
+        image[index] = temporary_color.blue;  index++;
+        image[index] = temporary_color.alpha; index++;
+
+
+      }
+
+    }
+
+  }
+
+  //z * height * width  +  y * width  +  x
+
+  unsigned error = lodepng::encode(filename.c_str(), image, image_width, image_height);
+  if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
+}
+
+
+//      __                __
+//     / /___  ____ _____/ /
+//    / / __ \/ __ `/ __  /
+//   / / /_/ / /_/ / /_/ /
+//  /_/\____/\__,_/\__,_/
+// --------------------- // this is significant, because it allows external editing of models, i.e. with GIMP
+
+void Voraldo::load( std::string filename )
+{
+	std::vector<unsigned char> image;
+
+	unsigned width, height;
+
+	int index = 0;
+
+	//decode
+	unsigned error = lodepng::decode( image, width, height, filename.c_str( ) );
+
+	//if there's an error, display it
+	if(error) std::cout << "decoder error " << error << ": " << lodepng_error_text( error ) << std::endl;
+
+	// initialize block with dimensions 512 x 256 x 256
+
+	init_block( vec( 512, 256, 256 ) );
+
+	// now get the data out of the image
+
+	RGBA temp;
+
+	for(int z = 0; z < 256; z++)
+  {
+    for(int y = 0; y < 256; y++)
+    {
+      for(int x = 0; x < 512; x++)
+      {
+
+				temp.red   = image[index]; index++;
+				temp.green = image[index]; index++;
+				temp.blue  = image[index]; index++;
+				temp.alpha = image[index]; index++;
+
+				set_data_by_vector_index( vec( ( float ) x, ( float ) y, ( float ) z ), get_vox( temp, false ), true, false );
+
+      }
+
+    }
+
+  }
+
+
+
+
+}
+
+
+
 
 
 

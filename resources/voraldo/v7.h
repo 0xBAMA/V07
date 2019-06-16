@@ -127,6 +127,11 @@ class Voraldo
 			void save(std::string filename); // saves a block to an image - assumes you have a block held in data
 			void load(std::string filename); // loads a block from an image - assumes 512 x 256 x 256
 
+
+			// These are of questionable utility
+			void save_16_bit(std::string filename); // saves a block to an image - assumes you have a block held in data - uses 16 bit alpha
+			void load_16_bit(std::string filename); // loads a block from an image - assumes 512 x 256 x 256 - uses 16 bit alpha
+
 	//-----------------------------------------
 			//drawing, masking and initialization
 	//-----------------------------------------
@@ -213,6 +218,16 @@ class Voraldo
 			//the main issue comes in when the four points making up a face do not lie in
 			//the same plane - there the algorithm has to choose between two ambigous
 			//cases and the results will be less than predictable i.e. a default is used.
+
+			// note, re: arrangement of verticies on quadrilaterial hexahedron:
+						// 	a : -x, +y, +z
+						// 	b : -x, -y, +z
+						// 	c : +x, +y, +z
+						// 	d : +x, -y, +z
+						// 	e : -x, +y, -z
+						// 	f : -x, -y, -z
+						// 	g : +x, +y, -z
+						// 	h : +x, -y, -z
 
 		void draw_regular_icosahedron(double x_rot, double y_rot, double z_rot, double scale, vec center_point, Vox vertex_material, double verticies_radius, Vox edge_material, double edge_thickness, Vox face_material, bool draw_faces = true, bool draw=true, bool mask=false);
 		//too many arguments? allows for the scaling, rotation and then placement of the icosahedron.

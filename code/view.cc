@@ -287,71 +287,101 @@ void init( Shader s )
 		// Load file and decode image.
 		// std::vector<unsigned short int> image_data;
 
-		std::vector<unsigned char> color_image_data;
-		std::vector<unsigned char> alpha_image_data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		//THIS IS FOR 16 BIT ALPHA
+
+		//
+		// std::vector<unsigned char> color_image_data;
+		// std::vector<unsigned char> alpha_image_data;
+		//
+		//
+		// unsigned width, height;
+		//
+		// unsigned error_color = lodepng::decode( color_image_data, width, height, "current_model/save_color_8bit.png", LodePNGColorType::LCT_RGB, 8 );
+		//
+		// unsigned error_alpha = lodepng::decode( alpha_image_data, width, height, "current_model/save_alpha_16bit.png", LodePNGColorType::LCT_GREY, 16 );
+		//
+		//
+		// //combine the arrays - red, green, blue, alpha - must
+		// std::vector<unsigned char> image_data;
+		// int color_index = 0;
+		// int alpha_index = 0;
+		//
+		//
+		// for(int i = 0; i < width * height; i++)
+		// {
+		//
+		// 	image_data.push_back(0);//low bits
+		// 	image_data.push_back(color_image_data[color_index]); //red
+		//
+		// 	color_index++;
+		//
+		// 	image_data.push_back(0);//low bits
+		// 	image_data.push_back(color_image_data[color_index]); //green
+		//
+		// 	color_index++;
+		//
+		// 	image_data.push_back(0);//low bits
+		// 	image_data.push_back(color_image_data[color_index]); //blue
+		//
+		// 	color_index++;
+		//
+		//
+		// 	image_data.push_back(alpha_image_data[alpha_index+1]); // low bits
+		// 	image_data.push_back(alpha_image_data[alpha_index]);  // high bits
+		//
+		// 	alpha_index+=2;
+		//
+		// }
 
 
 		unsigned width, height;
-
-		unsigned error_color = lodepng::decode( color_image_data, width, height, "current_model/save_color_8bit.png", LodePNGColorType::LCT_RGB, 8 );
-
-		unsigned error_alpha = lodepng::decode( alpha_image_data, width, height, "current_model/save_alpha_16bit.png", LodePNGColorType::LCT_GREY, 16 );
-
-
-		//combine the arrays - red, green, blue, alpha - must
 		std::vector<unsigned char> image_data;
-		int color_index = 0;
-		int alpha_index = 0;
+
+		unsigned error = lodepng::decode( image_data, width, height, "current_model/save.png", LodePNGColorType::LCT_RGBA, 8 );
 
 
-		for(int i = 0; i < width * height; i++)
+
+
+
+		// if (error_color == 0 && error_alpha == 0)
+
+		if( error == 0 )
 		{
+			// glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, 512, 256, 256, 0,  GL_RGBA, GL_UNSIGNED_SHORT, &image_data[0]);
 
-			image_data.push_back(0);//low bits
-			image_data.push_back(color_image_data[color_index]); //red
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, 512, 256, 256, 0,  GL_RGBA, GL_UNSIGNED_BYTE, &image_data[0]);
 
-			color_index++;
-
-			image_data.push_back(0);//low bits
-			image_data.push_back(color_image_data[color_index]); //green
-
-			color_index++;
-
-			image_data.push_back(0);//low bits
-			image_data.push_back(color_image_data[color_index]); //blue
-
-			color_index++;
-
-
-			image_data.push_back(alpha_image_data[alpha_index+1]); // low bits
-			image_data.push_back(alpha_image_data[alpha_index]);  // high bits
-
-			alpha_index+=2;
-
-		}
-
-
-
-
-
-		if (error_color == 0 && error_alpha == 0)
-		{
-	    // glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, 512, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
-			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, 512, 256, 256, 0,  GL_RGBA, GL_UNSIGNED_SHORT, &image_data[0]);
 	    glGenerateMipmap(GL_TEXTURE_3D);
 		}
 		else
 		{
 	    std::cout << "Failed to load texture" << std::endl;
 
-			if(error_color)
-				std::cout << "error (color) " << error_color << ": " << lodepng_error_text(error_color) << std::endl;
+			// if(error_color)
+			// 	std::cout << "error (color) " << error_color << ": " << lodepng_error_text(error_color) << std::endl;
+			//
+			// if(error_alpha)
+			// 	std::cout << "error (alpha) " << error_alpha << ": " << lodepng_error_text(error_alpha) << std::endl;
 
-			if(error_alpha)
-				std::cout << "error (alpha) " << error_alpha << ": " << lodepng_error_text(error_alpha) << std::endl;
+
+			if(error) std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
+
 		}
 
-		// stbi_image_free(data);
 
 
 
