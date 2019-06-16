@@ -16,10 +16,10 @@ UNNECCESARY_DEBUG = -Wall -Wextra -pedantic
 all: vu gen
 
 vu: view.cc
-	$(CC)     view.cc  $(MAKE_VIEWER_EXE) $(GL_FLAGS) $(LODEPNG_FLAGS) $(CIMG_FLAGS)
+	$(CC) vu.cc  $(MAKE_VIEWER_EXE) $(GL_FLAGS) $(LODEPNG_FLAGS) $(CIMG_FLAGS)
 
 gen: generate.cc ../resources/voraldo/v7.cc
-	$(CC) generate.cc  $(VORALDO_FLAGS) $(LODEPNG_FLAGS) $(MAKE_GENERATE_EXE) $(GL_FLAGS) $(CIMG_FLAGS)
+	$(CC) gen.cc  $(VORALDO_FLAGS) $(LODEPNG_FLAGS) $(MAKE_GENERATE_EXE) $(GL_FLAGS) $(CIMG_FLAGS)
 
 test: test.cc
 	$(CC) test.cc $(VORALDO_FLAGS) $(LODEPNG_FLAGS) $(MAKE_TEST_EXE) $(CIMG_FLAGS)
