@@ -50,139 +50,161 @@ int main()
   tick = Clock::now();
 
 
-	vec a,b,c,d,e,f,g,h;
-
-
-
+	// vec a,b,c,d,e,f,g,h;
+	//
+	//
+	//
 	Vox material1  =  main_block->get_vox(58, 255.0, false);
-	Vox material2  =  main_block->get_vox(62,  20.0, false);
+	Vox material2  =  main_block->get_vox(15, 100.0, false);
+	Vox material3  =  main_block->get_vox(57,  45.0, false);
+	Vox material4  =  main_block->get_vox(24,   1.0, false);
+	Vox material5  =  main_block->get_vox(62, 255.0, false);
+	Vox material6  =  main_block->get_vox(34, 255.0, false);
 
 
-	//OUTER LAYERS
+	//
+	//
+	// //OUTER LAYERS
+	//
+	// for(int x = 223; x < 288; x+=64)
+	// {
+	// 	for(int y = 95; y < 160; y+=64)
+	// 	{
+	//
+	// 		a = vec( x-4, y+4, 256);
+	// 		b = vec( x-4, y-4, 256);
+	// 		c = vec( x+4, y+4, 256);
+	// 		d = vec( x+4, y-4, 256);
+	// 		e = vec( x-4, y+4, 0);
+	// 		f = vec( x-4, y-4, 0);
+	// 		g = vec( x+4, y+4, 0);
+	// 		h = vec( x+4, y-4, 0);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
+	//
+	// 	}
+	// }
+	//
+	// for(int x = 223; x < 288; x+=64)
+	// {
+	// 	for(int z = 95; z < 160; z+=64)
+	// 	{
+	//
+	// 		a = vec( x-4, 256, z+4);
+	// 		b = vec( x-4,   0, z+4);
+	// 		c = vec( x+4, 256, z+4);
+	// 		d = vec( x+4,   0, z+4);
+	// 		e = vec( x-4, 256, z-4);
+	// 		f = vec( x-4,   0, z-4);
+	// 		g = vec( x+4, 256, z-4);
+	// 		h = vec( x+4,   0, z-4);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
+	//
+	// 	}
+	// }
+	//
+	// for(int y = 95; y < 160; y+=64)
+	// {
+	// 	for(int z = 95; z < 160; z+=64)
+	// 	{
+	//
+	// 		a = vec(   0, y+4, z+4);
+	// 		b = vec(   0, y-4, z+4);
+	// 		c = vec( 512, y+4, z+4);
+	// 		d = vec( 512, y-4, z+4);
+	// 		e = vec(   0, y+4, z-4);
+	// 		f = vec(   0, y-4, z-4);
+	// 		g = vec( 512, y+4, z-4);
+	// 		h = vec( 512, y-4, z-4);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
+	//
+	// 	}
+	// }
+	//
+	//
+	// //INNER LAYERS
+	//
+	// for(int x = 223; x < 288; x+=64)
+	// {
+	// 	for(int y = 95; y < 160; y+=64)
+	// 	{
+	//
+	// 		a = vec( x-3, y+3, 256);
+	// 		b = vec( x-3, y-3, 256);
+	// 		c = vec( x+3, y+3, 256);
+	// 		d = vec( x+3, y-3, 256);
+	// 		e = vec( x-3, y+3, 0);
+	// 		f = vec( x-3, y-3, 0);
+	// 		g = vec( x+3, y+3, 0);
+	// 		h = vec( x+3, y-3, 0);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
+	//
+	// 	}
+	// }
+	//
+	// for(int x = 223; x < 288; x+=64)
+	// {
+	// 	for(int z = 95; z < 160; z+=64)
+	// 	{
+	//
+	// 		a = vec( x-3, 256, z+3);
+	// 		b = vec( x-3,   0, z+3);
+	// 		c = vec( x+3, 256, z+3);
+	// 		d = vec( x+3,   0, z+3);
+	// 		e = vec( x-3, 256, z-3);
+	// 		f = vec( x-3,   0, z-3);
+	// 		g = vec( x+3, 256, z-3);
+	// 		h = vec( x+3,   0, z-3);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
+	//
+	// 	}
+	// }
+	//
+	// for(int y = 95; y < 160; y+=64)
+	// {
+	// 	for(int z = 95; z < 160; z+=64)
+	// 	{
+	//
+	// 		a = vec(   0, y+3, z+3);
+	// 		b = vec(   0, y-3, z+3);
+	// 		c = vec( 512, y+3, z+3);
+	// 		d = vec( 512, y-3, z+3);
+	// 		e = vec(   0, y+3, z-3);
+	// 		f = vec(   0, y-3, z-3);
+	// 		g = vec( 512, y+3, z-3);
+	// 		h = vec( 512, y-3, z-3);
+	//
+	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
+	//
+	// 	}
+	// }
+	//
+	// main_block->mask_all_nonzero();
+	//
+	// main_block->draw_sphere(vec(255.5, 127.5, 127.5), 1000, main_block->get_vox(58, 1.0, false));
+	//
+	// main_block->mask_unmask_all();
+	//
 
-	for(int x = 223; x < 288; x+=64)
-	{
-		for(int y = 95; y < 160; y+=64)
-		{
-
-			a = vec( x-4, y+4, 256);
-			b = vec( x-4, y-4, 256);
-			c = vec( x+4, y+4, 256);
-			d = vec( x+4, y-4, 256);
-			e = vec( x-4, y+4, 0);
-			f = vec( x-4, y-4, 0);
-			g = vec( x+4, y+4, 0);
-			h = vec( x+4, y-4, 0);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-
-		}
-	}
-
-	for(int x = 223; x < 288; x+=64)
-	{
-		for(int z = 95; z < 160; z+=64)
-		{
-
-			a = vec( x-4, 256, z+4);
-			b = vec( x-4,   0, z+4);
-			c = vec( x+4, 256, z+4);
-			d = vec( x+4,   0, z+4);
-			e = vec( x-4, 256, z-4);
-			f = vec( x-4,   0, z-4);
-			g = vec( x+4, 256, z-4);
-			h = vec( x+4,   0, z-4);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-
-		}
-	}
-
-	for(int y = 95; y < 160; y+=64)
-	{
-		for(int z = 95; z < 160; z+=64)
-		{
-
-			a = vec(   0, y+4, z+4);
-			b = vec(   0, y-4, z+4);
-			c = vec( 512, y+4, z+4);
-			d = vec( 512, y-4, z+4);
-			e = vec(   0, y+4, z-4);
-			f = vec(   0, y-4, z-4);
-			g = vec( 512, y+4, z-4);
-			h = vec( 512, y-4, z-4);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-
-		}
-	}
+	// void draw_regular_icosahedron(double x_rot, double y_rot, double z_rot, double scale, vec center_point, Vox vertex_material, double verticies_radius, Vox edge_material, double edge_thickness, Vox face_material, bool draw_faces = true, bool draw=true, bool mask=false);
 
 
-	//INNER LAYERS
+	main_block->draw_regular_icosahedron(0,0,0, 35, vec(255.5, 127.5, 127.5), material2,  9, material1, 3, material2);
+	main_block->draw_regular_icosahedron(0,0,0, 15, vec(255.5, 127.5, 127.5), material5,  6, material6, 2, material5);
 
-	for(int x = 223; x < 288; x+=64)
-	{
-		for(int y = 95; y < 160; y+=64)
-		{
-
-			a = vec( x-3, y+3, 256);
-			b = vec( x-3, y-3, 256);
-			c = vec( x+3, y+3, 256);
-			d = vec( x+3, y-3, 256);
-			e = vec( x-3, y+3, 0);
-			f = vec( x-3, y-3, 0);
-			g = vec( x+3, y+3, 0);
-			h = vec( x+3, y-3, 0);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-
-		}
-	}
-
-	for(int x = 223; x < 288; x+=64)
-	{
-		for(int z = 95; z < 160; z+=64)
-		{
-
-			a = vec( x-3, 256, z+3);
-			b = vec( x-3,   0, z+3);
-			c = vec( x+3, 256, z+3);
-			d = vec( x+3,   0, z+3);
-			e = vec( x-3, 256, z-3);
-			f = vec( x-3,   0, z-3);
-			g = vec( x+3, 256, z-3);
-			h = vec( x+3,   0, z-3);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-
-		}
-	}
-
-	for(int y = 95; y < 160; y+=64)
-	{
-		for(int z = 95; z < 160; z+=64)
-		{
-
-			a = vec(   0, y+3, z+3);
-			b = vec(   0, y-3, z+3);
-			c = vec( 512, y+3, z+3);
-			d = vec( 512, y-3, z+3);
-			e = vec(   0, y+3, z-3);
-			f = vec(   0, y-3, z-3);
-			g = vec( 512, y+3, z-3);
-			h = vec( 512, y-3, z-3);
-
-			main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-
-		}
-	}
 
 	main_block->mask_all_nonzero();
 
-	main_block->draw_sphere(vec(255.5, 127.5, 127.5), 1000, main_block->get_vox(58, 1.0, false));
+	main_block->draw_sphere(vec(255.5, 127.5, 127.5), 120, material4);
 
-	main_block->mask_unmask_all();
+	main_block->mask_all_nonzero();
 
+	main_block->draw_perlin_noise(0.04, 0.40, material3);
+	main_block->draw_perlin_noise(0.04, 0.39, material4);
 
 
 
@@ -199,7 +221,7 @@ int main()
   }
 
 //COMPASS ROSE
-	if(true)
+	if( false )
 	{
 		draw_compass_rose();
 	}
@@ -239,37 +261,68 @@ int main()
 void draw_axes_and_corners()
 {
 
-  main_block->mask_unmask_all();
+//   main_block->mask_unmask_all();
+//
+// // along the x axes
+//   main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),1.5, main_block->get_vox(1,255,false));
+//   main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),1.5, main_block->get_vox(1,255,false));
+//   main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),1.5, main_block->get_vox(1,255,false));
+//   main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),1.5, main_block->get_vox(1,255,false));
+//
+// // along the y axes
+//   main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),1.5, main_block->get_vox(23,255,false));
+//   main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),1.5, main_block->get_vox(23,255,false));
+//   main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
+//   main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
+//
+// // along the z axes
+//   main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),1.5, main_block->get_vox(33,255,false));
+//   main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),1.5, main_block->get_vox(33,255,false));
+//   main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
+//   main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
+//
+// // points at the corners
+//   main_block->draw_sphere(vec(0,0,0), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(0,0,init_z-1), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(0,init_y-1,0), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(init_x-1,0,0), 3, main_block->get_vox(62,255,false));
+//
+//   main_block->draw_sphere(vec(init_x-1,init_y-1,0), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(0,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(init_x-1,0,init_z-1), 3, main_block->get_vox(62,255,false));
+//   main_block->draw_sphere(vec(init_x-1,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
 
-// along the x axes
-  main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),1.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),1.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),1.5, main_block->get_vox(1,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),1.5, main_block->get_vox(1,255,false));
 
-// along the y axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),1.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),1.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
-  main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),1.5, main_block->get_vox(23,255,false));
+	main_block->mask_unmask_all();
 
-// along the z axes
-  main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),1.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),1.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
-  main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),1.5, main_block->get_vox(33,255,false));
+	// along the x axes
+	main_block->draw_cylinder(vec(0,0,0), vec(init_x,0,0),1.0, main_block->get_vox(1,255,false));
+	main_block->draw_cylinder(vec(0,0,init_z-1), vec(init_x,0,init_z-1),1.0, main_block->get_vox(1,255,false));
+	main_block->draw_cylinder(vec(0,init_y-1,0), vec(init_x,init_y-1,0),1.0, main_block->get_vox(1,255,false));
+	main_block->draw_cylinder(vec(0,init_y-1,init_z-1), vec(init_x,init_y-1,init_z-1),1.0, main_block->get_vox(1,255,false));
 
-// points at the corners
-  main_block->draw_sphere(vec(0,0,0), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(0,0,init_z-1), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(0,init_y-1,0), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(init_x-1,0,0), 3, main_block->get_vox(62,255,false));
+	// along the y axes
+	main_block->draw_cylinder(vec(0,0,0), vec(0,init_y,0),1.0, main_block->get_vox(23,255,false));
+	main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,init_y,0),1.0, main_block->get_vox(23,255,false));
+	main_block->draw_cylinder(vec(init_x-1,0,init_z-1), vec(init_x-1,init_y,init_z-1),1.0, main_block->get_vox(23,255,false));
+	main_block->draw_cylinder(vec(0,0,init_z-1), vec(0,init_y,init_z-1),1.0, main_block->get_vox(23,255,false));
 
-  main_block->draw_sphere(vec(init_x-1,init_y-1,0), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(0,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(init_x-1,0,init_z-1), 3, main_block->get_vox(62,255,false));
-  main_block->draw_sphere(vec(init_x-1,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
+	// along the z axes
+	main_block->draw_cylinder(vec(0,0,0), vec(0,0,init_z),1.0, main_block->get_vox(33,255,false));
+	main_block->draw_cylinder(vec(init_x-1,0,0), vec(init_x-1,0,init_z),1.0, main_block->get_vox(33,255,false));
+	main_block->draw_cylinder(vec(0,init_y-1,0), vec(0,init_y-1,init_z),1.0, main_block->get_vox(33,255,false));
+	main_block->draw_cylinder(vec(init_x-1,init_y-1,0), vec(init_x-1,init_y-1,init_z),1.0, main_block->get_vox(33,255,false));
 
+	// points at the corners
+	main_block->draw_sphere(vec(0,0,0), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(0,0,init_z-1), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(0,init_y-1,0), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(init_x-1,0,0), 3, main_block->get_vox(62,255,false));
+
+	main_block->draw_sphere(vec(init_x-1,init_y-1,0), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(0,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(init_x-1,0,init_z-1), 3, main_block->get_vox(62,255,false));
+	main_block->draw_sphere(vec(init_x-1,init_y-1,init_z-1), 3, main_block->get_vox(62,255,false));
 }
 
 void draw_compass_rose()

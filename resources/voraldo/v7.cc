@@ -965,21 +965,21 @@ void Voraldo::draw_cylinder(vec bvec, vec tvec, double radius, Vox set, bool dra
 			for(int k = 0; k < z_dim; k++)
       {//per voxel
 
-				//planetests
-				bplanetest = ba * (i - bx0) + bb * (j - by0) + bc * (k - bz0);
-				tplanetest = ta * (i - tx0) + tb * (j - ty0) + tc * (k - tz0);
-
-				//using the basic equation for a plane, we can do an interesting test
-
-				//These variables will be greater than zero if the test point is on the side of the plane
-				//that the normal vector is pointing towards, and less than zero if the test point is on
-				//the side of the plane that the normal vector is not pointing towards. That is to say, in
-				//my case - bplanetest tells me whether the point is above the bottom plane, and tplanetest
-				//tells me whether the point is above the top plane. If it is above the bottom, and below
-				//the top - we are within the ends of the cylinder, and can proceed. Thus, the condition
-				//for the following if statement:
-
-				if(bplanetest >= 0 && tplanetest <= 0){
+				// //planetests
+				// bplanetest = ba * (i - bx0) + bb * (j - by0) + bc * (k - bz0);
+				// tplanetest = ta * (i - tx0) + tb * (j - ty0) + tc * (k - tz0);
+				//
+				// //using the basic equation for a plane, we can do an interesting test
+				//
+				// //These variables will be greater than zero if the test point is on the side of the plane
+				// //that the normal vector is pointing towards, and less than zero if the test point is on
+				// //the side of the plane that the normal vector is not pointing towards. That is to say, in
+				// //my case - bplanetest tells me whether the point is above the bottom plane, and tplanetest
+				// //tells me whether the point is above the top plane. If it is above the bottom, and below
+				// //the top - we are within the ends of the cylinder, and can proceed. Thus, the condition
+				// //for the following if statement:
+				//
+				// if(bplanetest >= 0 && tplanetest <= 0){
 
 					//do the point to line distance thing
 					//algorithm from http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
@@ -996,7 +996,7 @@ void Voraldo::draw_cylinder(vec bvec, vec tvec, double radius, Vox set, bool dra
             index = vec(i,j,k);
 						draw_point(index,set,draw,mask);
 					}
-				}
+				// }
 			}
 		}
 	}
