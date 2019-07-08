@@ -79,14 +79,6 @@ auto tock = Clock::now(); //variable to hold end of timekeeping
 #include "../resources/glm/gtc/type_ptr.hpp" //allows the sending of a matrix (weird workaround for glUniform...)
 
 
-// this namespace contains, for either platform:
-//		ortho() matrix variables
-//		vector types, vector arrays for points and colors
-//    image dimensions
-// 		definition of point size
-//		definition of rotation and rotation_direction toggles
-//
-//
 
 
 GLfloat left = -1.366f;
@@ -109,6 +101,7 @@ const int image_width = 1366/2;
 
 // verticies
 const int NumVertices = 3000000;
+
 
 
 // Array of rotation angles (in degrees) for each coordinate axis
