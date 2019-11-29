@@ -3,6 +3,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <cstdio>
+
 #include "../resources/voraldo/v7.h"
 
 //stream class shit
@@ -27,10 +28,15 @@ int init_z = 256;
 
 vec dimensions(init_x,init_y,init_z);
 
+
+
 int startval = 0;
 int endval = 1;
 
 Voraldo *main_block;
+
+
+
 
 
 int main()
@@ -50,161 +56,18 @@ int main()
   tick = Clock::now();
 
 
-	// vec a,b,c,d,e,f,g,h;
-	//
-	//
-	//
-	Vox material1  =  main_block->get_vox(58, 255.0, false);
-	Vox material2  =  main_block->get_vox(15, 100.0, false);
-	Vox material3  =  main_block->get_vox(57,  45.0, false);
-	Vox material4  =  main_block->get_vox(24,   1.0, false);
-	Vox material5  =  main_block->get_vox(62, 255.0, false);
-	Vox material6  =  main_block->get_vox(34, 255.0, false);
 
 
-	//
-	//
-	// //OUTER LAYERS
-	//
-	// for(int x = 223; x < 288; x+=64)
-	// {
-	// 	for(int y = 95; y < 160; y+=64)
-	// 	{
-	//
-	// 		a = vec( x-4, y+4, 256);
-	// 		b = vec( x-4, y-4, 256);
-	// 		c = vec( x+4, y+4, 256);
-	// 		d = vec( x+4, y-4, 256);
-	// 		e = vec( x-4, y+4, 0);
-	// 		f = vec( x-4, y-4, 0);
-	// 		g = vec( x+4, y+4, 0);
-	// 		h = vec( x+4, y-4, 0);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-	//
-	// 	}
-	// }
-	//
-	// for(int x = 223; x < 288; x+=64)
-	// {
-	// 	for(int z = 95; z < 160; z+=64)
-	// 	{
-	//
-	// 		a = vec( x-4, 256, z+4);
-	// 		b = vec( x-4,   0, z+4);
-	// 		c = vec( x+4, 256, z+4);
-	// 		d = vec( x+4,   0, z+4);
-	// 		e = vec( x-4, 256, z-4);
-	// 		f = vec( x-4,   0, z-4);
-	// 		g = vec( x+4, 256, z-4);
-	// 		h = vec( x+4,   0, z-4);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-	//
-	// 	}
-	// }
-	//
-	// for(int y = 95; y < 160; y+=64)
-	// {
-	// 	for(int z = 95; z < 160; z+=64)
-	// 	{
-	//
-	// 		a = vec(   0, y+4, z+4);
-	// 		b = vec(   0, y-4, z+4);
-	// 		c = vec( 512, y+4, z+4);
-	// 		d = vec( 512, y-4, z+4);
-	// 		e = vec(   0, y+4, z-4);
-	// 		f = vec(   0, y-4, z-4);
-	// 		g = vec( 512, y+4, z-4);
-	// 		h = vec( 512, y-4, z-4);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material2);
-	//
-	// 	}
-	// }
-	//
-	//
-	// //INNER LAYERS
-	//
-	// for(int x = 223; x < 288; x+=64)
-	// {
-	// 	for(int y = 95; y < 160; y+=64)
-	// 	{
-	//
-	// 		a = vec( x-3, y+3, 256);
-	// 		b = vec( x-3, y-3, 256);
-	// 		c = vec( x+3, y+3, 256);
-	// 		d = vec( x+3, y-3, 256);
-	// 		e = vec( x-3, y+3, 0);
-	// 		f = vec( x-3, y-3, 0);
-	// 		g = vec( x+3, y+3, 0);
-	// 		h = vec( x+3, y-3, 0);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-	//
-	// 	}
-	// }
-	//
-	// for(int x = 223; x < 288; x+=64)
-	// {
-	// 	for(int z = 95; z < 160; z+=64)
-	// 	{
-	//
-	// 		a = vec( x-3, 256, z+3);
-	// 		b = vec( x-3,   0, z+3);
-	// 		c = vec( x+3, 256, z+3);
-	// 		d = vec( x+3,   0, z+3);
-	// 		e = vec( x-3, 256, z-3);
-	// 		f = vec( x-3,   0, z-3);
-	// 		g = vec( x+3, 256, z-3);
-	// 		h = vec( x+3,   0, z-3);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-	//
-	// 	}
-	// }
-	//
-	// for(int y = 95; y < 160; y+=64)
-	// {
-	// 	for(int z = 95; z < 160; z+=64)
-	// 	{
-	//
-	// 		a = vec(   0, y+3, z+3);
-	// 		b = vec(   0, y-3, z+3);
-	// 		c = vec( 512, y+3, z+3);
-	// 		d = vec( 512, y-3, z+3);
-	// 		e = vec(   0, y+3, z-3);
-	// 		f = vec(   0, y-3, z-3);
-	// 		g = vec( 512, y+3, z-3);
-	// 		h = vec( 512, y-3, z-3);
-	//
-	// 		main_block->draw_quadrilateral_hexahedron( a, b, c, d, e, f, g, h, material1);
-	//
-	// 	}
-	// }
-	//
-	// main_block->mask_all_nonzero();
-	//
-	// main_block->draw_sphere(vec(255.5, 127.5, 127.5), 1000, main_block->get_vox(58, 1.0, false));
-	//
-	// main_block->mask_unmask_all();
-	//
-
-	// void draw_regular_icosahedron(double x_rot, double y_rot, double z_rot, double scale, vec center_point, Vox vertex_material, double verticies_radius, Vox edge_material, double edge_thickness, Vox face_material, bool draw_faces = true, bool draw=true, bool mask=false);
 
 
-	main_block->draw_regular_icosahedron(0,0,0, 35, vec(255.5, 127.5, 127.5), material2,  9, material1, 3, material2);
-	main_block->draw_regular_icosahedron(0,0,0, 15, vec(255.5, 127.5, 127.5), material5,  6, material6, 2, material5);
 
+  Vox whiteSquare  =  main_block->get_vox(27, 255.0, false);
+  Vox whitePiece   =  main_block->get_vox(34, 50.0, false);
 
-	main_block->mask_all_nonzero();
+  Vox blackSquare  =  main_block->get_vox(28, 255.0, false);
+  Vox blackPiece   =  main_block->get_vox(35, 50.0, false);
 
-	main_block->draw_sphere(vec(255.5, 127.5, 127.5), 120, material4);
-
-	main_block->mask_all_nonzero();
-
-	main_block->draw_perlin_noise(0.04, 0.40, material3);
-	main_block->draw_perlin_noise(0.04, 0.39, material4);
+  Vox ambient   =  main_block->get_vox(35, 1.0, false);
 
 
 
@@ -212,6 +75,89 @@ int main()
 
 
 
+
+
+
+
+
+
+  //  |------|------|------|------|------|------|------|------|
+
+
+
+
+  main_block->draw_sphere(vec(200, 127.5, 127.5), 405, ambient);
+
+  main_block->draw_sphere(vec(0, 127.5, 127.5), 45, blackPiece);
+
+
+
+
+  for(int x = 0; x < 8; x++)
+  {
+    for(int y = 0; y < 8; y++)
+    {
+
+      vec loc = vec(x*30 + 24, 30, y*30 + 24);
+
+      vec ao,bo,co,doo,eo,fo,go,ho;
+
+      ao = vec(-15, 3, 15);
+      bo = vec(-15,-3, 15);
+      co = vec( 15, 3, 15);
+      doo = vec( 15,-3, 15);
+      eo = vec(-15, 3,-15);
+      fo = vec(-15,-3,-15);
+      go = vec( 15, 3,-15);
+      ho = vec( 15,-3,-15);
+
+      // void draw_quadrilateral_hexahedron(vec a, vec b, vec c, vec d, vec e, vec f, vec g, vec h, Vox set, bool draw=true, bool mask=false);
+
+
+      if(x%2)
+      {
+        if(y%2)
+        {
+          // main_block->draw_sphere(loc, 5, whiteSquare);
+          main_block->draw_quadrilateral_hexahedron(loc+ao, loc+bo, loc+co, loc+doo, loc+eo, loc+fo, loc+go, loc+ho, whiteSquare);
+        }
+        else
+        {
+          // main_block->draw_sphere(loc, 5, blackSquare);
+          main_block->draw_quadrilateral_hexahedron(loc+ao, loc+bo, loc+co, loc+doo, loc+eo, loc+fo, loc+go, loc+ho, blackSquare);
+        }
+      }
+      else
+      {
+        if(y%2)
+        {
+          // main_block->draw_sphere(loc, 5, blackSquare);
+          main_block->draw_quadrilateral_hexahedron(loc+ao, loc+bo, loc+co, loc+doo, loc+eo, loc+fo, loc+go, loc+ho, blackSquare);
+        }
+        else
+        {
+          // main_block->draw_sphere(loc, 5, whiteSquare);
+          main_block->draw_quadrilateral_hexahedron(loc+ao, loc+bo, loc+co, loc+doo, loc+eo, loc+fo, loc+go, loc+ho, whiteSquare);
+        }
+      }
+
+
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  cout << "done" << endl;
 
 
 //FRAMING
@@ -248,9 +194,9 @@ int main()
 
 
 
-  tick = Clock::now();
-  main_block->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
-  tock = Clock::now();
+  // tick = Clock::now();
+  // main_block->display("generate_preview.png",  3.14, 3.14/3.0, 3.14/3.0, 0.4, false);
+  // tock = Clock::now();
 
   // std::cout << "generate's renderer took " << std::chrono::duration_cast<milliseconds>(tock-tick).count() << " milliseconds" << endl << endl << endl;
 
