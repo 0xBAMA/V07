@@ -62,10 +62,10 @@ int main()
 
 
   Vox whiteSquare  =  main_block->get_vox(27, 255.0, false);
-  Vox whitePiece   =  main_block->get_vox(34, 50.0, false);
+  Vox whitePiece   =  main_block->get_vox(18, 50.0, false);
 
   Vox blackSquare  =  main_block->get_vox(28, 255.0, false);
-  Vox blackPiece   =  main_block->get_vox(35, 50.0, false);
+  Vox blackPiece   =  main_block->get_vox(20, 50.0, false);
 
   Vox ambient   =  main_block->get_vox(35, 1.0, false);
 
@@ -73,8 +73,13 @@ int main()
 
 
 
+  typedef struct square_t{
+    vec center;
+    int x;
+    int y;
+  }square;
 
-
+  square board[8][8];
 
 
 
@@ -88,8 +93,18 @@ int main()
 
   main_block->draw_sphere(vec(200, 127.5, 127.5), 405, ambient);
 
-  main_block->draw_sphere(vec(0, 127.5, 127.5), 45, blackPiece);
 
+
+  vec ao,bo,co,doo,eo,fo,go,ho;
+
+  ao = vec(-15, 3, 15);
+  bo = vec(-15,-3, 15);
+  co = vec( 15, 3, 15);
+  doo = vec( 15,-3, 15);
+  eo = vec(-15, 3,-15);
+  fo = vec(-15,-3,-15);
+  go = vec( 15, 3,-15);
+  ho = vec( 15,-3,-15);
 
 
 
@@ -100,18 +115,13 @@ int main()
 
       vec loc = vec(x*30 + 24, 30, y*30 + 24);
 
-      vec ao,bo,co,doo,eo,fo,go,ho;
 
-      ao = vec(-15, 3, 15);
-      bo = vec(-15,-3, 15);
-      co = vec( 15, 3, 15);
-      doo = vec( 15,-3, 15);
-      eo = vec(-15, 3,-15);
-      fo = vec(-15,-3,-15);
-      go = vec( 15, 3,-15);
-      ho = vec( 15,-3,-15);
+      board[x][y].x = x;
+      board[x][y].y = y;
 
-      // void draw_quadrilateral_hexahedron(vec a, vec b, vec c, vec d, vec e, vec f, vec g, vec h, Vox set, bool draw=true, bool mask=false);
+      board[x][y].center = loc;
+
+
 
 
       if(x%2)
@@ -140,11 +150,111 @@ int main()
           main_block->draw_quadrilateral_hexahedron(loc+ao, loc+bo, loc+co, loc+doo, loc+eo, loc+fo, loc+go, loc+ho, whiteSquare);
         }
       }
+    }
+  }
 
+
+
+
+
+
+
+  for(int i = 0; i < 8; i++)
+  {
+    //pawns
+    main_block->draw_sphere(board[i][1].center + vec(0,7,0), 7, blackPiece);
+    main_block->draw_sphere(board[i][1].center + vec(0,10,0), 5, ambient);
+    main_block->draw_sphere(board[i][1].center + vec(0,15,0), 2.5, blackPiece);
+
+    switch(i)
+    {
+      case 0:
+      case 7:
+
+      //ROOKS
+
+      ao = vec(-5, 7, 5);
+      bo = vec(-5,-7, 5);
+      co = vec( 5, 7, 5);
+      doo = vec( 5,-7, 5);
+      eo = vec(-5, 7,-5);
+      fo = vec(-5,-7,-5);
+      go = vec( 5, 7,-5);
+      ho = vec( 5,-7,-5);
+
+        main_block->draw_sphere(board[i][0].center + vec(0,7,0), 7, blackPiece);
+        main_block->draw_sphere(board[i][0].center + vec(0,10,0), 5, ambient);
+
+        main_block->draw_quadrilateral_hexahedron(board[i][0].center + vec(0,15,0)+ao, board[i][0].center + vec(0,15,0)+bo, board[i][0].center + vec(0,15,0)+co, board[i][0].center + vec(0,15,0)+doo, board[i][0].center + vec(0,15,0)+eo, board[i][0].center + vec(0,15,0)+fo, board[i][0].center + vec(0,15,0)+go, board[i][0].center + vec(0,15,0)+ho, blackPiece);
+
+        break;
+
+      case 1:
+      case 6:
+
+      //knight
+
+      ao = vec(-3, 7, 3);
+      bo = vec(-3,-7, 3);
+      co = vec( 3, 7, 3);
+      doo = vec( 3,-7, 3);
+      eo = vec(-3, 7,-3);
+      fo = vec(-3,-7,-3);
+      go = vec( 3, 7,-3);
+      ho = vec( 3,-7,-3);
+
+        main_block->draw_sphere(board[i][0].center + vec(0,7,0), 7, blackPiece);
+        main_block->draw_sphere(board[i][0].center + vec(0,10,0), 5, ambient);
+
+        main_block->draw_quadrilateral_hexahedron(board[i][0].center + vec(0,15,0)+ao, board[i][0].center + vec(0,15,0)+bo, board[i][0].center + vec(0,15,0)+co, board[i][0].center + vec(0,15,0)+doo, board[i][0].center + vec(0,15,0)+eo, board[i][0].center + vec(0,15,0)+fo, board[i][0].center + vec(0,15,0)+go, board[i][0].center + vec(0,15,0)+ho, blackPiece);
+
+
+        ao = vec(-3, 2, 8);
+        bo = vec(-3,-5, 8);
+        co = vec( 3, 2, 8);
+        doo = vec( 3,-5, 8);
+        eo = vec(-3, 4,-8);
+        fo = vec(-3,-4,-8);
+        go = vec( 3, 4,-8);
+        ho = vec( 3,-4,-8);
+
+        main_block->draw_quadrilateral_hexahedron(board[i][0].center + vec(0,20,4)+ao, board[i][0].center + vec(0,20,4)+bo, board[i][0].center + vec(0,20,4)+co, board[i][0].center + vec(0,20,4)+doo, board[i][0].center + vec(0,20,4)+eo, board[i][0].center + vec(0,20,4)+fo, board[i][0].center + vec(0,20,4)+go, board[i][0].center + vec(0,20,4)+ho, blackPiece);
+
+
+
+
+
+
+
+
+
+
+        main_block->draw_sphere(board[i][0].center + vec(0,17,0), 5, blackPiece);
+
+        break;
+
+
+      default:
+        break;
 
 
     }
+
+
   }
+
+
+
+  for(int i = 0; i < 8; i++)
+  {
+    main_block->draw_sphere(board[i][6].center + vec(0,7,0), 7, whitePiece);
+    main_block->draw_sphere(board[i][6].center + vec(0,10,0), 5, ambient);
+    main_block->draw_sphere(board[i][6].center + vec(0,15,0), 2.5, whitePiece);
+  }
+
+
+
+
 
 
 
